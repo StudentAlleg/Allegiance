@@ -1146,13 +1146,11 @@ public:
     TRef<WrapImage>        m_pwrapImageHudGroup;
     TRef<WrapImage>        m_pwrapImageComm;
     TRef<WrapImage>        m_pwrapImageRadar;
-	TRef<WrapImage>        m_pwrapImageDeferredStringRender;													 
     TRef<WrapImage>        m_pwrapImageConsole;
     TRef<WrapImage>        m_pwrapImageHelp;
     TRef<WrapImage>        m_pwrapImageTop;
     TRef<ConsoleImage>     m_pconsoleImage;
     TRef<RadarImage>       m_pradarImage;
-	TRef<DeferredStringRenderImage>       m_pdeferredStringRenderImage;																
     TRef<MuzzleFlareImage> m_pmuzzleFlareImage;
     TRef<WrapImage>        m_pwrapImageBackdrop;
     TRef<GroupImage>       m_pgroupImage;
@@ -2789,16 +2787,11 @@ public:
         //
 
         m_pradarImage = RadarImage::Create(GetModeler(), m_pviewport);
-		m_pdeferredStringRenderImage = DeferredStringRenderImage::Create(m_pviewport);
 
         m_pgroupImageHUD = new GroupImage();
 
         m_pgroupImageHUD->AddImage(CreateIndicatorImage(GetModeler(), m_pviewport, GetTime()));
-		
         m_pgroupImageHUD->AddImage(m_pwrapImageRadar   = new WrapImage(m_pradarImage));
-		m_pgroupImageHUD->AddImage(m_pwrapImageDeferredStringRender = new WrapImage(m_pdeferredStringRenderImage));
-		
-
         //m_pgroupImageHUD->AddImage(m_pwrapImageTurret = new WrapImage(Image::GetEmpty()));
 
         //

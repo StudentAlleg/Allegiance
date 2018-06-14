@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "SteamClans.h"
-#include "..\Inc\nullptr_emulation.h"
+#include "..\Inc\nullptr_emulation.h" //BBT
 // BT - STEAM
 #ifdef STEAM_APP_ID
 

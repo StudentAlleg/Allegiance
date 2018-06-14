@@ -1,7 +1,6 @@
 #ifndef _font_h_
 #define _font_h_
 
-#include "nullptr_emulation.h"
 //////////////////////////////////////////////////////////////////////////////
 //
 // IEngineFont
@@ -20,8 +19,7 @@ public:
         const WinPoint& point, 
         const WinRect&  rectClip,
         const ZString&  str, 
-        const Color&    color,
-		BYTE * writablePointer = nullptr
+        const Color&    color
     ) = 0;
 };
 

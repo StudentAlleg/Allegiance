@@ -131,12 +131,11 @@ public:
     // Text
     //
 
-	virtual void DrawString(
-		IEngineFont* pfont,
-		const Color& color,
-		const WinPoint& point,
-		const ZString& str,
-		BYTE * writablePointer = nullptr
+    virtual void DrawString(
+        IEngineFont* pfont, 
+        const Color& color, 
+        const WinPoint& point, 
+        const ZString& str
     ) = 0;
 
     virtual void DrawStringWithShadow(
