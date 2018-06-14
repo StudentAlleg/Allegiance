@@ -17,11 +17,11 @@ namespace SoundEngine {
 
 
 // create a default sound engine
-HRESULT CreateSoundEngine(TRef<ISoundEngine>& psoundengine, HWND hwnd, bool bUseDSound8)
+HRESULT CreateSoundEngine(TRef<ISoundEngine>& psoundengine, HWND hwnd)
 {
     TRef<DS3DSoundEngine> psoundengineimpl = new DS3DSoundEngine();
 
-    HRESULT hr = psoundengineimpl->Init(hwnd, bUseDSound8);
+    HRESULT hr = psoundengineimpl->Init(hwnd);
 
     if (hr == DSERR_NODRIVER || hr == DSERR_ALLOCATED || ZFailed(hr))
         return hr;
