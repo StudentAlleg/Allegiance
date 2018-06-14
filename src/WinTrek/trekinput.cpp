@@ -37,7 +37,6 @@ public:
     TRef<InputEngine>                       m_pinputEngine;
     TRef<JoystickImage>                     m_pjoystickImage;
     TArray<TRef<Number>, countAxis>         m_ppnumberAxis;
-	TRef<TrekInputSite>                     m_psite; // BT - Added mousewheel support from R9
 
     //
     // Joystick mapping
@@ -47,17 +46,6 @@ public:
     TArray<bool         , TK_Max>           m_boolTrekKeyButtonDown;
 
     TArray<TRef<ModifiableBoolean>, 4>      m_ppboolHatButton;
-
-	// BT - Added mousewheel support from R9
-	// Mouse mapping Imago 8/14/09 (special buttons / mouse wheel)
-	TrekKey                                 m_wheeldownTK;
-	TrekKey                                 m_wheelupTK;
-	TrekKey                                 m_wheelclickTK;
-	TrekKey                                 m_xbutton1TK;
-	TrekKey                                 m_xbutton2TK;
-	TrekKey                                 m_xbutton3TK;
-	TrekKey                                 m_xbutton4TK;
-	TrekKey                                 m_xbutton5TK;
 
     //
     // Keyboard mapping
@@ -76,7 +64,6 @@ public:
 
     TArray<TRef<ModifiableBoolean>, keyMax> m_pboolKeyDown;
     TArray<TRef<Boolean>,           TK_Max> m_pboolTrekKeyDown;
-	TArray<bool, TK_Max> m_boolMouseTrekKeyDown;	//Turkey added 8/10 #56 // BT - Added mousewheel support from R9
 
     TRef<Boolean>                           m_pboolNone;
     TRef<Boolean>                           m_pboolJustShift;
@@ -455,16 +442,6 @@ public:
             m_ControlShiftAltKeyMap[index] = -1;
         }
 
-		// BT - Added mousewheel support from R9
-		m_wheelupTK = -1; //Imago 8/15/09 //Turkey changed to -1 and moved down to LoadMap 8/10 #56
-		m_wheeldownTK = -1;
-		m_wheelclickTK = -1;
-		m_xbutton1TK = -1;
-		m_xbutton2TK = -1;
-		m_xbutton3TK = -1;
-		m_xbutton4TK = -1;
-		m_xbutton5TK = -1; // --^
-
         for (index = 0; index < TK_Max; index++) {
             m_pboolTrekKeyDown[index]       = NULL;
             m_ppboolTrekKeyButtonDown[index] = NULL;
@@ -606,38 +583,6 @@ public:
 
                     int index = (int)GetNumber(ppair->GetFirst() );
                     int tk    = (int)GetNumber(ppair->GetSecond());
-
-					// BT - Added mousewheel support from R9
-					//Imago save special buttons for use outside virtual joystick 8/14/09
-					switch (index) {
-					case 2:
-						m_wheelclickTK = tk;
-						break;
-					case 3:
-						m_xbutton1TK = tk;
-						break;
-					case 4:
-						m_xbutton2TK = tk;
-						break;
-					case 5:
-						m_xbutton3TK = tk;
-						break;
-					case 6:
-						m_xbutton4TK = tk;
-						break;
-					case 7:
-						m_xbutton5TK = tk;
-						break;
-					case 8:
-						m_wheeldownTK = tk;
-						break;
-					case 9:
-						m_wheelupTK = tk;
-						break;
-
-					default:
-						break;
-					}
 
                     //
                     // Get the button
@@ -784,8 +729,6 @@ public:
     {
         for (int index = 0; index < TK_Max; index++) {
 			m_boolTrekKeyButtonDown[index] = false;
-			m_boolMouseTrekKeyDown[index] = false;	//8/10 #56 // BT - Added mousewheel support from R9
-
         // mmf pull yp's changes for now
 			//m_pboolTrekKeyDown[index]       = false; // keyboard // yp - Your_Persona buttons get stuck patch. aug-03-2006
             //m_ppboolTrekKeyButtonDown[index] = false;
@@ -817,14 +760,6 @@ public:
             bDown = pbool->GetValue();
         }
 
-		// BT - Added mousewheel support from R9
-		//
-		// check mouse buttons 8/10 #56
-		// only applies if virtual joystick is off
-		//
-
-		bDown |= m_boolMouseTrekKeyDown[tk];
-
         //
         // check keys
         //
@@ -839,17 +774,6 @@ public:
 
         return bDown;
     }
-
-	// BT - Added mousewheel support from R9
-	//Imago 8/16/09
-	//Turkey renamed and modified to use bool instead of Tref<boolean> 8/10 #56
-	void SetMouseTrekKey(TrekKey tk, Boolean* pboolDown)
-	{
-		if (tk != TK_NoKeyMapping) {
-			m_boolMouseTrekKeyDown[tk] = pboolDown->GetValue();
-			if (pboolDown->GetValue()) m_psite->OnTrekKey(tk);
-		}
-	}
 
     void SetFocus(bool bFocus)
     {
@@ -1016,49 +940,6 @@ public:
             }
         }        
     }
-
-	// BT - Added mousewheel support from R9
-	//Imago 8/14/09 allow OnTrekKey usage outside of trekinput
-	TRef<TrekInputSite> GetInputSite() {
-		return m_psite;
-	}
-
-	void SetInputSite(TrekInputSite* psite) {
-		m_psite = psite;
-	}
-
-	//Imago 8/14/09 expose mappings for use outside virtual joystick
-	TrekKey OnWheelDown() {
-		return m_wheeldownTK;
-	}
-
-	TrekKey OnWheelUp() {
-		return m_wheelupTK;
-	}
-
-	TrekKey OnWheelClick() {
-		return m_wheelclickTK;
-	}
-
-	TrekKey OnXButton1() {
-		return m_xbutton1TK;
-	}
-
-	TrekKey OnXButton2() {
-		return m_xbutton2TK;
-	}
-
-	TrekKey OnXButton3() {
-		return m_xbutton3TK;
-	}
-
-	TrekKey OnXButton4() {
-		return m_xbutton4TK;
-	}
-
-	TrekKey OnXButton5() {
-		return m_xbutton5TK;
-	}
 
     TRef<IPopup> CreateInputMapPopup(Modeler* pmodeler, IEngineFont* pfont, Number* ptime)
     {
@@ -1831,17 +1712,10 @@ private:
                         str += ", ";
                     }
 
-					// BT - Added mousewheel support from R9
-					if (map.m_indexJoystick == -1) {
-						if (map.m_indexButton == 8) //Imago 8/14/09 mouse wheel
-							str += "Wheel Down";
-						else if (map.m_indexButton == 9)
-							str += "Wheel Up";
-						else
-							str += "Mouse Btn " + ZString(map.m_indexButton + 1);
-					}
-					else {
-						str += "Joy " + ZString(map.m_indexJoystick);
+                    if (map.m_indexJoystick == -1) {
+                        str += "Mouse Btn " + ZString(map.m_indexButton + 1);
+                    } else {
+                        str += "Joy " + ZString(map.m_indexJoystick);
 
                         switch(map.m_indexButton) {
                             case -1: str += " Hat Forward"                          ; break;
