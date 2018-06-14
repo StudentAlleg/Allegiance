@@ -33,10 +33,6 @@ const float c_dtFlashingDuration = 2.0f;
 const int c_nCountdownMax = 1000000; // just a big number
 const int c_nMinGain = -60;
 
-// -Imago: manual AFK toggle flags for auto-AFK
-extern bool g_bActivity = true;
-extern bool g_bAFKToggled = false;
-
 //////////////////////////////////////////////////////////////////////////////
 //
 // Stuff that was moved out of this file
@@ -717,7 +713,6 @@ public:
 
         bool OnKey(IInputProvider* pprovider, const KeyState& ks, bool& fForceTranslate)
         { 
-			g_bActivity = true; // - Imago: Key press = activity
             return m_pwindow->OnSuperKeyFilter(pprovider, ks, fForceTranslate);
         }
 
@@ -1050,8 +1045,6 @@ public:
     Time                m_timeLastFrame;
     Time                m_timeLastDamage;
     float               m_fDeltaTime;
-	// -Imago: Last activity timer
-	Time				m_timeLastActivity;
 
     //
     // Rendering Toggles
@@ -1257,7 +1250,6 @@ public:
     TRef<IMenuItem>            m_pitemFilterLobbyChats;
     TRef<IMenuItem>            m_pitemSoundQuality;
     TRef<IMenuItem>            m_pitemToggleSoundHardware;
-	TRef<IMenuItem>            m_pitemToggleDSound8Usage;
     TRef<IMenuItem>            m_pitemToggleMusic;
     TRef<IMenuItem>            m_pitemMusicVolumeUp;
     TRef<IMenuItem>            m_pitemMusicVolumeDown;
@@ -1308,7 +1300,6 @@ public:
     TVector<TRef<ISoundTemplate> >  m_vSoundMap;
     ISoundEngine::Quality           m_soundquality;
     bool                            m_bEnableSoundHardware;
-	bool                            m_bUseDSound8;
     TRef<IDiskPlayer>               m_pDiskPlayer;
     TRef<ISoundMutex>               m_psoundmutexSal;
     TRef<ISoundMutex>               m_psoundmutexVO;
@@ -2623,11 +2614,9 @@ public:
 
         DWORD dwSoundInitStartTime = timeGetTime();
 
-		m_bUseDSound8 = LoadPreference("UseDSound8", true);
-
         if (g_bEnableSound) {
             assert (m_pSoundEngine == NULL);
-            hr = CreateSoundEngine(m_pSoundEngine, GetHWND(), m_bUseDSound8);
+            hr = CreateSoundEngine(m_pSoundEngine, GetHWND());
         }
 
         if (FAILED(hr) || !g_bEnableSound)
@@ -2838,7 +2827,6 @@ public:
 		m_pgroupImage3D->AddImage(m_pwrapImageLensFlare  );// moved to here
         m_pgroupImage3D->AddImage(m_pwrapImagePosters    );
         m_pgroupImage3D->AddImage(m_pwrapImageStars      );
-
         m_pgroupImage3D->AddImage(m_pwrapImageEnvironment);
 
         m_pwrapImageConsole     = new WrapImage(Image::GetEmpty());
@@ -3623,7 +3611,6 @@ public:
     #define idmSFXVolumeDown        708
     #define idmVoiceOverVolumeUp    709
     #define idmVoiceOverVolumeDown  710
-	#define idmUseDSound8           711
 
 	#define idmContextAcceptPlayer	801
 	#define idmContextRejectPlayer	802
@@ -4144,7 +4131,6 @@ public:
                 #endif
                 m_pitemSoundQuality         = pmenu->AddMenuItem(idmSoundQuality, GetSoundQualityMenuString());
                 m_pitemToggleSoundHardware  = pmenu->AddMenuItem(idmSoundHardware, GetSoundHardwareMenuString());
-				m_pitemToggleDSound8Usage   = pmenu->AddMenuItem(idmUseDSound8, GetDSound8EnabledString());
                 m_pitemToggleMusic          = pmenu->AddMenuItem(idmToggleMusic, GetMusicMenuString());
                 m_pitemMusicVolumeUp        = pmenu->AddMenuItem(idmMusicVolumeUp,
                     GetGainMenuString("Music", m_pnumMusicGain->GetValue(), c_fVolumeDelta), 'M');
@@ -4807,16 +4793,6 @@ public:
             m_pitemToggleSoundHardware->SetString(GetSoundHardwareMenuString());
     }
 
-	void ToggleUseDSound8()
-	{
-		m_bUseDSound8 = !m_bUseDSound8;
-
-		SavePreference("UseDSound8", (DWORD)m_bUseDSound8);
-
-		if(m_pitemToggleDSound8Usage != NULL)
-			m_pitemToggleDSound8Usage->SetString(GetDSound8EnabledString());
-	}
-
     void ToggleMusic()
     {
         m_bMusic = !m_bMusic;
@@ -5040,13 +5016,6 @@ public:
     {
         return m_bEnableSoundHardware ? "Sound Card Acceleration On" : "Sound Card Acceleration Off";
     }
-
-	// mdv new sound8 or old sound engine
-	// mmf changed wording
-	ZString GetDSound8EnabledString()
-	{
-		return m_bUseDSound8 ? "DirectSound (Restart Reqd.): New" : "DirectSound (Restart Reqd.): Old";
-	}
 
     ZString GetMusicMenuString()
     {
@@ -5440,10 +5409,6 @@ public:
             case idmSoundHardware:
                 ToggleSoundHardware();
                 break;
-
-			case idmUseDSound8:
-				ToggleUseDSound8();
-				break;
 
             case idmToggleMusic:
                 ToggleMusic();
@@ -6722,6 +6687,9 @@ public:
 
         if (bFirstFrame)
         {
+			// BT - Added mousewheel support from R9
+			m_ptrekInput->SetInputSite(this); //Imago 8/15/09
+
             // allow the splash screen to draw itself before we do
             // any other initialization
             bFirstFrame = false;
@@ -7289,41 +7257,6 @@ public:
                       float dt,
                       bool  activeControlsF)
     {
-		
-		// - Imago: Only set AFK from inactivity when logged on
-		if (trekClient.m_fLoggedOn) {
-			Time timeLastMouseMove;
-			timeLastMouseMove = GetMouseActivity();
-			if (g_bActivity || timeLastMouseMove.clock() >= m_timeLastActivity.clock()) {
-				m_timeLastActivity = now;
-				g_bActivity = false;
-				if (!g_bAFKToggled && trekClient.GetPlayerInfo() && !trekClient.GetPlayerInfo ()->IsReady()) {
-					trekClient.GetPlayerInfo ()->SetReady(true);
-					trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
-					BEGIN_PFM_CREATE(trekClient.m_fm, pfmReady, CS, PLAYER_READY)
-					END_PFM_CREATE
-					pfmReady->fReady = true;
-					pfmReady->shipID = trekClient.GetShipID();
-					//trekClient.SendChat(trekClient.GetShip(), CHAT_EVERYONE, NA, NA, "I'm back from being AFK!");
-				}
-			} else {
-				int inactive_threshold; // mmf added this so those in NOAT go afk quicker
-				if (trekClient.GetSideID() == SIDE_TEAMLOBBY) inactive_threshold = 90000; 
-				else inactive_threshold = 180000;
-				if (now.clock() - m_timeLastActivity.clock() > inactive_threshold) {
-					if (!g_bAFKToggled && trekClient.GetPlayerInfo() && trekClient.GetPlayerInfo ()->IsReady()) {
-						trekClient.GetPlayerInfo ()->SetReady(false);
-						trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
-						BEGIN_PFM_CREATE(trekClient.m_fm, pfmReady, CS, PLAYER_READY)
-						END_PFM_CREATE
-						pfmReady->fReady = false;
-						pfmReady->shipID = trekClient.GetShipID();
-						//trekClient.SendChat(trekClient.GetShip(), CHAT_EVERYONE, NA, NA, "I've been AFK for 3 minutes!");
-					}
-				}
-			}
-		}
-
         if (trekClient.GetCluster() && GetWindow()->screen() == ScreenIDCombat)
         {
             //For now, leave joystick specific code here.
@@ -7414,27 +7347,8 @@ public:
                                 SwitchToJoyThrottle();
                                 fAutoPilot = false;
                                 trekClient.PlaySoundEffect(salAutopilotDisengageSound);
-								g_bActivity = true; // Imago: Joystick movment while Autopiloting = active!
                             }
-                        } else //Imago: Joystick movment while not Autopiloting = active!
-                        {
-							if (oldButtonsM != buttonsM)
-								bControlsInUse = true;
-							else
-							{
-								bControlsInUse = bControlsInUse ||
-												 js.button1 || js.button2 || js.button3 || js.button4 || js.button5 || js.button6;
-							}
-							bControlsInUse = bControlsInUse ||
-								(js.controls.jsValues[c_axisYaw] - trekClient.trekJoyStick[c_axisYaw] < -g_fJoystickDeadZone) ||
-								(js.controls.jsValues[c_axisYaw] - trekClient.trekJoyStick[c_axisYaw] >  g_fJoystickDeadZone) ||
-								(js.controls.jsValues[c_axisPitch] - trekClient.trekJoyStick[c_axisPitch] < -g_fJoystickDeadZone) ||
-								(js.controls.jsValues[c_axisPitch] - trekClient.trekJoyStick[c_axisPitch] >  g_fJoystickDeadZone) ||
-								(js.controls.jsValues[c_axisRoll] - trekClient.trekJoyStick[c_axisRoll] < -g_fJoystickDeadZone) ||
-								(js.controls.jsValues[c_axisRoll] - trekClient.trekJoyStick[c_axisRoll] >  g_fJoystickDeadZone);
-
-							if (bControlsInUse) g_bActivity = true;
-						}
+                        }
                     }
                     else
                     {
@@ -7781,15 +7695,7 @@ public:
             //------------------------------------------------------------------------------
             // End interception for training missions
             //------------------------------------------------------------------------------
-		} else {
-
-			// //-Imago 7/13/09 we're not actually in a sector playing the game...
-			// this is the right time & place place to rest our CPU. We can also give it more of a break now.
-			if (!GetFullscreen())
-				Sleep(5);
-			else
-				Sleep(1);
-        }
+		}
 
         //
         // Handle sending network messages
@@ -8471,19 +8377,21 @@ public:
 
         switch(tk)
         {
+			// BT - Added mousewheel support from R9
+			case TK_ChatPageUp: // Imago uncommented for mouse wheel 8/14/09
+				if (m_pchatListPane != NULL && !m_ptrekInput->IsTrekKeyDown(TK_ChatPageUp, true)) {
+					m_pchatListPane->PageUp();
+				}
+				break;
+
+				// BT - Added mousewheel support from R9
+			case TK_ChatPageDown: // Imago uncommented for mouse wheel 8/14/09
+				if (m_pchatListPane != NULL && !m_ptrekInput->IsTrekKeyDown(TK_ChatPageDown, true)) {
+					m_pchatListPane->PageDown();
+				}
+				break;
+
             /*
-            case TK_ChatPageUp:
-                if (m_pchatListPane != NULL) {
-                    m_pchatListPane->PageUp();
-                }
-                break;
-
-            case TK_ChatPageDown:
-                if (m_pchatListPane != NULL) {
-                    m_pchatListPane->PageDown();
-                }
-                break;
-
             case TK_QuickChatMenu:
                 if (
                        trekClient.MyMission() 
@@ -9490,6 +9398,79 @@ public:
                 }
             }
             break;
+
+			// BT - Added mousewheel support from R9
+			//begin imago 8/14/09 mouse wheel
+
+			case TK_ZoomOut:
+			case TK_ZoomIn:
+			{
+				if (!m_ptrekInput->IsTrekKeyDown(TK_ZoomOut, true) && !m_ptrekInput->IsTrekKeyDown(TK_ZoomIn, true)) {
+					float dt = 0.1f;
+					if (CommandCamera(m_cm) && !m_pconsoleImage->DrawSelectionBox()) {
+						float delta = dt * m_distanceCommandCamera;
+						if (tk == TK_ZoomIn) {
+							m_distanceCommandCamera -= delta * 2.0f;
+							if (m_distanceCommandCamera < s_fCommandViewDistanceMin)
+								m_distanceCommandCamera = s_fCommandViewDistanceMin;
+						}
+						else {
+							m_distanceCommandCamera += delta * 2.0f;
+							if (m_distanceCommandCamera > s_fCommandViewDistanceMax)
+								m_distanceCommandCamera = s_fCommandViewDistanceMax;
+						}
+					}
+					else if (m_cm == cmExternalChase || !NoCameraControl(m_cm)) {
+						if (tk == TK_ZoomIn) {
+							m_distanceExternalCamera -= dt * m_distanceExternalCamera;
+							if (m_distanceExternalCamera < s_fExternalViewDistanceMin)
+								m_distanceExternalCamera = s_fExternalViewDistanceMin;
+						}
+						else {
+							m_distanceExternalCamera += dt * m_distanceExternalCamera;
+							if (m_distanceExternalCamera > s_fExternalViewDistanceMax)
+								m_distanceExternalCamera = s_fExternalViewDistanceMax;
+						}
+					}
+					else if (m_cm == cmCockpit) {
+						float   fov = m_cameraControl.GetFOV();
+						if (tk == TK_ZoomIn) {
+							fov -= dt;
+							if (fov < s_fMinFOV)
+								fov = s_fMinFOV;
+							m_cameraControl.SetFOV(fov);
+						}
+						else {
+							fov += dt;
+							if (fov > s_fMaxFOV)
+								fov = s_fMaxFOV;
+							m_cameraControl.SetFOV(fov);
+						}
+					}
+
+				}
+			}
+			break;
+
+			case TK_ThrottleUp:
+			{
+				if (trekClient.flyingF() && trekClient.GetShip() && !m_ptrekInput->IsTrekKeyDown(TK_ThrottleUp, true)) {
+					trekClient.trekThrottle = (trekClient.trekThrottle < 0.8f) ? (trekClient.trekThrottle + 0.2f) : 1.0f;  //Imago matched orig values below - was 0.7 - 0.3 6/10 - cleaned up 7/10
+					trekClient.joyThrottle = false; //#116 7/10 Imago
+				}
+			}
+			break;
+
+			case TK_ThrottleDown:
+			{
+				if (trekClient.flyingF() && trekClient.GetShip() && !m_ptrekInput->IsTrekKeyDown(TK_ThrottleDown, true)) {
+					trekClient.trekThrottle = (trekClient.trekThrottle > -0.8f) ? (trekClient.trekThrottle - 0.2f) : -1.0f; //Imago matched orig values below - was 0.7 - 0.3 6/10 - cleaned up 7/10
+					trekClient.joyThrottle = false; //#116 7/10 Imago
+				}
+			}
+			break;
+
+			// end imago
 
             case TK_DebugTest1:
             case TK_DebugTest2:

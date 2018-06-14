@@ -212,7 +212,8 @@ public:
         m_vvalueObject(3),
         m_bEnabled(false),
         m_bBuffered(true),
-        m_pbuttonEventSource(ButtonEvent::Source::Create())
+        m_pbuttonEventSource(ButtonEvent::Source::Create()),
+		m_z(0) //Imago 8/12/09 // BT - Added mousewheel support from R9
     {
         //
         // Are we running on NT
@@ -236,6 +237,16 @@ public:
         //
         // Setup the device
         //
+
+        //Imago 8/14/09 // BT - Added mousewheel support from R9
+        if (m_vvalueObject[2] != NULL) {
+            m_vbuttonObject.SetCount(10);
+            ButtonDDInputObject* pobject = new ButtonDDInputObject("Wheel Up",0x00000301UL,GUID_ZAxis);
+            m_vbuttonObject.Set(8,pobject);
+            pobject = new ButtonDDInputObject("Wheel Down",0x00000401UL,GUID_ZAxis);
+            m_vbuttonObject.Set(9,pobject);
+           
+        }
 
         SetupDevice();
 
@@ -368,12 +379,22 @@ public:
 
     void DeltaWheel(int dz)
     {
-        if (dz != 0 ) {
-            //ZDebugOutput("MouseDZ: " + ZString(dz) + "\n");
+					   
+															 
             m_z += float(dz);
 
-            if (m_vvalueObject.GetCount() >= 3) {
-                m_vvalueObject[0]->GetValue()->SetValue(m_z);
+			// BT - Added mousewheel support from R9
+        if (m_vvalueObject.GetCount() >= 3 && m_vvalueObject[2] != NULL) { //#217
+            m_vvalueObject[2]->GetValue()->SetValue(m_z); //imago 8/12/09 use z axis
+            if (dz < 0) {
+                ButtonChanged(8,true);
+            } else if (dz > 0) {
+                ButtonChanged(9,true);
+            } else { //imago 8/13/09 use dz == 0 for button up
+                if (m_vbuttonObject[8] != NULL && m_vbuttonObject[8]->GetValue()->GetValue()) //#217
+                    ButtonChanged(8,false);
+                if (m_vbuttonObject[8] != NULL && m_vbuttonObject[9]->GetValue()->GetValue()) //#217
+                    ButtonChanged(9,false);
             }
         }
     }
@@ -396,6 +417,7 @@ public:
         DWORD count = 1;
         int dx = 0;
         int dy = 0;
+        int dz = 0; // BT - Added mousewheel support from R9
 
         while (count == 1) {
             HRESULT hr = m_pdid->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &didod, &count, 0);
@@ -454,7 +476,7 @@ public:
                         break;
 
                     case DIMOFS_Z:
-                        DeltaWheel(int(didod.dwData));
+                        dz += int(didod.dwData); // BT - Added mousewheel support from R9
                         break;
                 }
             }
@@ -465,6 +487,8 @@ public:
 
             DeltaPosition(dx, dy);
         }
+
+        DeltaWheel(dz); // BT - Added mousewheel support from R9
     }
 
     void UpdatePolled()
@@ -559,6 +583,18 @@ public:
     {
         return m_point;
     }
+
+	// BT - Added mousewheel support from R9
+	float GetWheelPosition()
+	{
+		return m_z;
+	}
+
+	// BT - Added mousewheel support from R9
+	bool IsEnabled()
+	{
+		return m_bEnabled;
+	}
 
     void SetEnabled(bool bEnabled)
     {
@@ -1198,7 +1234,8 @@ public:
 
     Number* GetValue(int id)
     {
-        if (id < m_vvalueObject.GetCount()) {
+		// BT - 10/17 - Guarding against a -1 appearing in the input map which then causes a crash.
+        if (id >= 0 && id < m_vvalueObject.GetCount()) {
             return m_vvalueObject[id]->GetValue();
         } else {
             return NULL;
