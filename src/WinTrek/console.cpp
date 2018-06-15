@@ -1951,58 +1951,6 @@ public:
 
     MouseResult Button(IInputProvider* pprovider, const Point& point, int button, bool bCaptured, bool bInside, bool bDown)
     {
-		// BT - Added mousewheel support from R9
-		//Imago 8/15/09
-		if (button > 1) {
-			TRef<TrekInput> pinput = GetWindow()->GetInput();
-			TRef<Boolean> pboolDown = new Boolean(bDown);
-			switch (button) {
-			case 2:
-				pinput->SetMouseTrekKey(pinput->OnWheelClick(), pboolDown);
-				break;
-			case 3:
-				pinput->SetMouseTrekKey(pinput->OnXButton1(), pboolDown);
-				break;
-			case 4:
-				pinput->SetMouseTrekKey(pinput->OnXButton2(), pboolDown);
-				break;
-			case 5:
-				pinput->SetMouseTrekKey(pinput->OnXButton3(), pboolDown);
-				break;
-			case 6:
-				pinput->SetMouseTrekKey(pinput->OnXButton4(), pboolDown);
-				break;
-			case 7:
-				pinput->SetMouseTrekKey(pinput->OnXButton5(), pboolDown);
-				break;
-			case 8:
-				if (bDown) {
-					if (GetWindow()->CommandCamera(GetWindow()->GetCameraMode()) || !GetWindow()->NoCameraControl(GetWindow()->GetCameraMode()))
-						pinput->GetInputSite()->OnTrekKey((pinput->OnWheelDown() == TK_ZoomIn) ? TK_ZoomIn : TK_ZoomOut);
-					else if (GetWindow()->GetCameraMode() == TrekWindow::cmCockpit && trekClient.GetShip()->GetTurretID() != NA)
-						pinput->GetInputSite()->OnTrekKey((pinput->OnWheelDown() == TK_ThrottleDown) ? TK_ThrottleDown : TK_ThrottleUp);
-					else
-						pinput->GetInputSite()->OnTrekKey(pinput->OnWheelDown());
-				}
-				break;
-			case 9:
-				if (bDown) {
-					if (GetWindow()->CommandCamera(GetWindow()->GetCameraMode()) || !GetWindow()->NoCameraControl(GetWindow()->GetCameraMode()))
-						pinput->GetInputSite()->OnTrekKey((pinput->OnWheelUp() == TK_ZoomOut) ? TK_ZoomOut : TK_ZoomIn);
-					else if (GetWindow()->GetCameraMode() == TrekWindow::cmCockpit && trekClient.GetShip()->GetTurretID() != NA)
-						pinput->GetInputSite()->OnTrekKey((pinput->OnWheelUp() == TK_ThrottleUp) ? TK_ThrottleUp : TK_ThrottleDown);
-					else
-						pinput->GetInputSite()->OnTrekKey(pinput->OnWheelUp());
-				}
-				break;
-
-			default:
-				break;
-			}
-
-			return MouseResultRelease();
-		}
-
         MouseResult rc = MouseResultHit();
 
         IclusterIGC*    pcluster = trekClient.GetCluster();

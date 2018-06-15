@@ -631,14 +631,6 @@ public:
                 m_peventSingleRightClick->Trigger();
             }
 		}
-		else if (button == 8 && bDown) { //Imago 8/14/09 mouse wheel // BT - Added mousewheel support from R9
-			NextItem();
-			SelectionChanged();
-		}
-		else if (button == 9 && bDown) {
-			PreviousItem();
-			SelectionChanged();
-		}
 
         return MouseResult();
     }

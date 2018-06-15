@@ -185,7 +185,7 @@ protected:
     void UpdateCursor();
     
     void UpdateInput();
-    void HandleMouseMessage(UINT message, const Point& point, UINT nFlags = NULL); // BT - Added mousewheel support from R9
+    void HandleMouseMessage(UINT message, const Point& point);
 
     void ParseCommandLine(const ZString& strCommandLine, bool& bStartFullscreen);
     void DoIdle();
