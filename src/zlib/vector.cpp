@@ -1,6 +1,6 @@
 #include "pch.h"
 
-const Vector Vector::s_vectorZero(0.0f, 0.0f, 0.0f);  // mmf changed these to 0.0f from just 0
+const Vector Vector::s_vectorZero(0, 0, 0);
 
 Vector Vector::GetOrthogonalVector() const
 {

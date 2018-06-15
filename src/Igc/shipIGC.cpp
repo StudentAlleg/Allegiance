@@ -2460,8 +2460,8 @@ void    CshipIGC::ExecuteShipMove(Time          timeStart,
         //What would our velocity be if we simply let drag slow us down
         Vector  drag;
         {
-            // double   f = exp(-thrust * thrustToVelocity / maxSpeed);
-			double   f = exp(double(double(-thrust) * double(thrustToVelocity) / (double)maxSpeed));  // mmf type cast changes
+            double   f = exp(-thrust * thrustToVelocity / maxSpeed);
+			//double   f = exp(double(double(-thrust) * double(thrustToVelocity) / (double)maxSpeed));  // mmf type cast changes - BBT Reverted to MS Original
 
             //New velocity = old velocity * f
             //drag = thrust required to create this change in velocity
