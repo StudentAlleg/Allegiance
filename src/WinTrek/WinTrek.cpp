@@ -7451,9 +7451,7 @@ public:
 									else
 										js.controls.jsValues[c_axisYaw] *= 1.0f;//BBT - Update Yaw even though we're not slewing (zooming).
 								}
-								{
-									js.controls.jsValues[c_axisRoll] *= 1.0f;//BBT - Update Roll always.
-								}
+								js.controls.jsValues[c_axisRoll] *= 1.0f;//BBT - Update Roll always.
 							}
                         }
                     }
