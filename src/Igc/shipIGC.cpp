@@ -2477,7 +2477,7 @@ void    CshipIGC::ExecuteShipMove(Time          timeStart,
 
             if (afterburner)
             {
-                float   abThrust = afterburner->GetMaxThrustWithGA(); //TheRock 15-8-2009
+                float   abThrust = afterburner->GetMaxThrust(); //TheRock 15-8-2009 - BBT was GetMaxThrustWithGA
 				if (afterF) {
                     thrustRatio = abThrust / thrust;
 				}
