@@ -7445,13 +7445,14 @@ public:
 								{
 									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
 									float	c_minYawRate = yaw * 0.1f;
-									float	maxYawSlewRate = (c_minYawRate + (yaw - c_minYawRate) * zoomMod); //madpeople /Imago /Wasp #88
+									float	maxYawSlewRate = (c_minYawRate + (yaw - c_minYawRate) * zoomMod); //madpeople /Imago /BBT #88
 									if (yaw > maxYawSlewRate)
 										js.controls.jsValues[c_axisYaw] *= maxYawSlewRate / yaw;
 									else
 										js.controls.jsValues[c_axisYaw] *= 1.0f;//BBT - Update Yaw even though we're not slewing (zooming).
 								}
-								js.controls.jsValues[c_axisRoll] *= 1.0f;//BBT - Update Roll always.
+									js.controls.jsValues[c_axisRoll] *= 1.0f;//BBT - Update Roll always.
+									js.controls.jsValues[c_axisThrottle] *= 1.0f;//BBT - Might as well update throttle while we're here.
 							}
                         }
                     }
