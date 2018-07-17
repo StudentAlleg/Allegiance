@@ -7436,7 +7436,7 @@ public:
 								{
 									float	pitch = pht->GetMaxTurnRate(c_axisPitch);
 									float	c_minPitchRate = pitch * 0.1f;
-									float   maxPitchSlewRate = (c_minPitchRate + (pitch - c_minPitchRate) * zoomMod); //madpeople /Imago /BBT #88
+									float   maxPitchSlewRate = c_minPitchRate + (pitch - c_minPitchRate) * zoomMod; //madpeople /Imago /BBT #88
 									if (pitch > maxPitchSlewRate)
 										js.controls.jsValues[c_axisPitch] *= maxPitchSlewRate / pitch;
 									else
@@ -7445,7 +7445,7 @@ public:
 								{
 									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
 									float	c_minYawRate = yaw * 0.1f;
-									float	maxYawSlewRate = (c_minYawRate + (yaw - c_minYawRate) * zoomMod); //madpeople /Imago /BBT #88
+									float	maxYawSlewRate = c_minYawRate + (yaw - c_minYawRate) * zoomMod; //madpeople /Imago /BBT #88
 									if (yaw > maxYawSlewRate)
 										js.controls.jsValues[c_axisYaw] *= maxYawSlewRate / yaw;
 									else
