@@ -7430,24 +7430,24 @@ public:
 								//static const float  c_minRate = RadiansFromDegrees(7.5f);//Minimum Rate = 10% of Maximum Rate
 								//static const float  c_maxRate = RadiansFromDegrees(75.0f);//Maximum rate which is now replaced with Ship's max turn rate (seen below).
 								//float   maxSlewRate = c_minRate + (c_maxRate - c_minRate) * fov / s_fMaxFOV;
-								float zoomMod = fov / s_fMaxFOV; //madpeople - ---^ do not limit this view beyond that of the core #88 7/10
+								float zoomRange = s_fMaxFOV - s_fMinFOV; //madpeople - ---^ do not limit this view beyond that of the core / BBT - #88 7/10
 
 								const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
 								{
 									float	pitch = pht->GetMaxTurnRate(c_axisPitch);
-									float	minPitchRate = pitch * 0.1f;//BBT - Since minfov is 5(10%) of maxfov 50...we use the same ratio (10% as was used above^ when using RadiansFromDegrees).
-									float   maxPitchSlewRate = minPitchRate + (pitch - minPitchRate) * zoomMod; //madpeople /Imago /BBT #88
+									float	minPitchRate = pitch * 0.1f;//BBT - min = 10% of pitch (maximum) - as was previously used when using RadiansFromDegrees ^
+									float   maxPitchSlewRate = (pitch - minPitchRate) / zoomRange * fov; //madpeople /Imago /BBT #88
 									if (pitch > maxPitchSlewRate)
-										js.controls.jsValues[c_axisPitch] *= maxPitchSlewRate / pitch;//BBT - maxPitchSlewRate uses a minPitchRate in its formula which helps cursor speed (upped by 10%)...without which, cursor moves too slow when fully zoomed.
+										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
 									else
 										js.controls.jsValues[c_axisPitch] *= 1.0f;// - Update pitch even though we're not slewing (zooming).
 								}
 								{
 									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
 									float	minYawRate = yaw * 0.1f;
-									float	maxYawSlewRate = minYawRate + (yaw - minYawRate) * zoomMod; //madpeople /Imago /BBT #88
+									float	maxYawSlewRate = (yaw - minYawRate) / zoomRange * fov; //madpeople /Imago /BBT #88
 									if (yaw > maxYawSlewRate)
-										js.controls.jsValues[c_axisYaw] *= maxYawSlewRate / yaw;
+										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);
 									else
 										js.controls.jsValues[c_axisYaw] *= 1.0f;// - Update Yaw even though we're not slewing (zooming).
 								}
