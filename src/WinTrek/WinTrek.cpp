@@ -7430,29 +7430,33 @@ public:
 								//static const float  c_minRate = RadiansFromDegrees(7.5f);//Minimum Rate = 10% of Maximum Rate
 								//static const float  c_maxRate = RadiansFromDegrees(75.0f);//Maximum rate which is now replaced with Ship's max turn rate (seen below).
 								//float   maxSlewRate = c_minRate + (c_maxRate - c_minRate) * fov / s_fMaxFOV;
-								float zoomRange = s_fMaxFOV - s_fMinFOV; //madpeople - ---^ do not limit this view beyond that of the core / BBT - #88 7/10
+								
+								//BBT - 7/2018
+								float zoomRange = s_fMaxFOV - s_fMinFOV;
 
 								const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
 								{
 									float	pitch = pht->GetMaxTurnRate(c_axisPitch);
-									float	minPitchRate = pitch * 0.1f;//BBT - min = 10% of pitch (maximum) - as was previously used when using RadiansFromDegrees ^
-									float   maxPitchSlewRate = (pitch - minPitchRate) / zoomRange * fov; //madpeople /Imago /BBT #88
-									if (pitch > maxPitchSlewRate)
-										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
-									else
-										js.controls.jsValues[c_axisPitch] *= 1.0f;// - Update pitch even though we're not slewing (zooming).
-								}
-								{
+									float	minPitchRate = pitch * 0.1f; // minimum rate = 10% of maximum - as was previously used with RadiansFromDegrees ^
+									float   maxPitchSlewRate = pitch - (s_fMaxFOV - fov) * ((pitch - minPitchRate) / zoomRange);
 									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
 									float	minYawRate = yaw * 0.1f;
-									float	maxYawSlewRate = (yaw - minYawRate) / zoomRange * fov; //madpeople /Imago /BBT #88
-									if (yaw > maxYawSlewRate)
+									float	maxYawSlewRate = yaw - (s_fMaxFOV - fov) * ((yaw - minYawRate) / zoomRange);
+									
+									if (fov < s_fMaxFOV)
+									{
+										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
 										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);
-									else
-										js.controls.jsValues[c_axisYaw] *= 1.0f;// - Update Yaw even though we're not slewing (zooming).
-								}
-									js.controls.jsValues[c_axisRoll] *= 1.0f;// - Update Roll always.
-									js.controls.jsValues[c_axisThrottle] *= 1.0f;// - Update throttle always.
+									}
+									else // - Update pitch and yaw even though we're not slewing (zooming).
+									{
+										js.controls.jsValues[c_axisPitch] *= 1.0f;
+										js.controls.jsValues[c_axisYaw] *= 1.0f;
+									}
+
+								} // - Update Roll & Throttle always.
+								js.controls.jsValues[c_axisRoll] *= 1.0f;
+								js.controls.jsValues[c_axisThrottle] *= 1.0f;
 							}
                         }
                     }
