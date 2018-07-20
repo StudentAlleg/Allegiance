@@ -7437,14 +7437,14 @@ public:
 								const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
 								{
 									float	pitch = pht->GetMaxTurnRate(c_axisPitch);
-									float	minPitchRate = pitch * 0.1f; // minimum rate = 10% of maximum - as was previously used with RadiansFromDegrees ^
-									float   maxPitchSlewRate = pitch - (s_fMaxFOV - fov) * ((pitch - minPitchRate) / zoomRange);
 									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
-									float	minYawRate = yaw * 0.1f;
-									float	maxYawSlewRate = yaw - (s_fMaxFOV - fov) * ((yaw - minYawRate) / zoomRange);
-									
+
 									if (fov < s_fMaxFOV)
-									{
+									{										
+										float	minPitchRate = pitch * 0.1f; // minimum rate = 10% of maximum - as was previously used with RadiansFromDegrees ^
+										float   maxPitchSlewRate = pitch - (s_fMaxFOV - fov) * ((pitch - minPitchRate) / zoomRange);
+										float	minYawRate = yaw * 0.1f;
+										float	maxYawSlewRate = yaw - (s_fMaxFOV - fov) * ((yaw - minYawRate) / zoomRange);
 										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
 										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);
 									}
