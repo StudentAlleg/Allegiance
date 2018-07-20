@@ -7431,32 +7431,28 @@ public:
 								//static const float  c_maxRate = RadiansFromDegrees(75.0f);//Maximum rate which is now replaced with Ship's max turn rate (seen below).
 								//float   maxSlewRate = c_minRate + (c_maxRate - c_minRate) * fov / s_fMaxFOV;
 								
-								//BBT - 7/2018
-								float zoomRange = s_fMaxFOV - s_fMinFOV;
+								//BBT - 7/2018 - Update joystick and slew if we're zooming
+								js.controls.jsValues[c_axisPitch] *= 1.0f;
+								js.controls.jsValues[c_axisYaw] *= 1.0f;
+								js.controls.jsValues[c_axisRoll] *= 1.0f;
+								js.controls.jsValues[c_axisThrottle] *= 1.0f;
 
-								const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
+								if (fov < s_fMaxFOV) //We're zooming - apply slew rate to x and y axis
 								{
-									float	pitch = pht->GetMaxTurnRate(c_axisPitch);
-									float   yaw = pht->GetMaxTurnRate(c_axisYaw);
-
-									if (fov < s_fMaxFOV)
-									{										
+									const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
+									
+										float	pitch = pht->GetMaxTurnRate(c_axisPitch);
+										float   yaw = pht->GetMaxTurnRate(c_axisYaw);
+										float   zoomRange = s_fMaxFOV - s_fMinFOV;
 										float	minPitchRate = pitch * 0.1f; // minimum rate = 10% of maximum - as was previously used with RadiansFromDegrees ^
 										float   maxPitchSlewRate = pitch - (s_fMaxFOV - fov) * ((pitch - minPitchRate) / zoomRange);
 										float	minYawRate = yaw * 0.1f;
 										float	maxYawSlewRate = yaw - (s_fMaxFOV - fov) * ((yaw - minYawRate) / zoomRange);
-										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
-										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);
-									}
-									else // - Update pitch and yaw even though we're not slewing (zooming).
-									{
-										js.controls.jsValues[c_axisPitch] *= 1.0f;
-										js.controls.jsValues[c_axisYaw] *= 1.0f;
-									}
 
-								} // - Update Roll & Throttle always.
-								js.controls.jsValues[c_axisRoll] *= 1.0f;
-								js.controls.jsValues[c_axisThrottle] *= 1.0f;
+										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
+										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);									
+
+								} 
 							}
                         }
                     }
