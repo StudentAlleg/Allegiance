@@ -7431,9 +7431,8 @@ public:
 								//static const float  c_maxRate = RadiansFromDegrees(75.0f);//Maximum rate which is now replaced with Ship's max turn rate (seen below).
 								//float   maxSlewRate = c_minRate + (c_maxRate - c_minRate) * fov / s_fMaxFOV;
 								
-								//BBT - 7/2018 - Update joystick and slew if we're zooming
-								js.controls.jsValues[c_axisPitch] *= 1.0f;
-								js.controls.jsValues[c_axisYaw] *= 1.0f;
+								//BBT - 7/2018 - Update joystick
+								
 								js.controls.jsValues[c_axisRoll] *= 1.0f;
 								js.controls.jsValues[c_axisThrottle] *= 1.0f;
 
@@ -7452,7 +7451,13 @@ public:
 										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
 										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);									
 
-								} 
+								}
+								else //Update x and y when we're not zooming
+								{
+									js.controls.jsValues[c_axisPitch] *= 1.0f;
+									js.controls.jsValues[c_axisYaw] *= 1.0f;
+								}
+
 							}
                         }
                     }
