@@ -141,6 +141,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat />
+      <TreatWarningAsError />
+      <OmitFramePointers />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

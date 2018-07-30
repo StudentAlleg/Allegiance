@@ -216,6 +216,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <OmitDefaultLibName>false</OmitDefaultLibName>
+      <DebugInformationFormat />
+      <TreatWarningAsError />
+      <OmitFramePointers />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>FLAVOR="$(Configuration)";FEDSRV;FEDMSG="$(OutDir)FedMsg.rc";%(PreprocessorDefinitions)</PreprocessorDefinitions>

@@ -7422,43 +7422,28 @@ public:
                                 m_cameraControl.SetFOV(fov);
                             }
 
-							if (trekClient.GetShip()->GetBaseHullType() != NULL)
-							{
-								//What is the maximum desired rate of turn for this field of view?
-								//Use the same calculation as for turrets.
-								//Keep in sync with wintrek.cpp's FOV by throttle
-								//static const float  c_minRate = RadiansFromDegrees(7.5f);//Minimum Rate = 10% of Maximum Rate
-								//static const float  c_maxRate = RadiansFromDegrees(75.0f);//Maximum rate which is now replaced with Ship's max turn rate (seen below).
-								//float   maxSlewRate = c_minRate + (c_maxRate - c_minRate) * fov / s_fMaxFOV;
-								
-								//BBT - 7/2018 - Update joystick
-								
-								js.controls.jsValues[c_axisRoll] *= 1.0f;
-								js.controls.jsValues[c_axisThrottle] *= 1.0f;
+                            if (trekClient.GetShip()->GetBaseHullType() != NULL)
+                            {
+                                //What is the maximum desired rate of turn for this field of view?
+                                //Use the same calculation as for turrets.
+                                //Keep in sync with wintrek.cpp's FOV by throttle
+                                static const float  c_minRate = RadiansFromDegrees(7.5f);
+                                static const float  c_maxRate = RadiansFromDegrees(75.0f);
+                                float   maxSlewRate = c_minRate +
+                                                      (c_maxRate - c_minRate) * fov / s_fMaxFOV;
 
-								if (fov < s_fMaxFOV) //We're zooming - apply slew rate to x and y axis
-								{
-									const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
-									
-										float	pitch = pht->GetMaxTurnRate(c_axisPitch);
-										float   yaw = pht->GetMaxTurnRate(c_axisYaw);
-										float   zoomRange = s_fMaxFOV - s_fMinFOV;
-										float	minPitchRate = pitch * 0.1f; // minimum rate = 10% of maximum - as was previously used with RadiansFromDegrees ^
-										float   maxPitchSlewRate = pitch - (s_fMaxFOV - fov) * ((pitch - minPitchRate) / zoomRange);
-										float	minYawRate = yaw * 0.1f;
-										float	maxYawSlewRate = yaw - (s_fMaxFOV - fov) * ((yaw - minYawRate) / zoomRange);
-
-										js.controls.jsValues[c_axisPitch] *= (maxPitchSlewRate / pitch);
-										js.controls.jsValues[c_axisYaw] *= (maxYawSlewRate / yaw);									
-
-								}
-								else //Update x and y when we're not zooming
-								{
-									js.controls.jsValues[c_axisPitch] *= 1.0f;
-									js.controls.jsValues[c_axisYaw] *= 1.0f;
-								}
-
-							}
+                                const IhullTypeIGC* pht = trekClient.GetShip()->GetHullType();
+                                {
+                                    float               pitch = pht->GetMaxTurnRate(c_axisPitch);
+                                    if (pitch > maxSlewRate)
+                                        js.controls.jsValues[c_axisPitch] *= maxSlewRate / pitch;
+                                }
+                                {
+                                    float               yaw = pht->GetMaxTurnRate(c_axisYaw);
+                                    if (yaw > maxSlewRate)
+                                        js.controls.jsValues[c_axisYaw] *= maxSlewRate / yaw;
+                                }
+                            }
                         }
                     }
 

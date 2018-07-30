@@ -143,6 +143,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <LanguageStandard>stdcpp14</LanguageStandard>
+      <DebugInformationFormat />
+      <TreatWarningAsError />
+      <OmitFramePointers />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -126,6 +126,9 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat />
+      <TreatWarningAsError />
+      <OmitFramePointers />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

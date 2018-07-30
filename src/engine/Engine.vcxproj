@@ -154,6 +154,9 @@
       <BrowseInformation />
       <BrowseInformationFile />
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DebugInformationFormat />
+      <TreatWarningAsError />
+      <OmitFramePointers />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
