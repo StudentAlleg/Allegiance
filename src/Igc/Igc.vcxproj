@@ -84,8 +84,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FZRetail|Win32'">
     <OutDir>.\..\..\objs\$(Configuration)\Igc\</OutDir>
     <IntDir>.\..\..\objs\$(Configuration)\Igc\</IntDir>
-    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (August 2007)\Include;C:\Program Files (x86)\Microsoft SDKs\Windows\v5.0\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (August 2007)\Lib\x86;C:\Program Files (x86)\Microsoft SDKs\Windows\v5.0\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX 9.0 SDK (December 2004)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX 9.0 SDK (December 2004)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Retail|Win32'">
     <ClCompile>
