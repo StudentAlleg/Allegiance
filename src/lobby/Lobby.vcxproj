@@ -180,6 +180,7 @@ xcopy $(ProjectDir)..\Inc\steam_appid.txt $(OutDir) /s /d /y</Command>
       <PrecompiledHeader />
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OmitFramePointers />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>FLAVOR="$(Configuration)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -193,6 +194,8 @@ xcopy $(ProjectDir)..\Inc\steam_appid.txt $(OutDir) /s /d /y</Command>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;MSVCRTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
     <PostBuildEvent>
       <Command>

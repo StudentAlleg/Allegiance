@@ -168,12 +168,15 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader />
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <OmitFramePointers />
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(OutDir)..\_utility\Utility.lib;$(OutDir)..\zlib\zlib.lib;$(OutDir)..\igc\igc.lib;$(OutDir)..\sharemem\sharemem.lib;$(OutDir)..\test\TCLib\TCLib.lib;$(OutDir)..\agc\AGCGuid.lib;$(OutDir)..\Guids\guids.lib;dplayx.lib;winmm.lib;version.lib;urlmon.lib;dxguid.lib;amstrmid.lib;comctl32.lib;ws2_32.lib;delayimp.lib;wininet.lib;lz32.lib;netapi32.lib;comsupp.lib;oledb.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)AllClub.exe</OutputFile>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

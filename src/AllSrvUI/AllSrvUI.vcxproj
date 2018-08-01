@@ -169,6 +169,7 @@
       <WarningLevel>Level2</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OmitFramePointers />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_AFXDLL;FLAVOR="$(Configuration)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -180,6 +181,8 @@
       <GenerateMapFile>false</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

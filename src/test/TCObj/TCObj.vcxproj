@@ -208,6 +208,8 @@
     <Link>
       <AdditionalDependencies>..\..\Lib\AllegianceSecurity\AllegianceSecurityd.lib;..\..\Lib\Steam\steam_api.lib;$(OutDir)..\..\ZLib\ZLib.lib;$(OutDir)..\TCLib\TCLib.lib;winmm.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

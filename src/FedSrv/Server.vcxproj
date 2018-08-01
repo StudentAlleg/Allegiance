@@ -231,6 +231,7 @@
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <TargetMachine>MachineX86</TargetMachine>
       <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

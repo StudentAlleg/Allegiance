@@ -221,6 +221,7 @@ xcopy $(ProjectDir)..\lib\FreeImage\FreeImage.dll $(OutDir) /s /d /y</Command>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <RandomizedBaseAddress />
+      <DataExecutionPrevention />
     </Link>
     <PostBuildEvent>
       <Command>
