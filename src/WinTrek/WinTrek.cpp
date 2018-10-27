@@ -6715,6 +6715,9 @@ public:
 
         if (bFirstFrame)
         {
+			// BT - Added mousewheel support from R9
+			m_ptrekInput->SetInputSite(this); //Imago 8/15/09
+
             // allow the splash screen to draw itself before we do
             // any other initialization
             bFirstFrame = false;
@@ -8402,19 +8405,21 @@ public:
 
         switch(tk)
         {
+			// BT - Added mousewheel support from R9
+			case TK_ChatPageUp: // Imago uncommented for mouse wheel 8/14/09
+				if (m_pchatListPane != NULL && !m_ptrekInput->IsTrekKeyDown(TK_ChatPageUp, true)) {
+					m_pchatListPane->PageUp();
+				}
+				break;
+
+				// BT - Added mousewheel support from R9
+			case TK_ChatPageDown: // Imago uncommented for mouse wheel 8/14/09
+				if (m_pchatListPane != NULL && !m_ptrekInput->IsTrekKeyDown(TK_ChatPageDown, true)) {
+					m_pchatListPane->PageDown();
+				}
+				break;
+
             /*
-            case TK_ChatPageUp:
-                if (m_pchatListPane != NULL) {
-                    m_pchatListPane->PageUp();
-                }
-                break;
-
-            case TK_ChatPageDown:
-                if (m_pchatListPane != NULL) {
-                    m_pchatListPane->PageDown();
-                }
-                break;
-
             case TK_QuickChatMenu:
                 if (
                        trekClient.MyMission() 
@@ -9421,6 +9426,79 @@ public:
                 }
             }
             break;
+
+			// BT - Added mousewheel support from R9
+			//begin imago 8/14/09 mouse wheel
+
+			case TK_ZoomOut:
+			case TK_ZoomIn:
+			{
+				if (!m_ptrekInput->IsTrekKeyDown(TK_ZoomOut, true) && !m_ptrekInput->IsTrekKeyDown(TK_ZoomIn, true)) {
+					float dt = 0.1f;
+					if (CommandCamera(m_cm) && !m_pconsoleImage->DrawSelectionBox()) {
+						float delta = dt * m_distanceCommandCamera;
+						if (tk == TK_ZoomIn) {
+							m_distanceCommandCamera -= delta * 2.0f;
+							if (m_distanceCommandCamera < s_fCommandViewDistanceMin)
+								m_distanceCommandCamera = s_fCommandViewDistanceMin;
+						}
+						else {
+							m_distanceCommandCamera += delta * 2.0f;
+							if (m_distanceCommandCamera > s_fCommandViewDistanceMax)
+								m_distanceCommandCamera = s_fCommandViewDistanceMax;
+						}
+					}
+					else if (m_cm == cmExternalChase || !NoCameraControl(m_cm)) {
+						if (tk == TK_ZoomIn) {
+							m_distanceExternalCamera -= dt * m_distanceExternalCamera;
+							if (m_distanceExternalCamera < s_fExternalViewDistanceMin)
+								m_distanceExternalCamera = s_fExternalViewDistanceMin;
+						}
+						else {
+							m_distanceExternalCamera += dt * m_distanceExternalCamera;
+							if (m_distanceExternalCamera > s_fExternalViewDistanceMax)
+								m_distanceExternalCamera = s_fExternalViewDistanceMax;
+						}
+					}
+					else if (m_cm == cmCockpit) {
+						float   fov = m_cameraControl.GetFOV();
+						if (tk == TK_ZoomIn) {
+							fov -= dt;
+							if (fov < s_fMinFOV)
+								fov = s_fMinFOV;
+							m_cameraControl.SetFOV(fov);
+						}
+						else {
+							fov += dt;
+							if (fov > s_fMaxFOV)
+								fov = s_fMaxFOV;
+							m_cameraControl.SetFOV(fov);
+						}
+					}
+
+				}
+			}
+			break;
+
+			case TK_ThrottleUp:
+			{
+				if (trekClient.flyingF() && trekClient.GetShip() && !m_ptrekInput->IsTrekKeyDown(TK_ThrottleUp, true)) {
+					trekClient.trekThrottle = (trekClient.trekThrottle < 0.8f) ? (trekClient.trekThrottle + 0.2f) : 1.0f;  //Imago matched orig values below - was 0.7 - 0.3 6/10 - cleaned up 7/10
+					trekClient.joyThrottle = false; //#116 7/10 Imago
+				}
+			}
+			break;
+
+			case TK_ThrottleDown:
+			{
+				if (trekClient.flyingF() && trekClient.GetShip() && !m_ptrekInput->IsTrekKeyDown(TK_ThrottleDown, true)) {
+					trekClient.trekThrottle = (trekClient.trekThrottle > -0.8f) ? (trekClient.trekThrottle - 0.2f) : -1.0f; //Imago matched orig values below - was 0.7 - 0.3 6/10 - cleaned up 7/10
+					trekClient.joyThrottle = false; //#116 7/10 Imago
+				}
+			}
+			break;
+
+			// end imago
 
             case TK_DebugTest1:
             case TK_DebugTest2:

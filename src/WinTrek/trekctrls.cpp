@@ -694,6 +694,16 @@ public:
                     }
                 }
             }
+
+		// BT - Added mousewheel support from R9
+		//Imago 8/14/09 mouse wheel #286 backing out Spunky
+		if (button == 8 && bDown) {
+			ScrollPageDown();
+		}
+		else if (button == 9 && bDown) {
+			ScrollPageUp();
+		}
+
         return Pane::Button(pprovider, point, button, bCaptured, bInside, bDown);
     }
 
