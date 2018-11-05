@@ -116,6 +116,7 @@
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
       <TreatWarningAsError />
+      <FloatingPointModel />
     </ClCompile>
     <Lib>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>

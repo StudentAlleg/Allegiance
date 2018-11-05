@@ -200,6 +200,7 @@
       <DebugInformationFormat />
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>FLAVOR=Retail;%(PreprocessorDefinitions)</PreprocessorDefinitions>

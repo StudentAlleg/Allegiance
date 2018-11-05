@@ -85,6 +85,7 @@
       <DebugInformationFormat />
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

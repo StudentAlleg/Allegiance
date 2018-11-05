@@ -157,6 +157,7 @@
       <DebugInformationFormat />
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

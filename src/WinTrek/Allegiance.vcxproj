@@ -207,6 +207,8 @@ xcopy $(ProjectDir)..\lib\FreeImage\FreeImage.dll $(OutDir) /s /d /y</Command>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel>
+      </FloatingPointModel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WINTREK;FLAVOR="$(Configuration)";%(PreprocessorDefinitions)</PreprocessorDefinitions>

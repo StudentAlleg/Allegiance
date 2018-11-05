@@ -160,6 +160,7 @@
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)training.lib</OutputFile>

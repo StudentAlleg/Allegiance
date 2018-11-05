@@ -168,6 +168,7 @@ xcopy $(ProjectDir)..\Inc\steam_appid.txt $(OutDir) /s /d /y</Command>
       <ErrorReporting>None</ErrorReporting>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>.\$(OutDir);.\$(OutDir)..\Guids;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

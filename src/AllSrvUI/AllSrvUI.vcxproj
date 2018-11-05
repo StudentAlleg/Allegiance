@@ -170,6 +170,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_AFXDLL;FLAVOR="$(Configuration)";%(PreprocessorDefinitions)</PreprocessorDefinitions>

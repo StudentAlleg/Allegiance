@@ -97,6 +97,7 @@
       <DisableSpecificWarnings>4244;4305;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FZDebug|Win32'">

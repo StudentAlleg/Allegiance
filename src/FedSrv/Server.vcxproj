@@ -219,6 +219,7 @@
       <DebugInformationFormat />
       <TreatWarningAsError />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>FLAVOR="$(Configuration)";FEDSRV;FEDMSG="$(OutDir)FedMsg.rc";%(PreprocessorDefinitions)</PreprocessorDefinitions>

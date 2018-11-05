@@ -181,6 +181,7 @@ xcopy $(ProjectDir)..\Inc\steam_appid.txt $(OutDir) /s /d /y</Command>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>FLAVOR="$(Configuration)";%(PreprocessorDefinitions)</PreprocessorDefinitions>

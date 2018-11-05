@@ -166,6 +166,7 @@
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat />
       <OmitFramePointers />
+      <FloatingPointModel />
     </ClCompile>
     <Lib>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
