@@ -2461,7 +2461,6 @@ void    CshipIGC::ExecuteShipMove(Time          timeStart,
         Vector  drag;
         {
             double   f = exp(-thrust * thrustToVelocity / maxSpeed);
-			//double   f = exp(double(double(-thrust) * double(thrustToVelocity) / (double)maxSpeed));  // mmf type cast changes  BBT reverted to MSoriginal
 
             //New velocity = old velocity * f
             //drag = thrust required to create this change in velocity
