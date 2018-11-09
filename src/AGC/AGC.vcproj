@@ -339,7 +339,7 @@
 				WarningLevel="3"
 				WarnAsError="false"
 				Detect64BitPortabilityProblems="false"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4018"
 				ShowIncludes="false"
 			/>
 			<Tool
