@@ -6,7 +6,7 @@
 #ifdef STEAM_APP_ID
 # include "atlenc.h"
 //# include <inttypes.h>
-#include "..\Inc\int_types.h"
+#include "..\Inc\int_types.h" //BBT
 #endif
 //////////////////////////////////////////////////////////////////////////////
 //

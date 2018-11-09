@@ -12,7 +12,7 @@ public:
     virtual Image*   GetImage() { return NULL; }
     virtual Pane*    GetPane()  { return NULL; }
     virtual WinPoint GetSize()  { return WinPoint(800, 600); }
-    virtual void     OnFrame()  {  }
+    virtual void     OnFrame()  {   } 
 };
 
 //////////////////////////////////////////////////////////////////////////////

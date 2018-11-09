@@ -25,6 +25,7 @@
 
 #include "treki.h"
 
+
 const float s_fMaxFOV = RadiansFromDegrees(50.0f);
 const float s_fDefaultFOV = RadiansFromDegrees(50.0f);
 const float s_fMinFOV = RadiansFromDegrees(5.0f);

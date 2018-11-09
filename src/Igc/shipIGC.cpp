@@ -2461,7 +2461,7 @@ void    CshipIGC::ExecuteShipMove(Time          timeStart,
         Vector  drag;
         {
             double   f = exp(-thrust * thrustToVelocity / maxSpeed);
-			//double   f = exp(double(double(-thrust) * double(thrustToVelocity) / (double)maxSpeed));  // mmf type cast changes - BBT Reverted to MS Original
+			//double   f = exp(double(double(-thrust) * double(thrustToVelocity) / (double)maxSpeed));  // mmf type cast changes  BBT reverted to MSoriginal
 
             //New velocity = old velocity * f
             //drag = thrust required to create this change in velocity
@@ -2477,7 +2477,7 @@ void    CshipIGC::ExecuteShipMove(Time          timeStart,
 
             if (afterburner)
             {
-                float   abThrust = afterburner->GetMaxThrust(); //TheRock 15-8-2009 - BBT was GetMaxThrustWithGA
+                float   abThrust = afterburner->GetMaxThrustWithGA(); //TheRock 15-8-2009
 				if (afterF) {
                     thrustRatio = abThrust / thrust;
 				}

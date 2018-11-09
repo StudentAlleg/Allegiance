@@ -317,7 +317,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				AdditionalIncludeDirectories="&quot;$(TargetDir)&quot;;..\Inc"
+				AdditionalIncludeDirectories="&quot;$(TargetDir)&quot;;..\Inc;..\AGC;.\$(OutDir)"
 				GenerateTypeLibrary="true"
 				TypeLibraryName="$(TargetDir)/AGC.tlb"
 				OutputDirectory="$(TargetDir)"
@@ -327,7 +327,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\AGC;..\ZLib;..\Igc;..\Inc;..\Test\Inc;&quot;$(OutDir)&quot;"
+				AdditionalIncludeDirectories="..\AGC;&quot;$(OutDir)\..\Guids&quot;;..\ZLib;..\Igc;..\Inc;..\Test\Inc;&quot;$(OutDir)&quot;"
 				PreprocessorDefinitions="SRVLOG;_ATL_STATIC_REGISTRY; _USRDLL;STRICT;_WINDOWS;WIN32;_AFXDLL"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -356,7 +356,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\AGCGuid.lib $(OutDir)\..\Test\TCLib\TCLib.lib $(OutDir)\..\ZLib\ZLib.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\igc\igc.lib version.lib Winmm.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib $(OutDir)\..\Test\TCLib\TCLib.lib $(OutDir)\AGCGuid.lib $(OutDir)\..\ZLib\ZLib.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\igc\igc.lib version.lib Winmm.lib wininet.lib"
 				ShowProgress="0"
 				SuppressStartupBanner="false"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"

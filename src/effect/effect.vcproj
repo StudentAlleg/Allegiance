@@ -248,7 +248,7 @@
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\SoundEngine;..\Inc;..\ZLib;..\engine"
-				PreprocessorDefinitions="_LIB;WIN32;_WINDOWS;STRICT;DIRECTINPUT_VERSION=0x0700"
+				PreprocessorDefinitions="STEAMSECURE;_LIB;WIN32;_WINDOWS;STRICT;DIRECTINPUT_VERSION=0x0700"
 				ExceptionHandling="0"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"

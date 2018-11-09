@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Allegiance"
 	ProjectGUID="{3702DB5A-C966-4133-824F-5958F4BF9BCF}"
 	RootNamespace="Allegiance"
@@ -126,7 +126,7 @@
 				InlineFunctionExpansion="0"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;..\..\FreeZoneAuth;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;"
-				PreprocessorDefinitions="USEAUTH;WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_WINDOWS;WIN32;AFXDLL"
+				PreprocessorDefinitions="STEAM_APP_ID=700480;USEAUTH;WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_WINDOWS;WIN32;AFXDLL"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -208,7 +208,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;"
-				PreprocessorDefinitions="WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_DEBUG;DEBUG;_WINDOWS;WIN32;AFXDLL"
+				PreprocessorDefinitions="_ALLOW_RTCc_IN_STL;STEAM_APP_ID=700480;WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_DEBUG;DEBUG;_WINDOWS;WIN32;AFXDLL"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="1"
 				RuntimeLibrary="3"
@@ -294,8 +294,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;"
-				PreprocessorDefinitions="WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_WINDOWS;WIN32;AFXDLL"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\Lib\AllegianceSecurity;..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;;&quot;$(OutDir)\..\Guids&quot;"
+				PreprocessorDefinitions="STEAM_APP_ID=700480;STEAMSECURE;WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_WINDOWS;WIN32;AFXDLL"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"
 				RuntimeTypeInfo="true"
@@ -320,7 +320,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames=""
@@ -382,6 +382,14 @@
 		</Filter>
 		<File
 			RelativePath="artwork.h"
+			>
+		</File>
+		<File
+			RelativePath="CallsignTagInfo.cpp"
+			>
+		</File>
+		<File
+			RelativePath="CallsignTagInfo.h"
 			>
 		</File>
 		<File
@@ -630,6 +638,14 @@
 		</File>
 		<File
 			RelativePath="SquadsScreen.cpp"
+			>
+		</File>
+		<File
+			RelativePath="SteamClans.cpp"
+			>
+		</File>
+		<File
+			RelativePath="SteamClans.h"
 			>
 		</File>
 		<File

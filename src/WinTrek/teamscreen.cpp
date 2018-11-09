@@ -21,6 +21,7 @@
 
 int g_civIDStart = -1;
 extern bool g_bDisableNewCivs;
+extern bool g_bAFKToggled; // Imago: Manual AFK toggle flag
 
 class TeamScreen :
     public Screen,
@@ -2484,7 +2485,6 @@ public:
             assert(false);
             return true;
         }
-
 
         UpdatePromptText();//KGJV #104 - extra debug
         // KGJV - #104

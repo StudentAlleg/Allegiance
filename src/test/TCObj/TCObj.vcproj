@@ -292,7 +292,8 @@
 				GenerateTypeLibrary="true"
 				TypeLibraryName=""
 				OutputDirectory="$(OutDir)"
-				HeaderFileName="$(InputName).h"
+				HeaderFileName="_dlldataX.h"
+				DLLDataFileName="_dlldataX.c"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"

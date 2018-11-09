@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="0"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="_AFXDLL;WIN32;_WINDOWS;STRICT;"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="2"
@@ -104,7 +104,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="_AFXDLL;WIN32;_WINDOWS;STRICT;_DEBUG;DEBUG"
 				BasicRuntimeChecks="1"
 				RuntimeLibrary="3"
@@ -167,7 +167,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="_AFXDLL;WIN32;_WINDOWS;STRICT;_DEBUG;DEBUG"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
@@ -232,7 +232,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="_AFXDLL;WIN32;_WINDOWS;STRICT"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"

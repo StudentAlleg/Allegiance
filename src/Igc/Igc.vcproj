@@ -238,13 +238,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../ZLib;../Guids;../_Utility"
+				AdditionalIncludeDirectories="../Lib/AllegianceSecurity;../ZLib;../Guids;../_Utility"
 				PreprocessorDefinitions="SRVLOG;_LIB;WIN32;_WINDOWS;STRICT"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
+				PrecompiledHeaderFile=""
 				Detect64BitPortabilityProblems="false"
 				DisableSpecificWarnings="4996"
 			/>
