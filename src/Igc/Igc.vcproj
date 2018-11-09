@@ -169,7 +169,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../ZLib;../Guids;../_Utility"
+				AdditionalIncludeDirectories="../Lib/AllegianceSecurity;../ZLib;../Guids;../_Utility"
 				PreprocessorDefinitions="WIN32;_WINDOWS;STRICT;DEBUG;_DEBUG;_AFXDLL"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"

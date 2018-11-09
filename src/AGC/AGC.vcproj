@@ -259,7 +259,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\AGCGuid.lib $(OutDir)\..\Test\TCLib\TCLib.lib $(OutDir)\..\ZLib\ZLib.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\igc\igc.lib version.lib Winmm.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib $(OutDir)\..\Test\TCLib\TCLib.lib $(OutDir)\AGCGuid.lib $(OutDir)\..\ZLib\ZLib.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\igc\igc.lib version.lib Winmm.lib wininet.lib"
 				ShowProgress="0"
 				SuppressStartupBanner="false"
 				ModuleDefinitionFile="AGC.def"

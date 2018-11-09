@@ -235,7 +235,7 @@
 				PrecompiledHeaderFile="vorbis_static.pch"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4244;4305"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

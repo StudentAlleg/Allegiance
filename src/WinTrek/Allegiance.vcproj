@@ -207,7 +207,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\Effect;..\Engine;..\ZLib;..\_Utility;..\Igc;..\clintlib;..\SoundEngine;..\agc;..\FedSrv;..\Training;..\lobby;..\Inc;..\guids;..\Zone;&quot;$(OutDir)\..\AGC&quot;;&quot;$(OutDir)\..\FedSrv&quot;"
 				PreprocessorDefinitions="_ALLOW_RTCc_IN_STL;STEAM_APP_ID=700480;WINTREK;igc_static;IGC_SHIP;_USRDLL;DLL;DIRECTINPUT_VERSION=0x0700;_DEBUG;DEBUG;_WINDOWS;WIN32;AFXDLL"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="1"
@@ -236,7 +236,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib"
 				GenerateDebugInformation="true"
 				GenerateMapFile="true"
 				SubSystem="2"

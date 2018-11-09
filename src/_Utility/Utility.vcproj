@@ -167,7 +167,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Lib\Steam;..\..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
+				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="_AFXDLL;WIN32;_WINDOWS;STRICT;_DEBUG;DEBUG"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
