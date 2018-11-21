@@ -1,0 +1,2654 @@
+<samples> 
+<sample>
+	<name>AntiAlias</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[Multisampling attempts to reduce aliasing by mimicking a higher resolution display; multiple sample points are used to determine each pixel's color. This sample shows how the various multisampling techniques supported by your video card affect the scene's rendering. Although multisampling effectively combats aliasing, under particular situations it can introduce visual artifacts of its own. As illustrated by the sample, centroid sampling seeks to eliminate one common type of multisampling artifact. Support for centroid sampling is supported under Pixel Shader 2.0 in the latest version of the DirectX runtime.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\AntiAlias\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>AntiAlias.exe</exe>
+  	<readme>readme.htm</readme>  	     
+	<screenshot>AntiAlias.gif</screenshot>
+  	<projectfile6></projectfile6>
+	<projectfile7>AntiAlias.sln</projectfile7>
+	<install>
+	</install>
+	<language>C++</language>
+	<complexity>500</complexity>
+	<keywords>
+		<keyword>Aliasing</keyword>
+		<keyword>Jaggies</keyword>
+		<keyword>Multisample</keyword>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>BasicHLSL</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows a simple example of the High-Level Shader Language (HLSL) using the effect interface.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\BasicHLSL\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>BasicHLSL.exe</exe>
+	<screenshot>BasicHLSL.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/basichlsl.htm</doc>  	     
+	<projectfile6>BasicHLSL.dsw</projectfile6>
+	<projectfile7>BasicHLSL.sln</projectfile7>
+	<install>
+		<media>Tiny</media>
+	</install>
+	<language>C++</language>
+	<complexity>50</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>Blobs</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample mimics a metaball effect in screen space using a pixel shader. True metaball techniques deform meshes according to pushing or pulling modifiers, and are commonly used to model liquid effects like the merging of water droplets; however, metaball effects can be computationally expensive, and this sample shows how to fake a 3D metaball effect in 2D image space using a pixel shader.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\Blobs\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>Blobs.exe</exe>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/blobs.htm</doc>  	     
+	<screenshot>Blobs.jpg</screenshot>
+  	<projectfile6>Blobs.dsw</projectfile6>
+	<projectfile7>Blobs.sln</projectfile7>
+	<install>
+		<media>Lobby\LobbyCube.dds</media>
+	</install>
+	<language>C++</language>
+	<complexity>1500</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>CompiledEffect</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows how an ID3DXEffect object can be compiled when the project is built and loaded directly as a binary file at runtime.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\CompiledEffect\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<screenshot>CompiledEffect.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/compiledeffect.htm</doc>  	     
+	<projectfile6>CompiledEffect.dsw</projectfile6>
+	<projectfile7>CompiledEffect.sln</projectfile7>
+	<install>
+		<media>Dwarf</media>
+	</install>
+	<language>C++</language>
+	<complexity>700</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>ID3DXEffect</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>ConfigSystem</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The sample is a demonstration of a database-driven application configuration system.  Device capabilities exposed by drivers are not always correct or provide acceptable performance.  A configuration database stores a list of devices and custom, application-defined overrides to apply for each of the devices.  This allows developers to fine-tune what features to use with any device to the greatest extent.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\ConfigSystem\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>ConfigSystem.exe</exe>
+  	<readme>readme.htm</readme>  	     
+	<screenshot>ConfigSystem.jpg</screenshot>
+	<projectfile7>ConfigSystem.sln</projectfile7>
+	<install>
+		<media>Misc\cell.x</media>
+		<media>Misc\cellceiling.jpg</media>
+		<media>Misc\cellfloor.jpg</media>
+		<media>Misc\cellwall.jpg</media>
+	</install>
+	<language>C++</language>
+	<complexity>800</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirectSound</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>CustomUI</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample showcases the user interface features of the Direct3D sample framework.  The sample framework provides UI controls that applications can readily use.  The supported controls include buttons, radio buttons, check boxes, combo boxes, edit boxes, sliders, and edit boxes with Input Method Editor (IME) functionality.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\CustomUI\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>CustomUI.exe</exe>
+	<screenshot>CustomUI.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/customui.htm</doc>  	     
+	<projectfile6>CustomUI.dsw</projectfile6>
+	<projectfile7>CustomUI.sln</projectfile7>
+	<install>
+		<media>misc\cell.x</media>
+	</install>
+	<language>C++</language>
+	<complexity>800</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>DepthOfField</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows a technique for creating a depth-of-field effect with Direct3D, in which objects are only in focus at a given distance from the camera, and are out of focus at other distances.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\DepthOfField\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>DepthOfField.exe</exe>
+	<screenshot>DepthOfField.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/depthoffield.htm</doc>  	     
+	<projectfile6>DepthOfField.dsw</projectfile6>
+	<projectfile7>DepthOfField.sln</projectfile7>
+	<install>
+		<media>Tiger</media>
+		<media>Misc\sphere.x</media>
+		<media>Earth\earth.bmp</media>
+	</install>
+	<language>C++</language>
+	<complexity>2530</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>EffectParam</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows two features in the Direct3D Extension effect framework: parameter blocks and parameter sharing. Parameter blocks group multiple Setxxx() calls and associate them with an effect handle, allowing an application to easily set those parameters contained in the block with a single API call. Parameter sharing lets parameters in multiple effect objects stay synchronized, so that when an application updates a parameter in one effect object, the corresponding parameter in all other effect objects are updated.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\EffectParam\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>EffectParam.exe</exe>
+	<screenshot>EffectParam.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/effectparam.htm</doc>  	     
+	<projectfile6>EffectParam.dsw</projectfile6>
+	<projectfile7>EffectParam.sln</projectfile7>
+	<install>
+		<media>Lobby\LobbyCube.dds</media>
+		<media>Lobby\lobby_skybox.x</media>
+	</install>
+	<language>C++</language>
+	<complexity>1000</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>ID3DXEffect</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>EmptyProject</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[Starting point for a new Direct3D application]]>
+	</description>
+	<folder>Samples\C++\Direct3D\EmptyProject\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>EmptyProject.exe</exe>
+	<screenshot>EmptyProject.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/emptyproject.htm</doc>  	     
+	<projectfile7>EmptyProject.sln</projectfile7>
+	<install/>
+	<language>C++</language>
+	<complexity>50</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>EnhancedMesh</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea>Meshes</dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The EnhancedMesh sample shows how to use D3DX to load and enhance a mesh. The mesh is enhanced by increasing the vertex count.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\EnhancedMesh\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>EnhancedMesh.exe</exe>
+	<screenshot>EnhancedMesh.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/enhancedmesh.htm</doc>  	     
+	<projectfile6>EnhancedMesh.dsw</projectfile6>
+	<projectfile7>EnhancedMesh.sln</projectfile7>
+	<install/>
+	<language>C++</language>
+	<complexity>1100</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>FragmentLinker</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows how to use the ID3DXFragmentLinker interface. Shader source code can be split into a series of shader fragments, which are compiled separately and linked together to form a complete shader; this linking stage is very efficient, making it suitable for runtime use. In this way a Direct3D application can custom-build an appropriate shader for the current graphics card. 
+]]>
+	</description>
+	<folder>Samples\C++\Direct3D\FragmentLinker\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>FragmentLinker.exe</exe>
+	<screenshot>FragmentLinker.gif</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/fragmentlinker.htm</doc>  	     
+	<projectfile6>FragmentLinker.dsw</projectfile6>
+	<projectfile7>FragmentLinker.sln</projectfile7>
+	<install>
+		<media>Dwarf</media>
+		<reserved>ID3DXFragmentLinker</reserved>
+		<reserved>D3DXCreateFragmentLinker</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>1200</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>HDRCubeMap</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates cubic environment-mapping with floating-point cube textures and high dynamic range lighting. DirectX 9.0's new floating-point textures can store color values higher than 1.0, which can make lighting effects more realistic on the environment-mapped geometry when the material absorbs part of the light. Note that not all cards support all features for the environment-mapping and high dynamic range lighting techniques.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\HDRCubeMap\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>HDRCubeMap.exe</exe>
+	<screenshot>HDRCubeMap.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/hdrcubemap.htm</doc>  	     
+	<projectfile6>HDRCubeMap.dsw</projectfile6>
+	<projectfile7>HDRCubeMap.sln</projectfile7>
+	<install>
+		<media>Misc\car.x</media>
+		<media>Misc\env2.bmp</media>
+		<media>Misc\floor.bmp</media>
+		<media>Misc\ground2.bmp</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\skullocc.x</media>
+		<media>Misc\sphere0.x</media>
+		<media>Misc\teapot.x</media>
+		<media>Airplane</media>
+	</install>
+	<language>C++</language>
+	<complexity>1750</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>IDirect3DCubeTexture9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>HDRFormats</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[High dynamic range lighting effects require the ability to work with color values beyond the 0 to 255 range, usually by storing high range color data in textures. Floating point texture formats are the natural choice for HDR applications, but may not be available on all target systems. This sample shows how high dynamic range data can be encoded into integer formats for compatibility across a wide range of devices.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\HDRFormats\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>HDRFormats.exe</exe>
+	<screenshot>HDRFormats.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/hdrformats.htm</doc>  	     
+	<projectfile6>HDRFormats.dsw</projectfile6>
+	<projectfile7>HDRFormats.sln</projectfile7>
+	<install>
+		<media>Misc\teapot.x</media>
+        <media>Light Probes\uffizi_cross.dds</media>
+	</install>
+	<language>C++</language>
+	<complexity>2100</complexity>
+<visible>true</visible></sample>
+<sample>
+	<name>HDRLighting</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates some high dynamic range lighting effects using floating point textures. Integer texture formats have a limited range of discrete values, which results in lost color information under dynamic lighting conditions; conversely, floating point formats can store very small or very large color values, including values beyond the displayable 0.0 to 1.0 range. This flexibility allows for dynamic lighting effects, such as blue-shifting under low lighting and blooming under intense lighting. This sample also employs a simple light adaptation model, under which the camera is momentarily over-exposed or under-exposed to changing light conditions.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\HDRLighting\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>HDRLighting.exe</exe>
+	<screenshot>HDRLighting.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/hdrlighting.htm</doc>  	     
+	<projectfile6>HDRLighting.dsw</projectfile6>
+	<projectfile7>HDRLighting.sln</projectfile7>
+	<install>
+		<media>Misc\env2.bmp</media>
+		<media>Misc\ground2.bmp</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\env3.bmp</media>
+		<media>Misc\sphere0.x</media>
+	</install>
+	<language>C++</language>
+	<complexity>2900</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>HLSLwithoutEffects</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description><![CDATA[This sample shows some of the effects that can be achieved using vertex shaders written in Microsoft Direct3D's High-Level Shader Language (HLSL). HLSL shaders have C-like syntax and constructs, such as functions, expressions, statements, and data types. A vertex shader looks very similar to a C function, and is executed by the 3D device once per every vertex processed to affect the properties of the vertex.  Note that not all cards may support all the various features vertex shaders.  For more information on vertex shaders, refer to the DirectX SDK documentation.]]></description>
+  <folder>Samples\C++\Direct3D\HLSLwithoutEffects\</folder>
+  <exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+  <exe>HLSLwithoutEffects.exe</exe>
+  <screenshot>HLSLwithoutEffects.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/hlslwithouteffects.htm</doc>  	     
+  <projectfile6>HLSLwithoutEffects.dsw</projectfile6>
+  <projectfile7>HLSLwithoutEffects.sln</projectfile7>
+  <install/>
+  <language>C++</language>
+  <complexity>170</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+	<name>Instancing</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates the new instancing feature available in DirectX 9.0c and shows alternate ways of achieving results similar to hardware instancing.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\Instancing\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>Instancing.exe</exe>
+	<screenshot>Instancing.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/Instancing.htm</doc>  	     
+	<projectfile6>Instancing.dsw</projectfile6>
+	<projectfile7>Instancing.sln</projectfile7>
+    <install>
+	</install>
+    <language>C++</language>
+	<complexity>650</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample new="true">
+	<visible>true</visible>
+	<name>LocalDeformablePRT</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates a simple usage of Local-deformable precomputed radiance transfer (LDPRT). This implementation does not require an offline simulator for calculating PRT coefficients; instead, the coefficients are calculated from a 'thickness' texture. This allows an artist to create and tweak sub-surface scattering PRT data in an intuitive way.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\LocalDeformablePRT\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>LocalDeformablePRT.exe</exe>
+	<screenshot>LocalDeformablePRT.jpg</screenshot>
+  	<projectfile7>LocalDeformablePRT_2003.sln</projectfile7>
+	<install>
+		<media>Light Probes\rnl_cross.dds</media>
+	</install>
+	<language>C++</language>
+	<complexity>2000</complexity>
+	<keywords>
+		<keyword>LDPRT</keyword>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+</sample>
+<sample>
+	<name>MeshFromOBJ</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows how an ID3DXMesh object can be created from mesh data stored in a Wavefront Object file (.obj). It's convenient to use X-Files (.x) when working with ID3DXMesh objects since D3DX can create and fill an ID3DXMesh object directly from an .x file; however, it's also easy to initialize an ID3DXMesh object with data gathered from any file format or memory resource. ]]>
+	</description>
+	<folder>Samples\C++\Direct3D\MeshFromOBJ\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>MeshFromOBJ.exe</exe>
+	<screenshot>MeshFromOBJ.gif</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/meshfromobj.htm</doc>  	     
+	<projectfile6>MeshFromOBJ.dsw</projectfile6>
+	<projectfile7>MeshFromOBJ.sln</projectfile7>
+	<install/>
+	<language>C++</language>
+	<complexity>1500</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>MultiAnimation</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates mesh animation with multiple animation sets using HLSL skinning and D3DX's animation controller. It shows how an application can render 3D animation by utilizing D3DX's animation support. D3DX has APIs that handles the loading of the animatable mesh, as well as the blending of multiple animations. The animation controller supports animation tracks for this purpose, and allows transitioning from one animation to another smoothly.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\MultiAnimation\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>MultiAnimation.exe</exe>
+	<screenshot>MultiAnimation.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/multianimation.htm</doc>  	     
+	<projectfile6>MultiAnimation.dsw</projectfile6>
+	<projectfile7>MultiAnimation.sln</projectfile7>
+	<install>
+		<media>Tiny\\Tiny_skin.bmp</media>
+	</install>
+	<language>C++</language>
+	<complexity>2700</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>ID3DXAnimationController</keyword>
+		<keyword>ID3DXAllocateHierarchy</keyword>
+		<keyword>ID3DXAnimationCallbackHandler</keyword>
+		<keyword>ID3DXAnimationSet</keyword>
+		<keyword>ID3DXCompressedAnimationSet</keyword>
+		<keyword>ID3DXSkinInfo</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>OptimizedMesh</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Meshes</dxsubarea>
+  <type>sample</type>
+  <description><![CDATA[The OptimizedMesh sample illustrates how to load and optimize a file-based mesh using the D3DX mesh utility functions.  For more info on D3DX, refer to the DirectX SDK documentation.]]></description>
+  <folder>Samples\C++\Direct3D\OptimizedMesh\</folder>
+  <exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+  <exe>OptimizedMesh.exe</exe>
+  <screenshot>OptimizedMesh.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/optimizedmesh.htm</doc>  	     
+  <projectfile6>OptimizedMesh.dsw</projectfile6>
+  <projectfile7>OptimizedMesh.sln</projectfile7>
+  <install/>
+  <language>C++</language>
+  <complexity>1110</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+	<name>PixelMotionBlur</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows how to do a motion blur effect using floating point textures and multiple render targets.  The first pass renders the scene to the first render target and writes the velocity of each pixel to the second render target.  Then it renders a full screen quad and uses a pixel shader to look up the velocity of that pixel and blurs the pixel based on the velocity.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\PixelMotionBlur\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>PixelMotionBlur.exe</exe>
+	<screenshot>PixelMotionBlur.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/PixelMotionBlur.htm</doc>  	     
+	<projectfile6>PixelMotionBlur.dsw</projectfile6>
+	<projectfile7>PixelMotionBlur.sln</projectfile7>
+	<install>
+		<media>Earth\earth.bmp</media>
+		<media>Misc\env2.bmp</media>
+		<media>Misc\floor.bmp</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\sphere.x</media>
+	</install>
+	<language>C++</language>
+	<complexity>2530</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>PostProcess</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates some interesting image-processing effects that can be achieved interactively. Traditionally, image-processing takes a significant amount of processor power on the host CPU, and is usually done offline. With pixel shaders, these effects can now be performed on the 3D hardware more efficiently, allowing them to be applied in real-time.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\PostProcess\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>PostProcess.exe</exe>
+	<screenshot>PostProcess.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/PostProcess.htm</doc>  	     
+	<projectfile6>PostProcess.dsw</projectfile6>
+	<projectfile7>PostProcess.sln</projectfile7>
+	<install>
+		<media>Misc\skullocc.x</media>
+		<media>Dwarf</media>
+	</install>
+	<language>C++</language>
+	<complexity>2530</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>ProgressiveMesh</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Meshes</dxsubarea>
+  <type>sample</type>
+  <description><![CDATA[The ProgressiveMesh sample illustrates how to load and optimize a file-based mesh using the D3DX mesh utility functions.  A progressive mesh is one in which the vertex information is stored internally in a special tree which can be accessed to render the mesh with any given number of vertices.  This procedure is fast, so progressive meshes are ideal for level-of-detail scenarios, where objects in the distance are rendered with fewer polygons.  For more info on D3DX, refer to the DirectX SDK documentation.]]></description>
+  <folder>Samples\C++\Direct3D\ProgressiveMesh\</folder>
+  <exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+  <exe>ProgressiveMesh.exe</exe>
+  <screenshot>ProgressiveMesh.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/ProgressiveMesh.htm</doc>  	     
+  <projectfile6>ProgressiveMesh.dsw</projectfile6>
+  <projectfile7>ProgressiveMesh.sln</projectfile7>
+  <install/>
+  <language>C++</language>
+  <complexity>1120</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+    <keyword>ID3DXMesh</keyword>
+    <keyword>ID3DXPMesh</keyword>
+  </keywords>
+<visible>true</visible></sample><sample updated="true">
+	<visible>true</visible>
+	<name>PRTDemo</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample features several scenes which compare precomputed radiance transfer (PRT) implementations against the standard lighting equations.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\PRTDemo\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>PRTDemo.exe</exe>
+	<screenshot>PRTDemo.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/PRTDemo.htm</doc>  	     
+	<projectfile6>PRTDemo.dsw</projectfile6>
+	<projectfile7>PRTDemo.sln</projectfile7>
+	<install>
+		<media>Tiny</media>
+	</install>
+	<language>C++</language>
+	<complexity>50</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+</sample>
+<sample>
+	<name>Scripting</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The sample demonstrates one technique to use C# as a scripting engine for your unmanaged applications .]]>
+	</description>
+	<folder>Samples\Managed\Direct3D\Scripting\</folder>
+	<exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+	<exe>Scripting.exe</exe>
+	<screenshot>Scripting.jpg</screenshot>
+	<readme>readme.htm</readme>
+	<projectfile7>Scripting.sln</projectfile7>
+	<install>
+		<additional src="..\..\..\C++\Common" dest="Common" />
+		<media>Misc\seafloor.x</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\sphere0.x</media>
+		<media>Airplane</media>
+		<media>Misc\cell.x</media>
+		<media>Misc\cellceiling.jpg</media>
+		<media>Misc\cellfloor.jpg</media>
+		<media>Misc\cellwall.jpg</media>
+		<media>Dwarf</media>
+	</install>
+	<language>C++</language>
+	<complexity>500</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>C#</keyword>
+		<keyword>Scripting</keyword>
+		<keyword>Managed</keyword>
+	</keywords>
+<visible>true</visible></sample><sample>
+	<name>ShadowMap</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates one popular shadow technique called shadow mapping. A shadow map, in the form of a floating-point texture, is written with depth information of the scene as if the camera is looking out from the light. Then, the shadow map is project onto the scene during rendering. The depth values in the scene are compared with those in the shadow map. If they do not match for a particular pixel, then that pixel is in shadow. This approach allows very efficient real-time shadow casting.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\ShadowMap\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>ShadowMap.exe</exe>
+	<screenshot>ShadowMap.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/ShadowMap.htm</doc>  	     
+	<projectfile6>ShadowMap.dsw</projectfile6>
+	<projectfile7>ShadowMap.sln</projectfile7>
+	<install>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\sphere.x</media>
+		<media>Airplane</media>
+		<media>Misc\car.x</media>
+		<media>Misc\env2.bmp</media>
+		<media>Misc\floor.bmp</media>
+		<media>Misc\ground2.bmp</media>
+	</install>
+	<language>C++</language>
+	<complexity>1200</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>ShadowVolume</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The sample demonstrates one common technique for rendering real-time shadows called shadow volumes. The shadows in the sample work by extruding faces of the occluding geometry that are facing away from light to form a volume that represents the shadowed area in 3D space and utilizing the stencil buffer of the 3D device. Stencil buffer is a buffer that can be updated as geometry is rendered, and then used as a mask for rendering additional geometry. Common stencil effects include mirrors, shadows (an advanced technique), and dissolves.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\ShadowVolume\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>ShadowVolume.exe</exe>
+	<screenshot>ShadowVolume.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/ShadowVolume.htm</doc>  	     
+	<projectfile6>ShadowVolume.dsw</projectfile6>
+	<projectfile7>ShadowVolume.sln</projectfile7>
+	<install>
+		<media>Misc\seafloor.x</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\sphere0.x</media>
+		<media>Airplane</media>
+		<media>Misc\cell.x</media>
+		<media>Misc\cellceiling.jpg</media>
+		<media>Misc\cellfloor.jpg</media>
+		<media>Misc\cellwall.jpg</media>
+		<media>Dwarf</media>
+	</install>
+	<language>C++</language>
+	<complexity>1300</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>SkinnedMesh</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea>Meshes</dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The SkinnedMesh sample shows how to use D3DX to load and display a skinned mesh.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\SkinnedMesh\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>SkinnedMesh.exe</exe>
+	<screenshot>SkinnedMesh.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/SkinnedMesh.htm</doc>  	     
+	<projectfile6>SkinnedMesh.dsw</projectfile6>
+	<projectfile7>SkinnedMesh.sln</projectfile7>
+	<install>
+		<reserved>UpdateSkinnedMesh</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>2500</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>StateManager</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows an example implementation of the ID3DXEffectStateManager interface. This inteface can be used to implement custom state-change handling for the D3DX Effects system.]]>
+	</description>
+	<folder>Samples\C++\Direct3D\StateManager\</folder>
+	<exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+	<exe>StateManager.exe</exe>
+	<screenshot>StateManager.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/statemanager.htm</doc>  	     
+	<projectfile6>StateManager.dsw</projectfile6>
+	<projectfile7>StateManager.sln</projectfile7>
+	<install>
+		<reserved>D3DXEffectStateManager</reserved>
+      		<reserved>SetStateManager</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>1200</complexity>
+	<keywords>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>Text3D</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Text3D sample shows how to draw 2D text and 3D text in a 3D scene.  This is most useful for display stats, in game menus, etc.]]></description>
+  <folder>Samples\C++\Direct3D\Text3D\</folder>
+  <exefolder>Samples\C++\Direct3D\Bin\</exefolder>
+  <exe>Text3D.exe</exe>
+  <screenshot>Text3D.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/Text3D.htm</doc>
+  <projectfile6>Text3D.dsw</projectfile6>
+  <projectfile7>Text3D.sln</projectfile7>
+  <install/>
+  <language>C++</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+	<name>HLSL Workshop</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>tutorial</type>
+	<description>
+	<![CDATA[This series of guided lessons is derived from the HLSL Workshop presented at the Game Developers Conference 2003. The lessons are divided into four .fx files containing near-complete HLSL code, each of which requires the student to add the missing code needed to implement the target graphics techinque for that lesson. This workshop format is intended to give you an opportunity to experiment with the power and flexibility of HLSL with only a minimal knowledge of HLSL syntax. ]]>
+	</description>
+	<folder>Samples\C++\Direct3D\tutorials\HLSLWorkshop\</folder>
+	<screenshot>HLSLWorkshop.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/hlslworkshop/hlslworkshop.htm</doc>
+    <install/>
+	<language>C++</language>
+	<complexity>700</complexity>
+	<keywords>
+		<keyword>HLSL</keyword>
+		<keyword>High-Level Shader Language</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>Tutorial 1: CreateDevice</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The CreateDevice tutorial is the first tutorial for using the new Direct3D interfaces for DirectX 9.  It shows how to create a Direct3DDevice9 object.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut01_CreateDevice\</folder>
+  <screenshot>Tut01_CreateDevice.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/1/tutorial1.htm</doc>
+  <projectfile6>CreateDevice.dsw</projectfile6>
+  <projectfile7>CreateDevice.sln</projectfile7>
+  <install name="CreateDevice" common="false">
+    <reserved>CreateDevice(</reserved>
+  </install>
+  <language>C++</language>
+  <complexity>11</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 2: Vertices</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The Vertices tutorial demonstrates the necessary API to render vertices using Direct3D.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut02_Vertices\</folder>
+  <screenshot>Tut02_Vertices.jpg</screenshot>
+<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/2/tutorial2.htm</doc>
+  <projectfile6>Vertices.dsw</projectfile6>
+  <projectfile7>Vertices.sln</projectfile7>
+  <install name="Vertices" common="false" />
+  <language>C++</language>
+  <complexity>12</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 3: Matrices</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The Matrices tutorial shows how to use 4x4 matrices to transform vertices in Direct3D.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut03_Matrices\</folder>
+  <screenshot>Tut03_Matrices.jpg</screenshot>
+<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/3/tutorial3.htm</doc>
+  <projectfile6>Matrices.dsw</projectfile6>
+  <projectfile7>Matrices.sln</projectfile7>
+  <install name="Matrices" common="false" />
+  <language>C++</language>
+  <complexity>13</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 4: Lights</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The Lights tutorial shows how to use dynamic lighting in Direct3D.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut04_Lights\</folder>
+  <screenshot>Tut04_Lights.jpg</screenshot>
+<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/4/tutorial4.htm</doc>
+  <projectfile6>Lights.dsw</projectfile6>
+  <projectfile7>Lights.sln</projectfile7>
+  <install name="Lights" common="false" />
+  <language>C++</language>
+  <complexity>14</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 5: Textures</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The Textures tutorial shows how to use texture mapping in Direct3D.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut05_Textures\</folder>
+  <screenshot>Tut05_Textures.jpg</screenshot>
+<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/5/tutorial5.htm</doc>
+  <projectfile6>Textures.dsw</projectfile6>
+  <projectfile7>Textures.sln</projectfile7>
+  <install name="Textures" common="false">
+    <reserved>SetTextureStageState</reserved>
+  </install>
+  <language>C++</language>
+  <complexity>15</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 6: Meshes</name>
+  <dxarea>Direct3D</dxarea>
+  <dxsubarea>Tutorials</dxsubarea>
+  <type>tutorial</type>
+  <description><![CDATA[The Mesh tutorial shows how to load and render file-based geometry meshes in Direct3D.]]></description>
+  <folder>Samples\C++\Direct3D\Tutorials\Tut06_Meshes\</folder>
+  <screenshot>Tut06_Meshes.jpg</screenshot>
+<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/tutorials/direct3dtutorials/6/tutorial6.htm</doc>
+  <projectfile6>Meshes.dsw</projectfile6>
+  <projectfile7>Meshes.sln</projectfile7>
+  <install name="Meshes" common="false" />
+  <language>C++</language>
+  <complexity>16</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>CustomFormat</name>
+  <dxarea>DirectInput</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The CustomFormat sample illustrates the use of a custom data format.]]></description>
+  <folder>Samples\C++\DirectInput\CustomFormat\</folder>
+  <exefolder>Samples\C++\DirectInput\Bin\</exefolder>
+  <exe>CustomFormat.exe</exe>
+  <screenshot>CustomFormat.gif</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/input/samps/customformatsample.htm</doc>
+  <projectfile6>CustomFormat.dsw</projectfile6>
+  <projectfile7>CustomFormat.sln</projectfile7>
+  <install common="false" />
+  <language>C++</language>
+  <complexity>1100</complexity>
+  <keywords>
+    <keyword>CustomFormat</keyword>
+    <keyword>data</keyword>
+    <keyword>format</keyword>
+    <keyword>IDirectInput8</keyword>
+    <keyword>SetDataFormat</keyword>
+    <keyword>DIDATAFORMAT</keyword>
+  </keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>FFConst</name>
+	<dxarea>DirectInput</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description><![CDATA[The FFConst sample applies raw forces to a force feedback input device, illustrating how a simulator-type application can use force feedback to generate forces computed by a physics engine. You must have a force feedback device connected to your system in order to run the application.]]></description>
+	<folder>Samples\C++\DirectInput\FFConst\</folder>
+	<exefolder>Samples\C++\DirectInput\Bin\</exefolder>
+	<exe>FFConst.exe</exe>
+	<screenshot>FFConst.gif</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/input/samps/ffconstsample.htm</doc>
+	<projectfile6>FFConst.dsw</projectfile6>
+		<projectfile7>FFConst.sln</projectfile7>
+	
+	<install common="false" />
+	<language>C++</language>
+	<complexity>1110</complexity>
+	<keywords>
+		<keyword>FFConst</keyword>
+		<keyword>force</keyword>
+		<keyword>feedback</keyword>
+		<keyword>effect</keyword>
+		<keyword>IDirectInput8</keyword>
+		<keyword>IDirectInputEffect</keyword>
+		<keyword></keyword>
+	</keywords>
+<visible>true</visible></sample>
+
+<sample>
+	<name>Joystick</name>
+	<dxarea>DirectInput</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description><![CDATA[The Joystick sample obtains and displays joystick data.]]></description>
+	<folder>Samples\C++\DirectInput\Joystick\</folder>
+	<exefolder>Samples\C++\DirectInput\Bin\</exefolder>
+	<exe>Joystick.exe</exe>
+	<screenshot>Joystick.gif</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/input/samps/joysticksample.htm</doc>
+	<projectfile6>Joystick.dsw</projectfile6>
+		<projectfile7>Joystick.sln</projectfile7>
+	
+	<install common="false">
+		<reserved>DIJOYSTICK</reserved>	
+		<reserved>EnumJoysticks</reserved>
+		<reserved>g_pJoystick</reserved>
+		<reserved>Joystick not found</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>110</complexity>
+	<keywords>
+		<keyword>Joystick</keyword>
+		<keyword>IDirectInput8</keyword>
+		<keyword></keyword>
+	</keywords>
+<visible>true</visible></sample>
+
+<sample>
+	<name>Keyboard</name>
+	<dxarea>DirectInput</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description><![CDATA[The Keyboard sample obtains and displays keyboard data.]]></description>
+	<folder>Samples\C++\DirectInput\Keyboard\</folder>
+	<exefolder>Samples\C++\DirectInput\Bin\</exefolder>
+	<exe>Keyboard.exe</exe>
+	<screenshot>Keyboard.gif</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/input/samps/keyboardsample.htm</doc>
+	<projectfile6>Keyboard.dsw</projectfile6>
+		<projectfile7>Keyboard.sln</projectfile7>
+	
+	<install common="false">
+		<reserved>DIKEYBOARD</reserved>
+		<reserved>g_pKeyboard</reserved>
+		<reserved>GUID_SysKeyboard</reserved>
+		<reserved>Keyboard device</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>120</complexity>
+	<keywords>
+		<keyword>Keyboard</keyword>
+		<keyword>IDirectInput8</keyword>
+		<keyword></keyword>
+	</keywords>
+<visible>true</visible></sample>
+
+<sample>
+	<name>Mouse</name>
+	<dxarea>DirectInput</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description><![CDATA[The Mouse sample obtains and displays mouse data.]]></description>
+	<folder>Samples\C++\DirectInput\Mouse\</folder>
+	<exefolder>Samples\C++\DirectInput\Bin\</exefolder>
+	<exe>Mouse.exe</exe>
+	<screenshot>Mouse.gif</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/input/samps/mousesample.htm</doc>
+	<projectfile6>Mouse.dsw</projectfile6>
+		<projectfile7>Mouse.sln</projectfile7>
+	
+	<install common="false">
+		<reserved>DIMOUSE</reserved>
+		<reserved>g_pMouse</reserved>
+		<reserved>GUID_SysMouse</reserved>
+	</install>
+	<language>C++</language>
+	<complexity>130</complexity>
+	<keywords>
+		<keyword>Mouse</keyword>
+		<keyword>IDirectInput8</keyword>
+		<keyword></keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>AdjustSound</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The AdjustSound sample shows how to create a DirectSound secondary buffer to play a WAV file, and how to change the parameters of the buffer.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\AdjustSound\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>AdjustSound.exe</exe> 
+  <screenshot>AdjustSound.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/adjustsoundsample.htm</doc> 
+  <projectfile6>AdjustSound.dsw</projectfile6> 
+  <projectfile7>AdjustSound.sln</projectfile7>
+  <install /> 
+  <language>C++</language> 
+  <complexity>1110</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>AmplitudeModulation</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The AmplitudeModulation sample shows how to play a wave file in a DirectSound secondary buffer.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\AmplitudeModulation\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>AmplitudeModulation.exe</exe> 
+  <screenshot>AmplitudeModulation.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/AmplitudeModulationsample.htm</doc> 
+  <projectfile6>AmplitudeModulation.dsw</projectfile6> 
+  <projectfile7>AmplitudeModulation.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>1100</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>CaptureSound</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The CaptureSound application shows how to capture waveforms to a file.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\CaptureSound\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>CaptureSound.exe</exe> 
+  <screenshot>CaptureSound.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/CaptureSoundsample.htm</doc> 
+  <projectfile6>CaptureSound.dsw</projectfile6> 
+  <projectfile7>CaptureSound.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>120</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Enumerate DirectSound Devices</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The Enumerate DirectSound Devices sample shows how to enumerate and create playback and capture devices.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\EnumDevices\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>EnumDevices.exe</exe> 
+  <screenshot>EnumDevices.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/enumeratedirectsounddevicessample.htm</doc> 
+  <projectfile6>EnumDevices.dsw</projectfile6> 
+  <projectfile7>EnumDevices.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>100</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>FullDuplexFilter</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The Full Duplex Filter sample application shows how to capture and play back sounds at the same time.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\FullDuplexFilter\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>FullDuplexFilter.exe</exe> 
+  <screenshot>FullDuplexFilter.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/FullDuplexFiltersample.htm</doc> 
+  <projectfile6>FullDuplexFilter.dsw</projectfile6> 
+  <projectfile7>FullDuplexFilter.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>2110</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Play3DSound</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The Play 3D Sound sample shows how to create a 3-D sound buffer and manipulate its properties. It is similar to the 3D Audio Sample but uses only the DirectSound API.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\Play3DSound\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>Play3DSound.exe</exe> 
+  <screenshot>Play3DSound.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/Play3DSoundsample.htm</doc> 
+  <projectfile6>Play3DSound.dsw</projectfile6> 
+  <projectfile7>Play3DSound.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>1120</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>PlaySound</name> 
+  <dxarea>DirectSound</dxarea> 
+  <dxsubarea /> 
+  <type>sample</type> 
+  <description>
+  <![CDATA[The PlaySound sample shows how to play a wave file in a DirectSound secondary buffer.]]> 
+  </description>
+  <folder>Samples\C++\DirectSound\PlaySound\</folder> 
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder> 
+  <exe>PlaySound.exe</exe> 
+  <screenshot>playsound.gif</screenshot> 
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/playsoundsample.htm</doc> 
+  <projectfile6>PlaySound.dsw</projectfile6> 
+  <projectfile7>PlaySound.sln</projectfile7> 
+  <install />
+  <language>C++</language> 
+  <complexity>110</complexity> 
+  <keywords>
+  <keyword>IDirectSound</keyword> 
+  <keyword>IDirectSoundBuffer</keyword> 
+  <keyword>WAVEFORMATEX</keyword> 
+  <keyword>wav</keyword> 
+  <keyword>wave</keyword> 
+  <keyword /> 
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>SoundFX</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The SoundFX sample shows how to use DMOs with DirectSound and how to manipulate effect parameters.  It is similar to the DirectMusic AudioFX Sample but does not use an audiopath or any of the DirectMusic interfaces.]]></description>
+  <folder>Samples\C++\DirectSound\SoundFX\</folder>
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder>
+  <exe>SoundFX.exe</exe>
+  <screenshot>SoundFX.gif</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/SoundFXsample.htm</doc>
+  <projectfile6>SoundFX.dsw</projectfile6>
+  <projectfile7>SoundFX.sln</projectfile7>
+  <install>
+    <reserved>DirectSoundFx</reserved>
+  </install>
+  <language>C++</language>
+  <complexity>2100</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>VoiceManagement</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Voice Management sample shows how to implement dynamic voice management when creating DirectSound secondary buffers.]]></description>
+  <folder>Samples\C++\DirectSound\VoiceManagement\</folder>
+  <exefolder>Samples\C++\DirectSound\Bin\</exefolder>
+  <exe>VoiceManagement.exe</exe>
+  <screenshot>VoiceManagement.gif</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/htm/VoiceManagementsample.htm</doc>
+  <projectfile6>VoiceManagement.dsw</projectfile6>
+  <projectfile7>VoiceManagement.sln</projectfile7>
+  <install />
+  <language>C++</language>
+  <complexity>1130</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>DxDiagOutput</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The DxDiagOutput sample shows how to use the DxDiag COM interface by enumerating every child container and enumerating the properties on each child container.]]></description>
+  <folder>Samples\C++\Misc\DxDiagOutput\</folder>
+  <exefolder>Samples\C++\Misc\Bin\</exefolder>
+  <exe>DxDiagOutput.exe</exe>
+  <screenshot>DxDiagOutput.jpg</screenshot>
+  <projectfile6>DxDiagOutput.dsw</projectfile6>
+  <projectfile7>DxDiagOutput.sln</projectfile7>
+  <install common="false" />
+  <language>C++</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>DxDiagOutput</keyword>
+  </keywords>
+  <dxsubarea />
+<visible>true</visible></sample><sample>
+  <name>DirectX Diagnostic Report</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The DxDiagReport sample shows how to use the DxDiag COM interface by the instantiating a known set child container by name and enumerating the properties on each child container by name and stores this information in predefined structures.]]></description>
+  <folder>Samples\C++\Misc\DxDiagReport\</folder>
+  <exefolder>Samples\C++\Misc\Bin\</exefolder>
+  <exe>DxDiagReport.exe</exe>
+  <screenshot>DxDiagReport.jpg</screenshot>
+  <projectfile6>DxDiagReport.dsw</projectfile6>
+  <projectfile7>DxDiagReport.sln</projectfile7>
+  <install common="false" />
+  <language>C++</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>DxDiagOutput</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>DirectX Install</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[DXInstall is an example of how to use DirectXSetup interfaces to install the DirectX subsystem and DirectX drivers.  It shows how to use a callback function to present messages and get user input through a custom interface, in this case a simple modeless dialog box.]]></description>
+  <folder>Samples\C++\Misc\DXInstall\</folder>
+  <exefolder>Samples\C++\Misc\Bin\</exefolder>
+  <exe>DxInstall.exe</exe>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/directxsdk/samples/dinstall.htm</doc>       
+  <projectfile6>DXInstall.dsw</projectfile6>
+  <projectfile7>DXInstall.sln</projectfile7>
+  <install common="false" />
+  <language>C++</language>
+  <complexity>1120</complexity>
+  <keywords>
+    <keyword>DXInstall</keyword>
+  </keywords>
+  <visible>true</visible>
+</sample><sample>
+  <name>Firewall</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[This sample demonstrates the use of the Firewall API introduced in Windows XP SP2.]]></description>
+  <folder>Samples\C++\Misc\Firewall\</folder>
+  <exefolder>Samples\C++\Misc\Bin\</exefolder>
+  <exe>Firewall.exe</exe>
+  <screenshot>Firewall.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/gamesforwindows/gamesandfirewalls.htm</doc>
+  <projectfile6>Firewall.dsw</projectfile6>
+  <projectfile7>Firewall.sln</projectfile7>
+  <install common="false">
+	<reserved>FirewallEnabled</reserved>
+  </install>
+  <language>C++</language>
+  <complexity>100</complexity>
+  <dxsubarea />
+<visible>true</visible></sample><sample>
+  <name>getdxver</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The purpose of this sample is to demonstrate how applications can detect which version of DirectX installed. This sample uses the DxDiag COM interface to determine which version of DirectX is installed.  For DirectX versions before DirectX 9 where DxDiag COM interface isn't available, the sample will fallback to comparing DirectX file versions.]]></description>
+  <folder>Samples\C++\Misc\getdxver\</folder>
+  <exefolder>Samples\C++\Misc\Bin\</exefolder>
+  <exe>getdxver.exe</exe>
+  <screenshot>getdxver.jpg</screenshot>
+  <projectfile6>getdxver.dsw</projectfile6>
+  <projectfile7>getdxver.sln</projectfile7>
+  <install common="false" />
+  <language>C++</language>
+  <complexity>190</complexity>
+  <keywords>
+    <keyword>getdxver</keyword>
+  </keywords>
+<visible>true</visible></sample><sample new="true">
+	<name>InstallOnDemand</name>
+	<dxarea>Miscellaneous</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates two useful installation techniques for games: install-on-demand and background installation. The sample is broken up into features, and when it is installed, some features are advertised to reduce installation time. Then when the sample is run, advertised features can be installed in the background without interfering the user's experience.]]>
+	</description>
+	<folder>Samples\C++\Misc\InstallOnDemand\</folder>
+	<exefolder>Samples\C++\Misc\Bin\</exefolder>
+	<screenshot>InstallOnDemand.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/gamesforwindows/installondemand.htm</doc>  	     
+	<projectfile7>InstallOnDemand.sln</projectfile7>
+	<install>
+		<additional src="..\bin\x86\InstallOnDemand.exe" dest="InstallOnDemand.exe" />
+		<media>Light Probes\galileo_cross.dds</media>
+		<media>Light Probes\grace_cross.dds</media>
+		<media>Light Probes\rnl_cross.dds</media>
+		<media>Light Probes\stpeters_cross.dds</media>
+		<media>Light Probes\uffizi_cross.dds</media>
+		<media>PRT Demo\LandShark.x</media>
+		<media>PRT Demo\speeder_diff.jpg</media>
+		<media>Misc\seafloor.x</media>
+		<media>Misc\seafloor.bmp</media>
+		<createfile size="12000000">Level1 Placeholder Data\L1PH1.dat</createfile>
+		<createfile size="12000000">Level1 Placeholder Data\L1PH2.dat</createfile>
+		<createfile size="12000000">Level1 Placeholder Data\L1PH3.dat</createfile>
+		<createfile size="12000000">Level1 Placeholder Data\L1PH4.dat</createfile>
+		<createfile size="12000000">Level1 Placeholder Data\L1PH5.dat</createfile>
+		<createfile size="12000000">Level2 Placeholder Data\L2PH1.dat</createfile>
+		<createfile size="12000000">Level2 Placeholder Data\L2PH2.dat</createfile>
+		<createfile size="12000000">Level2 Placeholder Data\L2PH3.dat</createfile>
+		<createfile size="12000000">Level2 Placeholder Data\L2PH4.dat</createfile>
+		<createfile size="12000000">Level2 Placeholder Data\L2PH5.dat</createfile>
+		<createfile size="12000000">Level3 Placeholder Data\L3PH1.dat</createfile>
+		<createfile size="12000000">Level3 Placeholder Data\L3PH2.dat</createfile>
+		<createfile size="12000000">Level3 Placeholder Data\L3PH3.dat</createfile>
+		<createfile size="12000000">Level3 Placeholder Data\L3PH4.dat</createfile>
+		<createfile size="12000000">Level3 Placeholder Data\L3PH5.dat</createfile>
+		<createfile size="12000000">Level4 Placeholder Data\L4PH1.dat</createfile>
+		<createfile size="12000000">Level4 Placeholder Data\L4PH2.dat</createfile>
+		<createfile size="12000000">Level4 Placeholder Data\L4PH3.dat</createfile>
+		<createfile size="12000000">Level4 Placeholder Data\L4PH4.dat</createfile>
+		<createfile size="12000000">Level4 Placeholder Data\L4PH5.dat</createfile>
+		<createfile size="12000000">Level5 Placeholder Data\L5PH1.dat</createfile>
+		<createfile size="12000000">Level5 Placeholder Data\L5PH2.dat</createfile>
+		<createfile size="12000000">Level5 Placeholder Data\L5PH3.dat</createfile>
+		<createfile size="12000000">Level5 Placeholder Data\L5PH4.dat</createfile>
+		<createfile size="12000000">Level5 Placeholder Data\L5PH5.dat</createfile>
+	</install>
+	<language>C++</language>
+	<complexity>1250</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>MSI</keyword>
+		<keyword>Installer</keyword>
+		<keyword>Windows</keyword>
+	</keywords>
+<visible>true</visible></sample><sample>
+   <name>PIX Plugin Sample</name>
+   <dxarea>Direct3D</dxarea>
+   <type>sample</type>
+   <description>The PIX Plugin Sample shows how to implement a plugin for the PIX for Windows tool, allowing you to define your own counters.</description>
+   <folder>Samples\C++\Misc\PIXPluginSample\</folder>
+   <exefolder/>
+   <exe/>
+   <screenshot>PIXPluginSample.jpg</screenshot>
+   <projectfile7>PIXPluginSample.sln</projectfile7>
+   <install common="false"/>
+   <language>C++</language>
+   <complexity>1500</complexity>
+   <keywords>
+      <keyword>PIX</keyword>
+      <keyword>Plugin</keyword>
+      <keyword>utilities</keyword>
+   </keywords>
+<visible>true</visible></sample>
+<samples>
+
+<sample external="true">
+	<name>CLR Profiler (v2.0)</name>
+	<dxarea>Miscellaneous</dxarea>
+	<type>utility</type>
+	<description><![CDATA[The CLR Profiler includes a number of very useful views of the allocation profile, including a histogram of allocated types, allocation and call graphs, a time line showing GCs of various generations and the resulting state of the managed heap after those collections, and a call tree showing per-method allocations and assembly loads.]]></description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+	<link name="MSDN Download"><![CDATA[http://go.microsoft.com/fwlink/?LinkId=29005]]></link>
+	<screenshot>CLRProfiler.gif</screenshot>
+	<doc></doc>
+	<projectfile6></projectfile6>
+	<projectfile7></projectfile7>
+	<complexity></complexity>
+	<keywords>
+		<keyword>profile</keyword>
+		<keyword>.net</keyword>
+	</keywords>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Rthdribl</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[Masaki Kawase's Rthdribl sample demonstrates "Real-time High Dynamic Range Image-Based Lighting". DirectX 9.0 high-precision texture formats and version-2.0 of Pixel Shader represent real-time true HDR rendering. 
+Technical features of the demo are: True HDR (High-Dynamic Range) Rendering, IBL (Image-Based Lighting), Glare Generation (Afterimage, Bloom, Halo, Ghost, and Star), Automatic Exposure Adjustment, Iris shaped Depth of Field blur, Realistic Motion Blur, FSAA (Full-Scene Anti-Alias), Fresnel Effect (Specular Reflectance) etc. This URL link will redirect you to an external web site and is provided for informational purposes only. Microsoft makes no warranties, express or implied, with respect to this external web site or the information contained in it.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+        <link name="External Website"><![CDATA[http://go.microsoft.com/fwlink/?LinkId=24919]]></link>
+	<screenshot>rthdribl.jpg</screenshot>
+  	<doc></doc>
+	<projectfile6></projectfile6>
+	<projectfile7></projectfile7>
+	<language>C++</language>
+	<complexity>3000</complexity>
+	<keywords>
+	</keywords>
+<visible>true</visible></sample>
+
+
+<sample external="true">
+	<name>Coding4Fun: Building a Drum Machine with DirectSound</name>
+	<dxarea>DirectSound</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Join guest columnist Ianier Munoz as he builds a drum machine using the managed Microsoft DirectX libraries and C# to synthesize an audio stream on the fly.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/vbasic/using/columns/code4fun/default.aspx?pull=/library/en-us/dncodefun/html/code4fun02032004.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>500</complexity>
+<visible>true</visible></sample>
+
+
+<sample external="true">
+	<name>The .NET Show: Managed DirectX</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[DirectX 9.0 brings the first release of the Managed API for developing DirectX-based programs and games. Watch Tom Miller and Brian Benincasa talk about what Managed DirectX brings to the graphics programming arena.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/theshow/episode037/default.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>300</complexity>
+<visible>true</visible></sample>
+
+
+<sample external="true">
+	<name>Windows Installer for Game Developers</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Find out how as a game developer you can use Windows Installer to install games on end-user machines. Windows Installer offers full support for a customized user interface, as well as for patching.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndrive/html/directx10212003.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>400</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Presenting a Detailed Introduction to the DirectX High Level Shader Language</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Find a number of example shaders and optimization strategies in this excerpt from the book "ShaderX2 - Introduction and Tutorials with DirectX 9." Authors Craig Peeper and Jason Mitchell present a detailed introduction to the Microsoft DirectX High Level Shader Language.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnhlsl/html/shaderx2_introductionto.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>900</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>DirectX Slides from Game Developer Conference 2003</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[This download includes presentations given by the DirectX team at Game Developers Conference 2003. These include: How to Install Less and Play More, Direct3D Performance Tools Preview, Shader Management 101, Interactive Rendering with Smooth Area Lighting Models, Power Debugging with Microsoft Visual C++ and the DirectX extensions.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="Download Location"><![CDATA[http://www.microsoft.com/downloads/details.aspx?FamilyID=2ca1010d-16bd-4266-a916-8d4970b1aa53&DisplayLang=en]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1200</complexity>
+<visible>true</visible></sample>
+					
+<sample external="true">
+	<name>Best Practices for Game Installation and Maintenance</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Dave Bartolomeo describes a set of best practices that can help reduce user frustration over the time taken to install a game, prevent unnecessary support calls, and allow users to start playing your game as quickly and painlessly as possible.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx07152003.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>600</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Taking It Higher with the High Level Shader Language</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Kev Gee moves parts of the MSDN Shader Workshop to the Microsoft DirectX High Level Shader Language and demonstrates its advantages over the legacy of writing shaders in assembly. (14 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndrive/html/directx04152003.asp]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>600</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Using the Effects Framework</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Dave Aronson and Kris Gray summarize the effects framework in D3DX, an integral component of D3DX that offers developers a range of benefits by grouping sets of visual effects. (14 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx03182003.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>800</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>D3DX Meshes, Part 2: The Optimize Mesh Sample</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Dave Aronson walks through key portions of the Optimize Mesh sample in the Microsoft DirectX 9.0 SDK, showing how to use the Microsoft Direct3DX (D3DX) mesh classes to make it easy to load, save, optimize, and draw meshes to the screen. (13 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx01212003.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>751</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>D3DX Meshes, Part 1</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Dave Aronson gives an overview of the basic classes and methods for working with meshes in Direct3D using the D3DX library. The use of meshes allow for a standard way to represent and use data for 3-D geometry. This makes working with 3-D geometry easy, and can substantially increase the speed at which an object is drawn. (6 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx11192002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>750</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Exploring D3DX, Part 2: Textures</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor continues to illustrate the usefulness of D3DX, turning to the various forms of texture support provided by the Microsoft Direct3D utility library, including mipmapped texture support, cube-map support, volume-texture support, bump-mapping support, and more. (17 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx08202002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>701</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Exploring D3DX, Part 1: An Overview</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor begins his exploration of D3DX, which provides meshes, effects and effects files, math support, texturing support, and more as a substantial time saver for developers. (10 printed pages)]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx07162002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>700</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>The MSDN Shader Workshop, Part 3: The Pixel Shader Exercises</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor concludes his coverage of the MSDN ShaderWorkshop with five final exercises that illustrate various usueful pixel shader tasks.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx05222002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1204</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>The MSDN Shader Workshop Application, Part 2: The Vertex Shader Exercises</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor continues his tour through the MSDN ShaderWorkshop by working through the first six exercises, which expose some basic vertex shader concepts.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx04152002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1203</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>The MSDN Shader Workshop Application, Part 1</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor introduces the MSDN Shader Workshop application, which is based on the application used in the Meltdown 2001 shader tutorial event. The Meltdown shader tutorial includes exercises for both vertex and pixel shaders, as well as solutions to the exercises.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx03192002.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1202</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Per-Pixel Lighting</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor discusses per-pixel lighting, with an eye to explaining why pixel shaders are so important. In this article he discusses the basics of per-pixel lighting in addition to standard lighting models and custom lighting models.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx11192001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1201</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Pixel Shaders, Part 1: An Introduction</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor begins his coverage of pixel shaders by showcasing several basic pixel shaders and showing how they sync up with vertex shaders and streams.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx09172001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1200</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Screensavers Redux: The DirectX 8.0 Screensaver Framework</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor showcases a new screensaver framework for Microsoft DirectX 8.0. The DirectX 8.0 screensaver framework is full featured and goes far beyond the DirectX 7.0 SDK screensaver framework by providing test, configure, and run modes along with preview, password, and multi-monitor support.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx08202001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>710</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Using Vertex Shaders, Part 3: Optimizing the Tweening Vertex Shader</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor showcases some basic shader optimizations applied to the DolphinVS sample's tweening shader.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx05212001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1003</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Using Vertex Shaders, Part 2: Tweening 3-Way</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor explores using vertex shader to perform character animation. The basic character animation technique presented is known as "tweening." This name derives from the process itself, in which character animation artists use an authoring tool and define several models in sequence for each action, for instance the action of running. Each model contains a pose of the action. The programmer reads the poses and generates intermediate, or "in-between" frames, using linear interpolation between the two sets of vertices.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx04162001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1002</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Using Vertex Shaders, Part 1</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor discusses vertex shaders in detail. Vertex shaders give developers fine-grained control over the vertex transformation and lighting pipeline and can be used as a substitute in DirectX 8 for the fixed-function transform and lighting pipeline]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx02192001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1001</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Programmable Shaders for DirectX 8.0</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor presents the programmable pipeline, unarguably the most important new feature among a wealth of new features in DirectX 8.0 graphics.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx01152001.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>1000</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>The Simplification of DirectX 8.0 Graphics</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor discusses the new features DirectX 8.0 graphics; this release simplifies many common tasks, including initialization, enumeration, device creation, presentation, lost devices/surfaces, and resource management.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx12192000.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>101</complexity>
+<visible>true</visible></sample>
+
+<sample external="true">
+	<name>Introduction to DirectX 8.0</name>
+	<dxarea>Direct3D</dxarea>
+	<type>article</type>
+	<description>
+	<![CDATA[Philip Taylor presents an overview of all the cool features this new version provides for developers.]]>
+	</description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+    <link name="MSDN Article"><![CDATA[http://msdn.microsoft.com/library/en-us/dndrive/html/directx112000.asp?frame=true]]></link>
+	<screenshot>article.jpg</screenshot>
+	<language></language>
+  	<complexity>100</complexity>
+<visible>true</visible></sample>
+
+</samples><sample>
+  <name>BasicHLSL</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[This sample shows a simple example of the High-Level Shader Language (HLSL) using the effect interface.]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\BasicHLSL\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csBasicHLSL.exe</exe>
+  <screenshot>BasicHLSL.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/basichlsl.htm</doc> 	     
+  <projectfile7>BasicHLSL.sln</projectfile7>
+  <install>
+      <media>Tiny</media>
+  </install>
+  <language>Managed</language>
+  <complexity>50</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample new="true">
+  <name>Basic HLSL (Visual Basic.NET)</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[This sample shows a simple example of the High-Level Shader Language (HLSL) using the effect interface via Visual Basic.NET.]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\BasicHLSL_VBNET\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <screenshot>BasicHLSL_VBNET.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/basichlsl.htm</doc> 	     
+  <projectfile7>BasicHLSL_VBNET.sln</projectfile7>
+  <install>
+      <media>Tiny</media>
+  </install>
+  <language>Managed</language>
+  <complexity>50</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>CompiledEffect</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[This sample shows how an Effect object can be compiled when the project is built and loaded directly as a binary file at runtime.]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\CompiledEffect\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <screenshot>CompiledEffect.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/compiledeffect.htm</doc>  	     
+  <projectfile7>CompiledEffect.sln</projectfile7>
+  <install>
+    <media>Dwarf</media>
+  </install>
+  <language>Managed</language>
+  <complexity>700</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>ID3DXEffect</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>CustomUI</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[Starting point for a new Direct3D application]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\CustomUI\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csCustomUI.exe</exe>
+  <screenshot>CustomUI.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/customui.htm</doc>  	     
+  <projectfile7>CustomUI.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>0</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>EmptyProject</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[Starting point for a new Direct3D application]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\EmptyProject\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csEmptyProject.exe</exe>
+  <screenshot>EmptyProject.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/emptyproject.htm</doc>  	     
+  <projectfile7>EmptyProject.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>0</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>EnhancedMesh</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[The EnhancedMesh sample shows how to use D3DX to load and enhance a mesh. The mesh is enhanced by increasing the vertex count.]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\EnhancedMesh\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csEnhancedMesh.exe</exe>
+  <screenshot>EnhancedMesh.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/enhancedmesh.htm</doc>  	     
+  <projectfile7>EnhancedMesh.sln</projectfile7>
+  <install>
+      <media>Dwarf</media>
+  </install>
+  <language>Managed</language>
+  <complexity>1100</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample new="true">
+	<name>FragmentLinker</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample shows how to use the FragmentLinker class. Shader source code can be split into a series of shader fragments, which are compiled separately and linked together to form a complete shader; this linking stage is very efficient, making it suitable for runtime use. In this way a Direct3D application can custom-build an appropriate shader for the current graphics card. ]]>
+	</description>
+	<folder>Samples\Managed\Direct3D\FragmentLinker\</folder>
+	<exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+	<exe>csFragmentLinker.exe</exe>
+	<screenshot>FragmentLinker.gif</screenshot>
+  	<readme>readme.htm</readme>  	     
+	<projectfile7>FragmentLinker.sln</projectfile7>
+	<install>
+		<media>Dwarf</media>
+		<reserved>ID3DXFragmentLinker</reserved>
+		<reserved>private FragmentLinker</reserved>
+		<reserved>FragmentLinker(</reserved>
+		<reserved>Direct3D.FragmentLinker</reserved>
+	</install>
+	<language>Managed</language>
+	<complexity>1200</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>HDRCubeMap</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates cubic environment-mapping with floating-point cube textures and high dynamic range lighting. DirectX 9.0's new floating-point textures can store color values higher than 1.0, which can make lighting effects more realistic on the environment-mapped geometry when the material absorbs part of the light. Note that not all cards support all features for the environment-mapping and high dynamic range lighting techniques.]]>
+	</description>
+	<folder>Samples\Managed\Direct3D\HDRCubeMap\</folder>
+	<exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+	<exe>csHDRCubeMap.exe</exe>
+	<screenshot>HDRCubeMap.jpg</screenshot>
+  	<doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/hdrcubemap.htm</doc>  	     
+	<projectfile7>HDRCubeMap.sln</projectfile7>
+	<install>
+		<media>Misc\car.x</media>
+		<media>Misc\env2.bmp</media>
+		<media>Misc\floor.bmp</media>
+		<media>Misc\ground2.bmp</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\skullocc.x</media>
+		<media>Misc\sphere0.x</media>
+		<media>Misc\teapot.x</media>
+		<media>Airplane</media>
+	</install>
+	<language>Managed</language>
+	<complexity>1750</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>IDirect3DCubeTexture9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>HLSLwithoutEffects</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description><![CDATA[This sample shows some of the effects that can be achieved using vertex shaders written in Microsoft Direct3D's High-Level Shader Language (HLSL). HLSL shaders have C-like syntax and constructs, such as functions, expressions, statements, and data types. A vertex shader looks very similar to a C function, and is executed by the 3D device once per every vertex processed to affect the properties of the vertex.  Note that not all cards may support all the various features vertex shaders.  For more information on vertex shaders, refer to the DirectX SDK documentation.]]></description>
+  <folder>Samples\Managed\Direct3D\HLSLwithoutEffects\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csHLSLwithoutEffects.exe</exe>
+  <screenshot>HLSLwithoutEffects.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/hlslwithouteffects.htm</doc>  	     
+  <projectfile7>HLSLwithoutEffects.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>170</complexity>
+  <keywords>
+    <keyword>Device</keyword>
+    <keyword>Direct3D</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>ProgressiveMesh</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[The ProgressiveMesh sample illustrates how to load and optimize a file-based mesh using the D3DX mesh utility functions.  A progressive mesh is one in which the vertex information is stored internally in a special tree which can be accessed to render the mesh with any given number of vertices.  This procedure is fast, so progressive meshes are ideal for level-of-detail scenarios, where objects in the distance are rendered with fewer polygons.  For more info on D3DX, refer to the DirectX SDK documentation.]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\ProgressiveMesh\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csProgressiveMesh.exe</exe>
+  <screenshot>ProgressiveMesh.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/progressivemesh.htm</doc>  	     
+  <projectfile7>ProgressiveMesh.sln</projectfile7>
+  <install name="Progressive Mesh">
+      <media>Dwarf</media>
+  </install>
+  <language>Managed</language>
+  <complexity>1120</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+    <keyword>ID3DXMesh</keyword>
+    <keyword>ID3DXPMesh</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+	<name>PRTPerVertex</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[This sample demonstrates how to use PRTEngine, a precomputed radiance transfer (PRT) simulator that uses low-order spherical harmonics (SH).  The sample also demonstrates how to use these results to accomplish dynamic light transport using a dynamic lighting environment with a vs_1_1 vertex shader.]]>
+	</description>
+	<folder>Samples\Managed\Direct3D\PRTPerVertex\</folder>
+	<exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+	<exe>csPRTPerVertex.exe</exe>
+	<screenshot>PRTPerVertex.jpg</screenshot>
+  	<readme>readme.htm</readme>  	     
+	<projectfile7>PRTPerVertex.sln</projectfile7>
+	<install>
+		<media>Tiny</media>
+	</install>
+	<language>Managed</language>
+	<complexity>50</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>Scripting</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>sample</type>
+	<description>
+	<![CDATA[The sample demonstrates one technique to use C# as a scripting engine for your unmanaged applications .]]>
+	</description>
+	<folder>Samples\Managed\Direct3D\Scripting\</folder>
+	<exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+	<exe>Scripting.exe</exe>
+	<screenshot>Scripting.jpg</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/scripting.htm</doc>
+	<projectfile7>Scripting.sln</projectfile7>
+	<install>
+		<additional src="..\..\..\C++\Common" dest="Common" />
+		<media>Misc\seafloor.x</media>
+		<media>Misc\seafloor.bmp</media>
+		<media>Misc\sphere0.x</media>
+		<media>Airplane</media>
+		<media>Misc\cell.x</media>
+		<media>Misc\cellceiling.jpg</media>
+		<media>Misc\cellfloor.jpg</media>
+		<media>Misc\cellwall.jpg</media>
+		<media>Dwarf</media>
+	</install>
+	<language>Managed</language>
+	<complexity>500</complexity>
+	<keywords>
+		<keyword>IDirect3DDevice9</keyword>
+		<keyword>IDirect3D9</keyword>
+		<keyword>C#</keyword>
+		<keyword>Scripting</keyword>
+		<keyword>Managed</keyword>
+	</keywords>
+<visible>true</visible></sample>
+
+<sample>
+  <name>SimpleAnimation</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description>
+      <![CDATA[A basic skinning animation sample]]>
+  </description>
+  <folder>Samples\Managed\Direct3D\SimpleAnimation\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csSimpleAnimation.exe</exe>
+  <screenshot>SimpleAnimation.jpg</screenshot>
+  <readme>readme.htm</readme>
+  <projectfile7>SimpleAnimation.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>1200</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>Text3D</name>
+  <dxarea>Direct3D</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Text3D sample shows how to draw 2D text and 3D text in a 3D scene.  This is most useful for display stats, in game menus, etc.]]></description>
+  <folder>Samples\Managed\Direct3D\Text3D\</folder>
+  <exefolder>Samples\Managed\Direct3D\Bin\</exefolder>
+  <exe>csText3D.exe</exe>
+  <screenshot>Text3D.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/samples/text3d.htm</doc>
+  <projectfile7>Text3D.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 1: Create a Device</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[This tutorial shows the required steps to initialize Direct3D, render a scene, and eventually shut down.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial1\</folder>
+  <screenshot>Tut01_CreateDevice.jpg</screenshot>
+  <projectfile7>Tutorial1.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial1.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>5</complexity>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 2: Rendering Vertices</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[This tutorial shows the required steps to create a triangle with vertices.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial2\</folder>
+  <screenshot>Tut02_Vertices.jpg</screenshot>
+  <projectfile7>Tutorial2.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial2.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>10</complexity>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 3: Using Matrices</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[This tutorial introduces the concept of matrices and shows how to use them. The Vertices sample project rendered 2-D vertices to draw a triangle. However, in this tutorial you will be working with transformations of vertices in 3-D.  Matrices are also used to set up cameras and viewports.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial3\</folder>
+  <screenshot>Tut03_Matrices.jpg</screenshot>
+  <projectfile7>Tutorial3.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial3.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>15</complexity>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 4: Creating and Using Lights</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[The sample code in this tutorial introduces the topics of lights and materials.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial4\</folder>
+  <screenshot>Tut04_Lights.jpg</screenshot>
+  <projectfile7>Tutorial4.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial4.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>20</complexity>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 5: Using Texture Maps</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[This tutorial covers how to load textures, set up vertices, and display objects with texture.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial5\</folder>
+  <projectfile7>Tutorial5.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial5.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>25</complexity>
+  <screenshot>Tut05_Textures.jpg</screenshot>
+<visible>true</visible></sample><sample>
+  <name>Tutorial 6: Using Meshes</name>
+  <dxarea>Direct3D</dxarea>
+  <type>tutorial</type>
+  <description><![CDATA[This tutorial shows how to load, render, and unload a mesh.]]></description>
+  <folder>Samples\Managed\Direct3D\Tutorials\Tutorial6\</folder>
+  <projectfile7>Tutorial6.sln</projectfile7>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_m.chm::/directx/direct3d/tutorials/tutorial6.htm</doc>
+  <install/>
+  <language>Managed</language>
+  <complexity>30</complexity>
+  <screenshot>Tut06_Meshes.jpg</screenshot>
+<visible>true</visible></sample><sample>
+  <name>Feedback</name>
+  <dxarea>DirectInput</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Feedback sample shows Force Feedback via devices that support it.  You can observe how the forces feel when you move and twist the stick, rotate the throttle wheel, and press buttons in various combinations.  You will need a force feedback input device for this sample.]]></description>
+  <folder>Samples\Managed\DirectInput\Feedback\</folder>
+  <screenshot>csFeedback.jpg</screenshot>
+  <exefolder>Samples\Managed\DirectInput\Bin\</exefolder>
+  <exe>csFeedback.exe</exe>
+  <projectfile7>Feedback.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+  </install>
+  <language>Managed</language>
+  <complexity>1048</complexity>
+  <keywords>
+    <keyword>Mouse</keyword>
+    <keyword>IDirectInput8</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Joystick</name>
+  <dxarea>DirectInput</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Joystick sample obtains and displays joystick data.]]></description>
+  <folder>Samples\Managed\DirectInput\Joystick\</folder>
+  <exefolder>Samples\Managed\DirectInput\Bin\</exefolder>
+  <exe>csJoystick.exe</exe>
+  <screenshot>Joystick.gif</screenshot>
+  <projectfile7>Joystick.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+    <reserved>JoystickState</reserved>
+    <reserved>No Joystick Found</reserved>
+    <reserved>DeviceDataFormat.Joystick</reserved>
+    <reserved>CurrentJoystickState</reserved>
+  </install>
+  <language>Managed</language>
+  <complexity>110</complexity>
+  <keywords>
+    <keyword>Joystick</keyword>
+    <keyword>IDirectInput8</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Keyboard</name>
+  <dxarea>DirectInput</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Keyboard sample obtains and displays keyboard data.]]></description>
+  <folder>Samples\Managed\DirectInput\Keyboard\</folder>
+  <exefolder>Samples\Managed\DirectInput\Bin\</exefolder>
+  <exe>csKeyboard.exe</exe>
+  <screenshot>Keyboard.gif</screenshot>
+  <projectfile7>Keyboard.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+    <reserved>SystemGuid.Keyboard</reserved>
+    <reserved>KeyboardState</reserved>
+  </install>
+  <language>Managed</language>
+  <complexity>120</complexity>
+  <keywords>
+    <keyword>Keyboard</keyword>
+    <keyword>IDirectInput8</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Mouse</name>
+  <dxarea>DirectInput</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Mouse sample obtains and displays mouse data.]]></description>
+  <folder>Samples\Managed\DirectInput\Mouse\</folder>
+  <exefolder>Samples\Managed\DirectInput\Bin\</exefolder>
+  <exe>csMouse.exe</exe>
+  <screenshot>Mouse.gif</screenshot>
+  <projectfile7>Mouse.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+    <reserved>SystemGuid.Mouse</reserved>
+    <reserved>MouseState</reserved>
+    <reserved>MouseEvent</reserved>
+    <reserved>MouseButton</reserved>
+  </install>
+  <language>Managed</language>
+  <complexity>130</complexity>
+  <keywords>
+    <keyword>Mouse</keyword>
+    <keyword>IDirectInput8</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>AdjustSound</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The AdjustSound sample shows how to create a DirectSound secondary buffer to play a WAV file, and how to change the parameters of the buffer.]]></description>
+  <folder>Samples\Managed\DirectSound\AdjustSound\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csAdjustSound.exe</exe>
+  <screenshot>AdjustSound.gif</screenshot>
+  <projectfile7>AdjustSound.sln</projectfile7>
+  <install/> 
+  <language>Managed</language>
+  <complexity>1110</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>CaptureSound</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The CaptureSound application shows how to capture waveforms to a file.]]></description>
+  <folder>Samples\Managed\DirectSound\CaptureSound\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csCaptureSound.exe</exe>
+  <screenshot>CaptureSound.gif</screenshot>
+  <projectfile7>CaptureSound.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+  </install>
+  <language>Managed</language>
+  <complexity>120</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Enumerate DirectSound Devices</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Enumerate DirectSound Devices sample shows how to enumerate and create playback and capture devices.]]></description>
+  <folder>Samples\Managed\DirectSound\EnumDevices\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csEnumDevices.exe</exe>
+  <screenshot>EnumDevices.gif</screenshot>
+  <projectfile7>EnumDevices.sln</projectfile7>
+  <install/> 
+  <language>Managed</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>Play3DSound</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The Play 3D Sound sample shows how to create a 3-D sound buffer and manipulate its properties.  It is similar to the 3D Audio Sample but uses only the DirectSound API.]]></description>
+  <folder>Samples\Managed\DirectSound\Play3DSound\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csPlay3DSound.exe</exe>
+  <screenshot>Play3DSound.gif</screenshot>
+  <projectfile7>Play3DSound.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>1120</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>PlaySound</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The PlaySound sample shows how to play a wave file in a DirectSound secondary buffer.]]></description>
+  <folder>Samples\Managed\DirectSound\PlaySound\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csPlaySound.exe</exe>
+  <screenshot>playsound.gif</screenshot>
+  <projectfile7>PlaySound.sln</projectfile7>
+  <install/>
+  <language>Managed</language>
+  <complexity>110</complexity>
+  <keywords>
+    <keyword>DirectSound</keyword>
+    <keyword>DirectSoundBuffer</keyword>
+    <keyword>WaveFormat</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>SoundFX</name>
+  <dxarea>DirectSound</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The SoundFX sample shows how to use DMOs with DirectSound and how to manipulate effect parameters.  It is similar to the DirectMusic AudioFX Sample but does not use an audiopath or any of the DirectMusic interfaces.]]></description>
+  <folder>Samples\Managed\DirectSound\SoundFX\</folder>
+  <exefolder>Samples\Managed\DirectSound\Bin\</exefolder>
+  <exe>csSoundFX.exe</exe>
+  <screenshot>SoundFX.gif</screenshot>
+  <projectfile7>SoundFX.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+  </install>
+  <language>Managed</language>
+  <complexity>2100</complexity>
+  <keywords>
+    <keyword>IDirectSound</keyword>
+    <keyword>IDirectSoundBuffer</keyword>
+    <keyword>WAVEFORMATEX</keyword>
+    <keyword>wav</keyword>
+    <keyword>wave</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>DxDiagOutput</name>
+  <dxarea>Miscellaneous</dxarea>
+  <type>sample</type>
+  <description><![CDATA[The DxDiagOutput sample shows how to use the DxDiag COM interface by enumerating every child container and enumerating the properties on each child container.]]></description>
+  <folder>Samples\Managed\Misc\DxDiagOutput\</folder>
+  <exefolder>Samples\Managed\Misc\Bin\</exefolder>
+  <exe>csDxDiagOutput.exe</exe>
+  <screenshot>DxDiagOutput.jpg</screenshot>
+  <projectfile7>DxDiagOutput.sln</projectfile7>
+  <install common="false">
+    <additional src="..\..\Common\AssemblyInfo.cs" dest="Common\AssemblyInfo.cs" />
+  </install>
+  <language>Managed</language>
+  <complexity>100</complexity>
+  <keywords>
+    <keyword>DxDiagOutput</keyword>
+  </keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>DirectX Caps Viewer</name>
+    <dxarea>Direct3D</dxarea>
+	<type>utility</type>
+	<description><![CDATA[The DirectX Caps Viewer shows information for Direct3D devices and capabilities, DirectPlay connections, DirectInput devices and capabilities, DirectMusic ports and DirectSound capture devices and capabilities.]]></description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+	<exefolder>Utilities\Bin\</exefolder>
+	<exe>DXCapsViewer.exe</exe>
+	<screenshot>DXCapsViewer.jpg</screenshot>
+    <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/directxsdk/tools/capsviewer.htm</doc>
+	<keywords>
+		<keyword>caps</keyword>
+		<keyword>viewer</keyword>
+		<keyword>utility</keyword>
+		<keyword>utilities</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample>
+  <name>DirectX Error Lookup</name>
+  <dxarea>Direct3D</dxarea>
+  <type>utility</type>
+  <description><![CDATA[The DirectX Error Lookup utility allows users to enter a numerical HRESULT and get back the string equivalent as well as its description.]]></description>
+  <folder>Utilities\Source\dxerr\</folder>
+  <exefolder>Utilities\bin\</exefolder>
+  <exe>dxerr.exe</exe>
+  <screenshot>dxerr.jpg</screenshot>
+  <projectfile7>dxerr.sln</projectfile7>
+  <install common="false">
+  	<reserved>dxerr9</reserved>
+  </install>
+  <keywords>
+    <keyword>dxerr</keyword>
+    <keyword>lookup</keyword>
+    <keyword>error</keyword>
+    <keyword>utility</keyword>
+    <keyword>utilities</keyword>
+  </keywords>
+  <visible>true</visible>
+</sample><sample>
+  <name>DirectX Texture Tool</name>
+  <dxarea>Direct3D</dxarea>
+  <type>utility</type>
+  <description><![CDATA[The DirectX Texture Tool allows users to easily create texture maps that use the new DXTn compression formats.  Creating a DXTn-compressed texture is actually not that difficult to do: DirectDraw's Blt function can do the conversion for you.  Advanced developers will probably want to write their own tools that meet their specific needs.  But this tool provides useful basic functionality.]]></description>
+  <folder>Utilities\Source\dxtex\</folder>
+  <exefolder>Utilities\bin\</exefolder>
+  <exe>DXTex.exe</exe>
+  <screenshot>DXTex.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tools/dxtextool.htm</doc>
+  <projectfile7>dxtex.sln</projectfile7>
+  <install common="false" />
+  <keywords>
+    <keyword>texture</keyword>
+    <keyword>tool</keyword>
+    <keyword>utility</keyword>
+    <keyword>utilities</keyword>
+  </keywords>
+<visible>true</visible></sample><sample>
+  <name>EffectEdit</name>
+  <dxarea>Direct3D</dxarea>
+  <type>utility</type>
+  <description><![CDATA[EffectEdit is a tool with which one can create and edit D3DX effect (*.fx) files and view the graphical result interactively.  Changes to the effect file are compiled automatically and any compilation errors are shown in the 'Effect compilation results' pane.  Note that not all .fx files are designed to work with EffectEdit, since they may require special vertex types or extra processing that is not done by the EffectEdit program.]]></description>
+  <folder>Utilities\Source\EffectEdit\</folder>
+  <exefolder>Utilities\Bin\</exefolder>
+  <exe>EffectEdit.exe</exe>
+  <screenshot>EffectEdit.jpg</screenshot>
+  <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tutorialsandsamples/samples/EffectEdit.htm</doc>
+  <projectfile7>EffectEdit.sln</projectfile7>
+  <install/>
+  <keywords>
+    <keyword>IDirect3DDevice9</keyword>
+    <keyword>IDirect3D9</keyword>
+  </keywords>
+<visible>true</visible></sample>
+<sample>
+	<name>Mesh Viewer</name>
+	<dxarea>Direct3D</dxarea>
+	<type>utility</type>
+	<description><![CDATA[The Mesh Viewer utility allows you to view and modify Direct3D mesh files.]]></description>
+	<folder>Utilities\Source\Mview\</folder>
+	<exefolder>Utilities\Bin\</exefolder>
+	<exe>mview.exe</exe>
+	<screenshot>MeshViewer.jpg</screenshot>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tools/meshviewer.htm</doc>
+	<projectfile7>mview.sln</projectfile7>
+	<install/>
+	<complexity>2600</complexity>
+	<keywords>
+		<keyword>mesh</keyword>
+		<keyword>viewer</keyword>
+		<keyword>utility</keyword>
+		<keyword>utilities</keyword>
+	</keywords>
+<visible>true</visible></sample>
+<sample updated="true">
+	<name>PIX For Windows</name>
+	<dxarea>Direct3D</dxarea>
+	<type>utility</type>
+	<description><![CDATA[Performance Investigator for DirectX (PIX) for Windows is a tool designed to capture detailed performance information from a running application. This tool will help developers analyze the work done by the CPU and the GPU in order to pinpoint performance bottlenecks.
+
+]]></description>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+	<exefolder>Utilities\bin\</exefolder>
+	<exe>PIXWin.exe</exe>
+        <doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tools/pix.htm</doc>
+    	<screenshot>PIX.gif</screenshot>
+	<keywords>
+		<keyword>profile</keyword>
+		<keyword>utility</keyword>
+		<keyword>utilities</keyword>
+	</keywords>
+	<visible>true</visible>
+</sample>
+<sample updated="true">
+	<name>Maya Preview Pipeline (Maya 6)</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>utility</type>
+	<description>
+	<![CDATA[The Preview Pipeline defines a new Maya material type which encapsulates a D3DX Effect file (*.fx). 
+Maya objects which are shaded with this "DirectX Shader" material will be rendered within the
+Preview Pipeline viewer window using the associated Effect.]]>
+	</description>
+	<folder>Utilities\Source\Maya\</folder>
+	<exefolder>Utilities\bin\plugins\Maya\Binary6\</exefolder>
+	<exe></exe>
+	<screenshot>previewpipeline.gif</screenshot>
+	<projectfile7>D3DMayaExportX.sln</projectfile7>
+  <install common="false">
+  	<reserved>D3DMayaExportX</reserved>
+  </install>
+	<keywords>
+		<keyword>viewer</keyword>
+		<keyword>alias</keyword>
+		<keyword>mesh</keyword>
+		<keyword>model</keyword>
+		<keyword>art</keyword>
+	</keywords>
+	<visible>true</visible>
+</sample>
+<samples>
+<sample updated="true">
+	<name>Maya Preview Pipeline (Maya 5)</name>
+	<dxarea>Direct3D</dxarea>
+	<dxsubarea></dxsubarea>
+	<type>utility</type>
+	<description>
+	<![CDATA[The Preview Pipeline defines a new Maya material type which encapsulates a D3DX Effect file (*.fx). 
+Maya objects which are shaded with this "DirectX Shader" material will be rendered within the
+Preview Pipeline viewer window using the associated Effect.]]>
+	</description>
+	<folder>Utilities\Source\Maya\</folder>
+	<exefolder>Utilities\bin\plugins\Maya\Binary5\</exefolder>
+	<exe></exe>
+	<screenshot>previewpipeline.gif</screenshot>
+	<projectfile7>D3DMayaExportX.sln</projectfile7>
+  <install common="false">
+  	<reserved>D3DMayaExportX</reserved>
+  </install>
+	<keywords>
+		<keyword>viewer</keyword>
+		<keyword>alias</keyword>
+		<keyword>mesh</keyword>
+		<keyword>model</keyword>
+		<keyword>art</keyword>
+	</keywords>
+	<visible>true</visible>
+</sample>
+
+<sample updated="true">
+	<name>Maya X-File Exporter</name>
+	<dxarea>Direct3D</dxarea>
+	<type>utility</type>
+	<description><![CDATA[Files with the .x file name extension are used by Microsoft DirectX to store meshes, textures, animations, and other user-definable objects with a template hierarchy for data storage. DirectX has .x-file interfaces that provide a simple and safe way to import data into DirectX applications. These interfaces identify structures with unique identifiers (IDs), validate data layout, and provide data referencing and other intrinsic features. Included with the DirectX software development kit (SDK) is source code to build a .x-file exporter plug-in for Maya versions 4.0 through 5.0]]></description>
+	<folder>Utilities\Source\Maya\</folder>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/tools/mayafxexporter.htm</doc>
+   	<screenshot>previewpipeline.gif</screenshot>
+	<keywords>
+	</keywords>
+	<visible>true</visible>
+</sample>
+
+</samples><sample>
+	<name>Photoshop Texture Converter</name>
+	<dxarea>Direct3D</dxarea>
+	<type>utility</type>
+	<description><![CDATA[The Photoshop texture file converter is a file format plug-in to Adobe Photoshop to open or save texture files. The plug-in will also work with Jasc PaintShop Pro.]]></description>
+	<doc>ms-its:../../Documentation/DirectX9/directx9_c.chm::/directx/graphics/Tools/TexturePhotoshop.htm</doc>
+	<folder>Samples\SampleBrowser\Thumbnails\</folder>
+	<exefolder>Utilities\bin\plugins\Photoshop\</exefolder>
+	<exe></exe>
+	<screenshot>previewpipeline.gif</screenshot>
+	<keywords>
+		<keyword>photoshop</keyword>
+		<keyword>import</keyword>
+		<keyword>export</keyword>
+		<keyword>utility</keyword>
+		<keyword>utilities</keyword>
+	</keywords>
+	<visible>true</visible>
+</sample>
+</samples> 

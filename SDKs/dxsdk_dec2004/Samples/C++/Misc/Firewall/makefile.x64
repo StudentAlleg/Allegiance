@@ -1,0 +1,186 @@
+# Microsoft Developer Studio Generated NMAKE File, Based on Firewall.dsp
+!IF "$(CFG)" == ""
+CFG=Firewall - Win64 Debug
+!MESSAGE No configuration specified. Defaulting to Firewall - Win64 Debug.
+!ENDIF 
+
+!IF "$(CFG)" != "Firewall - Win64 Debug" && "$(CFG)" != "Firewall - Win64 Release"
+!MESSAGE Invalid configuration "$(CFG)" specified.
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE 
+!MESSAGE NMAKE /f "makefile.x64" CFG="Firewall - Win64 Debug"
+!MESSAGE 
+!MESSAGE Possible choices for configuration are:
+!MESSAGE 
+!MESSAGE "Firewall - Win64 Debug" (based on "Win64 (x64) Console Application")
+!MESSAGE "Firewall - Win64 Release" (based on "Win64 (x64) Console Application")
+!MESSAGE 
+!ERROR An invalid configuration is specified.
+!ENDIF 
+
+!IF "$(OS)" == "Windows_NT"
+NULL=
+!ELSE 
+NULL=nul
+!ENDIF 
+
+!IF  "$(CFG)" == "Firewall - Win64 Debug"
+
+OUTDIR=.\Debug
+INTDIR=.\Debug
+# Begin Custom Macros
+OutDir=.\Debug
+# End Custom Macros
+
+ALL : "$(OUTDIR)\Firewall.exe"
+
+
+CLEAN :
+	-@erase "$(INTDIR)\Firewall.obj"
+	-@erase "$(INTDIR)\vc60.pdb"
+	-@erase "$(OUTDIR)\Firewall.exe"
+	-@erase "$(OUTDIR)\Firewall.ilk"
+	-@erase "$(OUTDIR)\Firewall.pdb"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+MTL=midl.exe
+CPP=cl.exe
+CPP_PROJ=/nologo /MTd /W3 /GX /ZI /Od /D "WIN64" /D "_DEBUG" /D "_CONSOLE" /D "UNICODE" /D "_UNICODE" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" PRECOMP_VC7_TOBEREMOVED /c 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\Firewall.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=bufferoverflowu.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"$(OUTDIR)\Firewall.pdb" /debug /machine:X64 /out:"$(OUTDIR)\Firewall.exe" /pdbtype:sept /IGNORE:4089 
+LINK32_OBJS= \
+	"$(INTDIR)\Firewall.obj"
+
+"$(OUTDIR)\Firewall.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+!ELSEIF  "$(CFG)" == "Firewall - Win64 Release"
+
+OUTDIR=.\Release
+INTDIR=.\Release
+# Begin Custom Macros
+OutDir=.\Release
+# End Custom Macros
+
+ALL : "$(OUTDIR)\Firewall.exe"
+
+
+CLEAN :
+	-@erase "$(INTDIR)\Firewall.obj"
+	-@erase "$(OUTDIR)\Firewall.exe"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+MTL=midl.exe
+CPP=cl.exe
+CPP_PROJ=/nologo /MT /W3 /GX /Ob1 /Gy /D "WIN64" /D "NDEBUG" /D "_CONSOLE" /D "UNICODE" /D "_UNICODE" /Fo"$(INTDIR)\\" /GF PRECOMP_VC7_TOBEREMOVED /c 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\Firewall.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=bufferoverflowu.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"$(OUTDIR)\Firewall.pdb" /machine:X64 /out:"$(OUTDIR)\Firewall.exe" /pdbtype:sept /IGNORE:4089 
+LINK32_OBJS= \
+	"$(INTDIR)\Firewall.obj"
+
+"$(OUTDIR)\Firewall.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+!ENDIF 
+
+
+!IF "$(NO_EXTERNAL_DEPS)" != "1"
+!IF EXISTS("Firewall.dep")
+!INCLUDE "Firewall.dep"
+!ELSE 
+!MESSAGE Warning: cannot find "Firewall.dep"
+!ENDIF 
+!ENDIF 
+
+
+!IF "$(CFG)" == "Firewall - Win64 Debug" || "$(CFG)" == "Firewall - Win64 Release"
+SOURCE=.\Firewall.cpp
+
+"$(INTDIR)\Firewall.obj" : $(SOURCE) "$(INTDIR)"
+
+
+
+!ENDIF 
+
+

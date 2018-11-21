@@ -1,0 +1,781 @@
+<HTML>
+    <HEAD>
+        <TITLE>ConfigSystem Direct3D Sample</TITLE>
+        <STYLE TYPE="text/css">
+.h1 { font-family: tahoma; font-weight: bold; font-size: 130%; }
+.h2 { font-family: arial; font-weight: bold; vertical-align: super; }
+.h3 { font-family: arial; font-weight: bold; vertical-align: super; }
+.p { font-family: arial; font-size: 80%; }
+.header { padding: 3px; font-family: tahoma; font-weight: bold; color: white }
+.chart { font-family: monospace; font-size: 75%; }
+.table { font-family: arial; font-size: 90%; }
+</STYLE>
+    </HEAD>
+    <BODY bgColor="#ffffff" MARGINHEIGHT="2" TOPMARGIN="2" LEFTMARGIN="2" RIGHTMARGIN="2">
+        <!-- HEADER - DO NOT MODIFY -->
+        <TABLE BACKGROUND="doc/header_background.gif" WIDTH="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR>
+                <TD ALIGN="left"><IMG SRC="doc/header_left.gif" BORDER="0"></TD>
+                <TD ALIGN="right"><IMG SRC="doc/header_right.gif" BORDER="0"></TD>
+            </TR>
+        </TABLE>
+        <!-- END HEADER -->
+        <!-- MASTER TABLE - DO NOT MODIFY -->
+        <TABLE WIDTH="100%" BORDER="0" CELLPADDING="20">
+            <TR>
+                <TD CLASS="p">
+                    <!-- END MASTER TABLE -->
+                    <FONT CLASS="h1">
+                        <!-- INSERT SAMPLE NAME -->
+                        ConfigSystem Sample 
+                        <!-- END SAMPLE NAME -->
+                    </FONT>
+                    <HR>
+                    <TABLE WIDTH="100%" BGCOLOR="#FFFFFF" BORDER="0" CELLPADDING="10" CELLSPACING="0">
+                        <TR>
+                            <TD CLASS="p">
+                                <BR CLEAR="left">
+                                <IMG style="MARGIN-TOP: -7px; MARGIN-LEFT: -20px" hspace="20" src="ConfigSystem.jpg"
+                                    align="left" vspace="10"> <FONT CLASS="h2">Description</FONT><BR>
+                                <!-- INSERT SAMPLE DESCRIPTION -->
+                                The sample showcases a configuration system using a database of hardware device 
+                                models. The sample detects the hardware on the system, and then looks up the 
+                                database to find custom behavior defined for those existing devices. 
+                                <!-- END SAMPLE DESCRIPTION -->
+                                <BR CLEAR="left">
+                                <BR CLEAR="left">
+                            </TD>
+                        </TR>
+                    </TABLE>
+                    <HR>
+                    <BR CLEAR="left">
+                    <FONT CLASS="h2">Path</FONT>
+                    <TABLE STYLE="margin-left: -4px" CELLSPACING="4" CELLPADDING="4" BORDER="0">
+                        <TR>
+                            <!-- PATH INFORMATION -->
+                            <TD CLASS="chart" BGCOLOR="#DDDDDD" ALIGN="right"><B>Source:</B></TD>
+                            <TD CLASS="chart" BGCOLOR="#EEEEEE">DX90SDK\Samples\C++\Direct3D\ConfigSystem</TD>
+                            <!-- END PATH INFORMATION -->
+                        </TR>
+                        <TR>
+                            <!-- PATH INFORMATION -->
+                            <TD CLASS="chart" BGCOLOR="#DDDDDD" ALIGN="right"><B>Executable:</B></TD>
+                            <TD CLASS="chart" BGCOLOR="#EEEEEE">DX90SDK\Samples\C++\Direct3D\bin\ConfigSystem.exe</TD>
+                            <!-- END PATH INFORMATION -->
+                        </TR>
+                    </TABLE>
+                    <P>
+                        <FONT CLASS="h2">Sample Overview</FONT><BR>
+                    The sample is a demonstration of a database-driven application configuration 
+                    system.  Today, several shipping games, such as Halo PC, Microsoft Flight
+                    Simulator, Microsoft Combat Flight Simulator, and Rise of Nations are already
+                    taking advantage of this versatile and powerful system, and this sample will
+                    explain why. 3D Graphic cards have a set of capabilities that they support to make 
+                    better-looking images. Realistically, not every card supports the exact same 
+                    set of capabilities. Therefore, applications typically need to check the 
+                    existence of support for the capabilities that they take advantage of. In 
+                    Direct3D, device capabilities are reported in the capability structure, or cap 
+                    bits for short, that can be obtained by calling the device's GetDeviceCaps() 
+                    method. The cap bits structure details what the device can and cannot support. 
+                    Usually, the cap bits provide a fast and easy way to know what rendering 
+                    features an application can utilize.
+                    <p />
+                    One may logically wonder that if the cap bits are easy and simple, why is there 
+                    a need to use a database system ever? The reason is because the cap bits do not 
+                    speak of everything. Devices may mistakenly report cap bits which they actually 
+                    do not support, or which are broken. Furthermore, a capability may be enabled 
+                    at the expense of severe performance penalty. In this case, many developers 
+                    prefer to have a steady performance over a particular feature. To overcome 
+                    these issues associated with the cap bits, an application developer could test 
+                    all supported hardware models during development, then in a database, record a 
+                    list of hardware that the application has trouble with, as well as the specific 
+                    problems each device has. Then at run time, the application detects the 
+                    hardware that the host system has and looks up the hardware in its database. If 
+                    the hardware model is found, the database provides the detail as to what 
+                    special actions the application must take to ensure a smooth run.
+                    <p />
+                    <FONT CLASS="h2">How does the sample work?</FONT><BR>
+                    The sample demonstrates the database-driven configuration system with three 
+                    code components:
+                    <p />
+                    <ul>
+                        <li>
+                            <b>Main.cpp</b> - represents the configuration system client. It makes use of 
+                            the system as well as handling necessary sample code such as rendering and 
+                            animation routines.</li>
+                        <li>
+                            <b>ConfigDatabase.cpp</b> - implements the configuration database as a COM 
+                            object. The database object handles parsing of the configuration file.</li>
+                        <li>
+                            <b>ConfigManager.cpp</b> - a component between the database and its client. It 
+                            encapsulates access to the database and provides efficient access to the 
+                            properties.</li>
+                    </ul>
+                    <p />
+                    When the sample is run, the user is in a cell with several balls on the ground. 
+                    The user can shoot out additional balls and watch them bounce around. This 
+                    scene will represent a hypothetically-exciting game. At the bottom of the 
+                    screen, a list of properties will be listed. These properties are parsed and 
+                    loaded from the configuration database file based on the detected display and 
+                    audio devices that the sample detects. The existence of these properties 
+                    affects how the sample runs (for instance, how it renders or handles sound).
+                    <p />
+                    <FONT CLASS="h3">The Database</FONT><BR>
+
+                    In the sample, the configuration database file is a text file.  Each line is
+                    either a statement or keyword that affects parsing, a property definition, or
+                    a comment that starts with "//".  When parsing the database,
+                    the text letter case is ignored.  The file contains three sections.
+                    <p />
+                    The first section lists the hardware requirement of the sample.  It starts
+                    with a statement with a single word "Requirements" followed by one or more
+                    property/value assignments.  Finally, at the end of the section, a single
+                    statement "break" indicates that the section ends.  Below is an example
+                    of requirement sets in the configuration file:
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table1">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>Requirements</b>
+    OS=Win98
+    CpuSpeed=733
+    Memory=128
+    VideoMemory=64
+    DirectX=4.9.0.902
+    DiskSpace=100
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    The requirements are explained below:
+                    <p/>
+<TABLE CLASS="table" CELLSPACING=5 CELLPADDING=5 BORDER=0 ID="Table5">
+<TR BGCOLOR=#DDDDDD>
+<TD><b>Requirement Property</b></TD>
+<TD><b>Description<b/></TD>
+</TR>
+<TR BGCOLOR=#eeeeee>
+<td>OS</td>
+<td>Operating system version.  Supported values, in ascending order, are: Win95, Win98,
+    WinME, Win2k, WinXP, and Win2003.
+</td>
+<TR BGCOLOR=#eeeeee>
+<td>CpuSpeed</td>
+<td>Processor speed in mega-hertz.</td>
+</tr>
+<TR BGCOLOR=#eeeeee>
+<td>Memory</td>
+<td>Amount of system memory in megabytes.
+</td>
+</tr>
+<TR BGCOLOR=#eeeeee>
+<td>VideoMemory</td>
+<td>Amount of video memory in megabytes.
+</td>
+</tr>
+<TR BGCOLOR=#eeeeee>
+<td>DirectX</td>
+<td>DirectX version on the system in this format: #.#.#.#
+</td>
+</tr>
+<TR BGCOLOR=#eeeeee>
+<td>Diskspace</td>
+<td>Amount of available disk space in megabytes.  This requirement is here for illustration
+purpose only and is not checked by the sample.</td>
+</tr>
+</table>
+
+                    <p/>
+                    The second section is a list of named property sets.  A property set is
+                    a set of custom properties followed by a "break" line.  The syntax of a named property
+                    set is shown below:
+                    
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table12">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>PropertySet</b> = "MyPropSet"
+    CustomPropertyName1          // Name
+    CustomPropertyName2 = Value  // Name/Value
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    
+                    The property set begins with the keyword "PropertySet", followed by = then by
+                    the name of the property set enclosed in quotes.  In the above example,
+                    MyPropSet has two custom properties, PropertyName1 and PropertyName2.
+                    <p/>
+                    
+                    A custom property is a name/value pair, or simply a name by itself.  It is defined
+                    and applied to devices by the application and it serves as a flag to signal the application
+                    that a special action should be taken when dealing with the devices that this
+                    custom property is applied to.
+                    <p/>
+                    
+                    A property set can refer to other property sets, by using the following syntax:
+                    
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table13">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>PropertySet</b> = "SmallPropSet"
+    CustomPropertyName1          // Name
+    CustomPropertyName2 = Value  // Name/Value
+    <b>break</b>
+
+<b>PropertySet</b> = "BigPropSet"
+    <b>PropertySet</b> = "SmallPropSet" // BigPropSet includes SmallPropSet's properties
+    CustomPropertyName3          // Name
+    CustomPropertyName4 = Value  // Name/Value
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    
+                    The keyword <b>PropertySet</b> is used in place of a custom property name,
+                    and its value is the name of the property set to include, in quotes.  In the
+                    above example, BigPropSet has 4 custom properties total, as if it were defined
+                    like this:
+                    
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table14">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>PropertySet</b> = "BigPropSet"
+    CustomPropertyName1          // Name
+    CustomPropertyName2 = Value  // Name/Value
+    CustomPropertyName3          // Name
+    CustomPropertyName4 = Value  // Name/Value
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    
+                    Property sets provide a way to group related custom properties under one name.
+                    These properties can then be applied all at once, eliminating the need to
+                    list them all out one by one.
+                    
+                    <p/>
+                    The third section lists the hardware device entries included in the database.
+                    In the sample, the database contains audio and display devices.
+                    The device entries are organized by vendors and device IDs.  Every line of text
+                    in these sections must be one of the following 4 formats:
+                    <p/>
+                    
+                    <ol>
+                        <li>Vendor definition.  It is defined as shown below:
+                    
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table2">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+                    
+<b>AudioVendor</b> = 0x1102 "Audio card vendor name"       // For audio vendor
+<b>DisplayVendor</b> = 0x10b4  "Display card vendor name"  // For display vendor</PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+
+                    The definition begins with the AudioVendor or DisplayVendor keyword.
+                    This is followed by '=' then by the vendor ID.  Finally, a string follows
+                    the vendor ID to provide the vendor's friendly name.
+                    </li>
+                    <p/>
+                    
+                    <li>
+                    Device definition.  A single device is defined like the following:
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table3">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+0x1015 = "Device Name"</PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+
+                    The definition starts with a device ID that uniquely defines the device for
+                    the current vendor.  It is followed by an equal sign, and a string that
+                    contains the friendly name of the device.  The word "unknown" can be
+                    used in place of a device ID to represent all other devices not found in the
+                    database from the current vendor.
+                    </li>
+                    <p/>
+                    
+                    <li>Custom property or reference to a named property set, as demonstrated below:
+
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table7">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+PropertyName1             // Name
+
+PropertyName2 = Value     // Name/Value
+
+<b>PropertySet</b> = "MyPropSet" // Apply all properties included in MyPropSet</PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+
+                    The first form above is useful for enabling or disabling a particular feature
+                    that the application uses.  For instance, a property could be used to
+                    disable specular lighting.  The second form is for when a parameter needs
+                    to be set to a different value for some devices.  An example would be
+                    a property definition DepthBias=0.3 that forces the renderer to use a specific
+                    value, 0.3 in this case, for the D3DRS_DEPTHBIAS render state.  The third form
+                    is a reference to the named property set "MyPropSet".  Its effect is to apply
+                    all properties in the property set "MyPropSet" as if they were listed here
+                    instead of the named property set reference.
+                    </li>
+                    <p/>
+                    
+                    <li>Conditional property.  Conditional properties are custom properties and named
+                    property set references that are embedded in an <b>if</b> block, and are only applied
+                    if a specified condition is true.  The format is shown below:
+
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table9">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>if</b> <i>&ltidentifier&gt operator &ltvalue&gt</i>
+    PropertyName3 = Value
+    <b>PropertySet</b> = "MyPropSet"
+<b>endif</b></pre>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    
+                    Valid identifiers and their value formats are:
+                    <p/>
+                    <TABLE CLASS="table" CELLSPACING=3 CELLPADDING=5 BORDER=0 ID="Table10">
+                    <TR BGCOLOR=#dddddd><td><b>Identifier</b></td><td>Value Format</td><td>Description</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>ram</b></td><td>Number in decimal or hexadecimal (begins with 0x)</td><td>Amount of system memory.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>videoram</b></td><td>Number in decimal or hexadecimal (begins with 0x)</td><td>Amount of video memory.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>SubSysID</b></td><td>Number in decimal or hexadecimal (begins with 0x)</td><td>The subsystem ID of the hardware device.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>Revision</b></td><td>Number in decimal or hexadecimal (begins with 0x)</td><td>The revision number of the hardware device.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>driver</b></td><td>Full version format, defined as #.#.#.#, where # denotes a number in decimal or hexadecimal</td><td>The device's driver version.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>guid</b></td><td>A GUID in the format of ########-####-####-####-############ where each # denotes a hexadecimal digit</td><td>The device's GUID.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>OS</b></td><td>One of the following: Win95, Win98, Win98SE, WinME, Win2k, WinXP</td><td>The computer's operating system.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>Any <u>DWORD</u> members of the D3DCAPS9 struct</b></td><td>Number in decimal or hexadecimal (begins with 0x)</td><td>Caps,
+                           Caps2, Caps3, PresentationIntervals, CursorCaps, DevCaps, PrimitiveMiscCaps,
+                           RasterCaps, ZCmpCaps, SrcBlendCaps, DestBlendCaps, AlphaCmpCaps, ShadeCaps,
+                           TextureCaps, TextureFilterCaps, CubeTextureFilterCaps, VolumeTextureFilterCaps,
+                           TextureAddressCaps, VolumeTextureAddressCaps, LineCaps, MaxTextureWidth,
+                           MaxTextureHeight, MaxVolumeExtent, MaxTextureRepeat, MaxTextureAspectRatio,
+                           MaxAnisotropy, StencilCaps, FVFCaps, TextureOpCaps, MaxTextureBlendStages,
+                           MaxSimultaneousTextures, VertexProcessingCaps, MaxActiveLights, MaxUserClipPlanes,
+                           MaxVertexBlendMatrices, MaxVertexBlendMatrixIndex, MaxPrimitiveCount, MaxVertexIndex,
+                           MaxStreams, MaxStreamStride, VertexShaderVersion, MaxVertexShaderConst, PixelShaderVersion
+                           </td></tr>
+                    </table> 
+                    <p/>
+                    
+                    The operator can be one of the following:
+                    <p/>
+
+                    <TABLE CLASS="table" CELLSPACING=3 CELLPADDING=5 BORDER=0 ID="Table11">
+                    <TR BGCOLOR=#eeeeee><td><b>= or ==</b></td><td>True if the two operands are equal in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&lt&gt or !=</b></td><td>True if the two operands are not equal in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&gt=</b></td><td>True if the left operand is greater than or equal to the right one in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&lt=</b></td><td>True if the left operand is less than or equal to the right one in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&gt</b></td><td>True if the left operand is greater than the right one in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&lt</b></td><td>True if the left operand is less than the right one in value.</td></tr>
+                    <TR BGCOLOR=#eeeeee><td><b>&</b></td><td>Performs a bit-wise AND operation with the two operands and returns the result.</td></tr>
+                    </table>
+                    <p/>
+                    
+                    Note that identifier and value should not be enclosed in any quotes.
+                    In addition, <b>if</b> blocks can be nested.
+                    </li>
+                    </ol>
+                    <p/>
+
+                    <FONT CLASS="h3">Parsing the Device Database</FONT><BR>
+                    
+                    This section details how the device database is parsed by the sample's parser.
+                    The parsing for audio device properties and display device properties are handled
+                    similarly but separately.  Here, the parsing of display device properties will
+                    be described, although the process also applies to audio device properties.
+                    <p/>
+                    
+                    To match for a specific hardware device, the parser first searches for
+                    a "DisplayVendor = 0xXXXX" line with a matching vendor ID.  Once a matching
+                    vendor definition is found, the parser skips vendor definitions after the
+                    matching definition.  This is done because sometimes a vendor has several
+                    vendor IDs, and they are defined with several vendor definition lines.
+                    Next, the parser looks for any and all custom properties
+                    after the vendor definition but before a device definition.  The properties
+                    found here will be applied to all devices from that particular vendor.
+                    Therefore, properties that apply to all devices from a particular vendor should
+                    be placed immediately after the vendor definition when constructing the
+                    database.
+                    <p/>
+                    
+                    After parsing the vendor-wide properties, the parser continues to search for
+                    a device definition line.  If the parser finds a match before it encounters
+                    a "break" line, it will parse all custom and conditional properties found until
+                    it encounters a "break" line.  The parser only stops parsing when it encounters a "break"
+                    line.  It does not stop when it finds another device definition.  This behavior
+                    is handy as it becomes easy to add properties that apply to multiple devices.
+                    <p/>
+                    
+                    The following is an example database that defines properties for devices from a
+                    particular vendor:
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table4">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+DisplayVendor = 0x1101 "Display Vendor Name"
+DisplayVendor = 0x1102 "Display Vendor Name"
+    DisableSpecular        // Disable specular lighting
+0x1001 = "Card Model 1"
+    ForceShader=14         // Restrict shader to 1.4 or lower
+0x1002 = "Card Model 2"
+    MaximumResolution=1024 // Max resolution 1024x768
+    <b>break</b>
+0x1003 = "Card Model 3"
+Unknown = "Unknown"
+    UseAnisotropicFilter   // Use anisotropic filtering
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+
+                    In the above example, three devices from a display vendor are defined.  The
+                    vendor has two known vendor IDs, 0x1101 and 0x1102.  DisableSpecular appears
+                    before any device definition for this vendor.  Therefore, it applies to all
+                    devices from this vendor.  For Card Model 1, two properties, ForceShader=14
+                    and MaximumResolution=1024, will be applied in addition to the vendor-wide
+                    property, DisableSpecular, as these two properties are parsed before a
+                    "break" line is encountered.  For Card Model 2, only MaximumResolution=1024 is
+                    encountered before "break", so that is the only device-specific property
+                    applicable to the device.  For Card Model 3 and all other cards from this
+                    vendor not listed in the database, only UseAnisotropicFilter will be applied,
+                    plus the vendor-wide DisableSpecular property.
+                    <p/>
+
+                    <FONT CLASS="h3">Specifying Default for All Devices</FONT><BR>
+
+                    The database can specify a default set of properties to apply to all devices
+                    from all vendors, whether or not they are included in the database.  To
+                    do this, the database can include two ApplyToAll property sets.  One appears
+                    before the hardware vendor definitions, and the other appears after.  An
+                    ApplyToAll property set has the syntax like the following:
+                    
+                    <p/>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0" ID="Table15">
+                    <TR>
+                    <TD CLASS="chart" BGCOLOR="#dddddd">
+                    <PRE>
+
+<b>ApplyToAll</b>
+    Property1
+    Property2
+    <b>break</b></PRE>
+                    </TD>
+                    </TR>
+                    </TABLE>
+                    <p/>
+                    
+                    ApplyToAll property sets, like any other property sets, should end with a "break" line.
+                    The first ApplyToAll block is parsed before the hardware vendor section is, and
+                    the second ApplyToAll block is parsed after parsing the hardware vendor
+                    section.  Therefore, the first block defines default properties that
+                    can be overridden by vendor- or device-specific properties.  The second
+                    block defines default properties that cannot be overridden.
+                    <p/>
+                    
+                    <FONT CLASS="h3">Custom Properties Implemented by the Sample</FONT><BR>
+
+                    It is important to note that custom properties are completely designed
+                    and supported by the application.  The application has the best knowledge
+                    of what it is attempting to do, and would know the best what to do with
+                    a particular piece of hardware, whether to disable a feature or deploy
+                    an alternative method.  The sample implements a list of custom properties
+                    that are more common to applications to show how they can typically used
+                    and how application behavior is affected by the existence of custom properties.
+                    These properties can and will most likely be modified when the configuration
+                    system is used with a different application.  The sample also lists a number
+                    of additional properties that are not implemented in the sample, but may be
+                    valuable to other applications because they have been needed by shipped
+                    games.  They serve the purpose of giving an idea of what type of problems
+                    hardware and drivers can have.
+                    <p/>
+                    
+                    The custom properties which are implemented by the sample are detailed below.
+                    <p/>
+                    
+                    <TABLE CLASS="table" CELLSPACING=5 CELLPADDING=5 BORDER=0 ID="Table6">
+                    <TR BGCOLOR=#DDDDDD>
+                    <TD><b>Property</b></TD>
+                    <td><b>Value</b></td>
+                    <TD><b>Description<b/></TD>
+                    </TR>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>MaximumResolution</td>
+                    <td>640, 800, 1024, etc.</td>
+                    <td>This limits the maximum resolution used by the sample by specifying the
+                    width of the resolution.  For instance, to limit resolution to 800x600, use
+                    MaximumResolution=800.
+                    </td>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>UseFixedFunction</td>
+                    <td>None</td>
+                    <td>This property tells the sample renderer to use fixed-function path.
+                    When this property is not present, the renderer uses programmable shaders.  In
+                    the sample, fixed-function uses per-vertex lighting while pixel shader 2.0
+                    or higher uses per-pixel lighting.  The visual difference is dramatic.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>ForceShader</td>
+                    <td>0, 11, 12, 13, 14, 20, A2, B2, 30</td>
+                    <td>This tells the renderer to use a particular pixel shader version,
+                    even if the graphic device supports a newer version.  For instance,
+                    to force the renderer to use ps_1_4 on a 2.0 hardware, use
+                    ForceShader=14.  In the sample, pixel shader 2.0 or higher uses per-pixel
+                    lighting.  The visual difference is dramatic.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>UseAnisotropicFilter</td>
+                    <td>None</td>
+                    <td>This property tells the renderer to use anisotropic filtering for
+                    textures.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>DisableSpecular</td>
+                    <td>None</td>
+                    <td>This tells the renderer to disable specular lighting.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>PrototypeCard</td>
+                    <td>None</td>
+                    <td>This property is used to warn the user about the presence of known
+                    prototype cards.  When this is present, the sample brings up a message
+                    box to inform the user.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>UnsupportedCard</td>
+                    <td>None</td>
+                    <td>This property is used to disallow running the sample with cards
+                    below specification.  When this is present, the sample brings up a message
+                    box to inform the user, then terminates.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>OldDriver</td>
+                    <td>None</td>
+                    <td>This property is used to warn the application user that the display driver
+                    is older than the version tested by the developer.  The sample brings up
+                    a message box to inform the user.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>InvalidDriver</td>
+                    <td>None</td>
+                    <td>This property is used to disallow running the sample with display drivers
+                    that are known to cause severe problems with the application.  When this is present,
+                    the sample brings up a message box to inform the user, then terminates.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>OldSoundDriver</td>
+                    <td>None</td>
+                    <td>This property is used to warn the application user that the sound driver
+                    is older than the version tested by the developer.  The sample brings up
+                    a message box to inform the user.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>InvalidSoundDriver</td>
+                    <td>None</td>
+                    <td>This property is used to disallow running the sample with sound drivers
+                    that are known to cause severe problems with the application.  When this is present,
+                    the sample brings up a message box to inform the user, then terminates.</td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>UMA</td>
+                    <td>None</td>
+                    <td>This property is used to alert the application that the display card on
+                    the system is a UMA (Unified Memory Architecture) card.  A UMA display card
+                    uses part of the system memory as its video memory.  When this property is
+                    present, the amount of available video memory on the system is calculated
+                    from the system memory size.</td>
+                    </tr>
+                    </table>
+                    <p/>
+                    
+                    The following properties are included in and parsed from the database,
+                    but not implemented by the sample.
+                    <p/>
+                    
+                    <TABLE CLASS="table" CELLSPACING=5 CELLPADDING=5 BORDER=0 ID="Table8">
+                    <TR BGCOLOR=#DDDDDD>
+                    <TD><b>Property</b></TD>
+                    <td><b>Value</b></td>
+                    <TD><b>Description<b/></TD>
+                    </TR>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>LinearTextureAddressing</td>
+                    <td>None</td>
+                    <td>When this is defined, non-square textures use unnormalized tex
+                    coordinates instead of the normalized 0 to 1 range.
+                    </td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>DoNotUseMinMaxBlendOp</td>
+                    <td>None</td>
+                    <td>When this is defined, the display device does not handle min
+                    or max blending mode properly, so these should be avoided.
+                    </td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>DisableDriverManagement</td>
+                    <td>None</td>
+                    <td>With this property, the Direct3D device should be created with
+                    the D3DCREATE_DISABLE_DRIVER_MANAGEMENT flag so that resource
+                    management is done by Direct3D, not the driver.
+                    </td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>DisableAlphaRenderTargets</td>
+                    <td>None</td>
+                    <td>When this is defined, the application should not allow render
+                    targets with an alpha channel.
+                    </td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>DisableRenderTargets</td>
+                    <td>None</td>
+                    <td>All render targets should be disabled.
+                    </td>
+                    </tr>
+                    <TR BGCOLOR=#eeeeee>
+                    <td>EnableStopStart</td>
+                    <td>None</td>
+                    <td>This property tells the application that the sound card supports
+                    calling a DirectSound buffer's Start() and Stop() methods at a high
+                    frequency.
+                    </td>
+                    </tr>
+                    </table>
+                    <p/>
+                    
+                    <FONT CLASS="h3">Loading and Accessing the Database</FONT><BR>
+                    
+                    When an application needs to access the content of the database, it
+                    calls the static method IConfigDatabase::Create(), which initializes
+                    and returns an IConfigDatabase object.  This object represents the
+                    database itself and is used to for the access.  The application
+                    should then call the IConfigDatabase::Load() method, passing in the
+                    configuration database file path, a SOUND_DEVICE structure with
+                    information about the sound device on the system, a D3DADAPTER_IDENTIFIER9
+                    structure with similar information about the display device on the
+                    system, the display cap bits as returned by Direct3D, the amount of
+                    system and video memory, and the processor speed.  Load() parses
+                    the configuration database file and saves the requirements and
+                    relevant custom properties based on the detected display and sound devices.
+                    Internally, IConfigDatabase saves this information as a
+                    PropertyName : Value string pair.  Once the operation is complete,
+                    the application can query for available requirements or custom properties and
+                    obtain the string pairs.
+                    <p/>
+                    
+                    Because the properties control how the application renders, the application
+                    will very likely need to check the value of properties in a rendering
+                    loop.  As such, checking property values should take as little time as
+                    possible to minimize possible performance impact.  Because comparing
+                    strings is not efficient as comparing two numbers, it is generally
+                    not a good idea for the rendering loop to query properties directly
+                    from IConfigDatabase.  The CConfigManager helper class acts as a code layer
+                    on top of IConfigDatabase.  This application-customized class provides
+                    detection for hardware on the system.  It also queries its IConfigDatabase
+                    for properties, then stores the property values in its member variables.
+                    During rendering, the application can check the value of the member
+                    variables to determine the appropriate behavior instead of querying
+                    string pairs from IConfigDatabase.
+                    <p/>
+                    
+                    <FONT CLASS="h3">Running in Safe Mode</FONT><BR>
+                    
+                    The sample also demonstrates a simple implementation of safe mode.  Safe
+                    mode is a flag typically to signal the application to do everything in
+                    the lowest possible settings, such as running at the lowest resolution
+                    allowed, disabling all features that are not supported by every card
+                    in existence, etc.  To implement safe mode, the sample needs a way to tell
+                    when application begins and ends expectedly, and saves the
+                    status using a method that persists between two application runs, such as a file.
+                    Therefore, the sample creates a zero-length file named Launch.sta at startup,
+                    and deletes this file before it exits.
+                    The location that the sample writes this file to is the subdirectory
+                    &ltDrive&gt:\Document and Settings\&ltusername&gt\Local Settings\Application Data\ConfigSystem,
+                    where &ltusername&gt is the logon name of the current user.
+                    The folder "&ltDrive&gt\Document and Settings\&ltusername&gt\Local Settings\Application Data" is
+                    used by applications that are local to the system to store information for the current user.
+                    It can be obtained by calling SHGetFolderPath() with CSIDL_LOCAL_APPDATA.  The sample
+                    uses this path instead of the application executable directory because it is the
+                    best practice to write user-specific data to a location that is specific to the user.
+                    Not every user will have access to the executable directory all the time.  Therefore,
+                    writing user-specific data to the executable directory should be avoided.
+                    <p/>
+                    When the sample is launched and before it writes Launch.sta, it checks whether or not
+                    Launch.sta already exists.  If it does, then the application was in progress, and it
+                    implies that the previous launch of the application encountered a problem and could not
+                    exit normally.  This is a good indication to turn on safe mode so that the
+                    application can minimize the chance that the same problem occurs again.
+                    <p/>
+                    
+                    <FONT CLASS="h2">In Summary</FONT><BR>
+                    
+                    A configuration system using a database allows applications to precisely
+                    define the behavior to employ for a specific hardware device.  It is
+                    worth noting that the properties in the database are defined by the
+                    client application, and the application is free to extend the database
+                    by adding more properties as it requires, or adding more hardware
+                    vendors or devices as newer hardware becomes available.  For applications
+                    that get patched or updated, the most up-to-date configuration
+                    database file can accompany the patch to ensure that customers with
+                    newer hardware can still benefit from the system.
+                    
+                    <P>
+                        <!-- FOOTER - DO NOT MODIFY -->
+                        <BR clear="left">
+                        <BR clear="left">
+                        <BR clear="left">
+                        <b>Disclaimer:</b> To the best of our knowledge, the product names and capabilities
+                        are accurate.  If you are aware of any inaccuracies in this data, please inform us
+                        at <a href="mailto:directx@microsoft.com">directx@microsoft.com</a>.
+                        <p/>
+                        <HR>
+                        <CENTER>
+                            Copyright (c) Microsoft Corporation. All rights reserved.
+                        </CENTER>
+                    <!-- END FOOTER -->
+                    <!-- MASTER TABLE - DO NOT MODIFY -->
+                </TD>
+            </TR>
+        </TABLE>
+        <!-- END MASTER TABLE -->
+    </BODY>
+</HTML>

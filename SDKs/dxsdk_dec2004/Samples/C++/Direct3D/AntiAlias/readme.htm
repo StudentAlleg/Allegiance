@@ -1,0 +1,176 @@
+<HTML>
+    <HEAD>
+        <TITLE>AntiAlias Direct3D Sample</TITLE>
+        <STYLE TYPE="text/css"> 
+        .h1 { font-family: tahoma; font-weight: bold; font-size: 130%; }
+	.h2 { font-family: arial; font-weight: bold; vertical-align: super; }
+	.p { font-family: arial; font-size: 80%; }
+	.header { padding: 3px; font-family: tahoma; font-weight: bold; color: white }
+	.chart { font-family: monospace; font-size: 75%; }
+	</STYLE>
+    </HEAD>
+    <BODY bgColor="#ffffff" MARGINHEIGHT="2" TOPMARGIN="2" LEFTMARGIN="2" RIGHTMARGIN="2">
+        <!-- HEADER - DO NOT MODIFY -->
+        <TABLE BACKGROUND="doc/header_background.gif" WIDTH="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+            <TR>
+                <TD ALIGN="left"><IMG SRC="doc/header_left.gif" BORDER="0"></TD>
+                <TD ALIGN="right"><IMG SRC="doc/header_right.gif" BORDER="0"></TD>
+            </TR>
+        </TABLE>
+        <!-- END HEADER -->
+        <!-- MASTER TABLE - DO NOT MODIFY -->
+        <TABLE WIDTH="100%" BORDER="0" CELLPADDING="20">
+            <TR>
+                <TD CLASS="p">
+                    <!-- END MASTER TABLE -->
+                    <FONT CLASS="h1">
+                        <!-- INSERT SAMPLE NAME --> AntiAlias Sample 
+                        <!-- END SAMPLE NAME -->
+                    </FONT>
+                    <HR>
+                    <TABLE WIDTH="100%" BGCOLOR="#ffffff" BORDER="0" CELLPADDING="10" CELLSPACING="0">
+                        <TR>
+                            <TD CLASS="p">
+                                <BR CLEAR="left">
+                                <IMG style="MARGIN-TOP: -7px; MARGIN-LEFT: -20px" hspace="20" src="antialias.gif" align="left" vspace="10">
+                                <FONT CLASS="h2">Description</FONT><BR>
+                                <!-- INSERT SAMPLE DESCRIPTION --> 
+Multisampling attempts to reduce aliasing by mimicking a higher resolution display; multiple sample points are used to determine each pixel's color. This sample shows how the various multisampling techniques supported by your video card affect the scene's rendering. Although multisampling effectively combats aliasing, under particular situations it can introduce visual artifacts of its own. As illustrated by the sample, centroid sampling seeks to eliminate one common type of multisampling artifact. Support for centroid sampling is supported under Pixel Shader 2.0 in the latest version of the DirectX runtime. 
+
+                                <!-- END SAMPLE DESCRIPTION -->
+                                <BR CLEAR="left">
+                                <BR CLEAR="left">
+                            </TD>
+                        </TR>
+                    </TABLE>
+                    <HR>
+                    <BR CLEAR="left">
+                    <FONT CLASS="h2">Path</FONT>
+                    <TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="4" BORDER="0">
+                        <TR>
+                            <!-- PATH INFORMATION -->
+                            <TD CLASS="chart" BGCOLOR="#dddddd" ALIGN="right"><B>Source:</B></TD>
+                            <TD CLASS="chart" BGCOLOR="#eeeeee">DX90SDK\Samples\C++\Direct3D\AntiAlias</TD>
+                            <!-- END PATH INFORMATION -->
+                        </TR>
+                        <TR>
+                            <!-- PATH INFORMATION -->
+                            <TD CLASS="chart" BGCOLOR="#dddddd" ALIGN="right"><B>Executable:</B></TD>
+                            <TD CLASS="chart" BGCOLOR="#eeeeee">DX90SDK\Samples\C++\Direct3D\Bin\AntiAlias.exe</TD>
+                            <!-- END PATH INFORMATION -->
+                        </TR>
+                    </TABLE>
+                    <P>
+                        <BR CLEAR="left">
+<I>NOTE: To better see the subtle pixel-level details explored by this sample, it might be helpful to zoom in on the screen by using the Windows Magnifier tool: Type "magnify" into the Windows Run dialog to launch the utility.</i>
+<BR>
+<BR>
+<BR>
+                        <FONT CLASS="h2">Aliasing and Antialiasing</FONT><BR>
+Raster displays use a finite number of pixels to display the scene; the greater the display's resolution, the more accurately the scene can be represented. Visible artifacts exist in scenes where pixels can not adequately represent high-frequency data. This is most apparent at mesh edges, where straight-line data is approximated by a fixed number of pixels, creating a stair-step pattern; this form of aliasing is often called "jaggies", and becomes especially apparent when the polygon is in motion along the screen. <I>Figure 1</I> shows aliasing in the sample's "triangles" scene when multisampling is disabled.<BR> 
+<BR>
+<IMG src="doc\fig1.gif"><BR>
+<BR>
+Aliasing is a natural consequence of rasterization. For a review of raster displays and polygon rasterization, see the "Directly Mapping Texels to Pixels" article in the SDK documentation. As long as individual pixels are large enough to be distinguished from neighboring pixels, then there's no perfect way to eliminate aliasing. Ultimately, it would be best to make pixels so small and so close together that aliasing wouldn't be noticed. Realize that laser printers also produce raster output, but it's nearly impossible to find any aliasing on a printout. The reason is the common resolution for a square inch of print is 1200x1200. The common resolution for a square inch on a computer display is about 100x100 (or 200x200 for high-resolution displays), which means there are about 150 times as many dots on a printed page than a monitor. Of course, the other way to make the pixels appear smaller is to increase your viewing distance from the monitor, which you'll notice makes the jaggies disappear once you back up far enough. At a certain point, you would be unable to distinguish between a cluster of 4 pixels and a pixel that was 4 times larger but had the same average color.<BR>
+<BR> 
+
+Following this logic, one way to combat aliasing is to render the scene to a texture of higher resolution than the display; if your display is 800x600 and you render the scene at 1600x1200, each pixel is responsible for displaying a 2x2 region of the scene texture. A good way to approximate a 2x2 region is the mathematical average of all 4 colors. This technique of rendering at a higher resolution than the display is called <b>oversampling</b> (a.k.a. supersampling). It has the advantage of noticeably reducing aliasing artifacts in your scene at the expensive cost of a larger backbuffer, and therefore a higher fill cost. Oversampling is not directly implemented by the Direct3D API (nor is it recommended due to the disadvantages just mentioned), but it can easily be implemented at the application level. Multisampling, another antialiasing method, seeks to emulate sub-pixel averaging behavior without actually computing each sub-pixel's color, and therefore requires very little overhead.<BR>
+
+<BR>If multisampling is not enabled, rasterization is performed by comparing the position of polygon edges against the position at the center of the pixel. If the polygon correctly covers the sampling point (the center of the pixel), then the polygon covers the pixel and therefore determines the pixel's color. Multisampling extends rasterization by using a pattern of sampling points instead of the pixel's center (see <I>Figure 2</I>). If for a given pixel, the polygon being rendered covers only half of the sampling points, then the polygon only contributes 50% of the pixel's final color:<BR>
+<BR>
+<IMG src="doc\fig2.gif"><BR>
+<BR>
+<BR> 
+Since the rasterization process is testing at multiple points inside each pixel it might seem that multisampling is just as expensive as oversampling; however, the extra speed comes from the fact that multisampling doesn't run the pixel pipeline at every sampling point. The color of the polygon being drawn is determined at the center of the pixel (unless centroid sampling is used, as discussed later) and the multiple sampling points are used simply to calculate the percentage of the pixel influenced by that color. <I>Figure 3</I> shows how multisampling greatly reduces the "jaggies" seen in the same scene from <I>Figure 1</I>:<BR>
+<BR>
+<IMG src="doc\fig3.gif"><BR>
+<BR>
+One important point to note is that Direct3D does not specify the sampling point patterns that hardware uses when multisampling, only the number of sampling points (as shown in <I>Figure 4</I>). That means that the exact same scene under the exact same multisampling settings could appear slightly different depending on the graphics card used. <BR>
+<BR>
+<IMG src="doc\fig4.gif"><BR>
+<BR>
+<BR CLEAR="left">
+<FONT CLASS="h2">Centroid Sampling</FONT><BR>
+
+As mentioned earlier, a key point to the efficiency of multisampling is that the pixel pipeline is only run once per pixel per polygon. The screen location used to determine the polygon's color is typically the center of the pixel, but this can lead to a problem: if a polygon covers one or more sample points but does not cover the pixel's center, the polygon's color will be determined at a point which does not actually lie on the polygon (see <I>Figure 5</I>):<BR>
+<BR>
+<IMG src="doc\fig5.gif"><BR>
+<BR>
+If the polygon is textured, the sampling coordinates could be outside the polygon's UV boundaries. Often developers will pack several small textures onto a large texture (sometimes called an atlas texture) in order to minimize texture changes (i.e. lightmaps are often stored this way). If the atlas texture features high contrast differences, sampling at the pixel's center might introduce undesired color from a neighboring region on the atlas, which results in miscoloring artifacts at polygon edges. This is most visible when the polygon is rotated to be nearly parallel with the view vector; stated another way, if the polygon is at a high glancing angle the interpolated texture coordinate at the pixel's center could be well beyond the polygon's UV boundaries.<BR>
+<BR>
+Try running the sample's "Triangles" scene with the multisampling type set to D3DMULTISAMPLE_NONE and texture filtering set to "Point". You should not be able to see any non-white pixels under the "Texturing Artifacts" label. Now enable multisampling and notice the outline of a triangle appears, as shown in <I>Figure 6</I>:<BR>
+<BR>
+<IMG src="doc\fig6.gif"><BR>
+<BR>
+The triangle is textured such that texels which are covered by the triangle's UV boundaries are white, and all other texels are black (see <I>Figure 6</I>); therefore, when using point sampling the triangle will be invisible against the white background except where texels beyond the UV boundary are being sampled. Note that it's normal for linear and anisotropic filtering to sample from texels outside the UV boundary; this follows directly from how bilinear filtering works.<BR>
+<BR>
+The texturing artifacts are visible when using point filtering with multisampling because multisampling extends the rasterized area of the triangle to include all pixels in which sampling points are covered, even when the pixel center is not. The solution to this problem is <B>centroid sampling</B>. When centroid sampling is enabled, the position used for determining polygon color is adjusted to be the center of all the sampling points covered by the polygon, as illustrated in <I>Figure 7</I>. This guarantees that centroid-sampled locations will always lie within the polygon being rendered. <BR>
+<BR>
+<IMG src="doc\fig7.gif"><BR>
+<BR>
+
+Place a check in the "Centroid sampling" checkbox and notice that the "Texturing Artifacts" column is again blank, indicating that centroid sampling is constraining the interpolated texture coordinates to the triangle's UV boundary. Centroid sampling is automatically enabled for pixel shader inputs with a COLOR semantic. To enable centroid sampling on an HLSL pixel shader input of any other type simply append "_centroid" to the semantic:<BR>
+<BR>
+<TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0">
+<TR>
+<TD CLASS="chart" BGCOLOR="#eeeeee">
+<BR>
+<PRE>
+//--------------------------------------------------------------------------------------
+// Texture - Point sampled (centroid)
+//--------------------------------------------------------------------------------------
+float4 TexturePointCentroidPS( float4 TexCoord : TEXCOORD0_centroid ) : COLOR0
+{
+    return tex2D( PointSampler, TexCoord );
+}
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+Similarly, to enable centroid sampling within an assembly shader, append "_centroid" to the declaration:<BR>
+<BR>
+<TABLE STYLE="MARGIN-LEFT: -4px" CELLSPACING="4" CELLPADDING="10" BORDER="0">
+<TR>
+<TD CLASS="chart" BGCOLOR="#eeeeee">
+<BR>
+<PRE>
+dcl_texcoord0_centroid v0
+</PRE>
+</TD>
+</TR>
+</TABLE>
+<BR>
+Be aware that centroid sampling does not influence pixel rate of change calculations, and therefore mipmap levels are still chosen from rates of change at pixel centers. Also note that centroid sampling should primarily be used with atlas textures as described above. Undertypical texture usage where the entire texture maps directly to the mesh, interpolated sampling points which lie beyond polygon boundaries are desireable since that generates a uniform texturing; for example, a textured quad should look the same regardless of how it is tesselated (at least at non-edge pixels). sacentroid sampling will actually introduce slight texturing errors.<BR>
+<BR>
+The "Spheres" and "Quads" scenes in the sample contain low-tessellated and high-tessellated meshes textured with a checker pattern. Try playing with various multisampling, filtering, and centroid sampling settings to see how the adjustments influence the scene.
+ 
+
+
+<P>
+                        <BR CLEAR="left">
+                        <FONT CLASS="h2">References</FONT><BR>
+<B><A HREF="http://www.ati.com/developer/SIGGRAPH04/ShadingCourse2004_HLSL_Slides.pdf">"DirectX 9 High Level Shading Language"</A></B><BR>
+<B><i>Siggraph 2004 presentation</i></B><Br>
+Jason Mitchell, ATI Research<BR>
+<BR>
+
+<B><A HREF="http://download.nvidia.com/developer/presentations/GDC_2004/D3DTutorial_Sim.pdf">"Advanced Visual Effects with Direct3D"</A></B><BR>
+<B><i>Game Developers Conference 2004 presentation</i></B><Br>
+Mike Burrows, Sim Dietrich, David Gosselin, Kev Gee, Jeff Grills, Shawn Hargreaves, Richard Huddy, Gary McTaggart, Jason Mitchell, Ashutosh Rege, Matthias Wloka<BR>
+<BR>
+
+
+ 
+            <!-- FOOTER - DO NOT MODIFY -->
+            <BR clear="left">
+            <HR>
+            <CENTER>
+                Copyright (c) Microsoft Corporation. All rights reserved.
+            </CENTER>
+        <!-- END FOOTER -->
+        <!-- MASTER TABLE - DO NOT MODIFY --> </TD></TR></TBODY></TABLE> 
+        <!-- END MASTER TABLE -->
+    </BODY>
+</HTML>

@@ -1,0 +1,1477 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Microsoft® DirectX® 9</title>
+<style>
+<!--
+DIV.Section1 {
+	page: Section1
+}
+ table.MsoNormalTable
+	{mso-style-parent:"";
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 24pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; 
+}
+P {
+	FONT-SIZE: 12pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; 
+}
+P.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+DIV.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+SPAN.spelle {
+	
+}
+SPAN.SpellE {
+	
+}
+LI.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+SPAN.grame {
+	
+}
+SPAN.GramE {
+	
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 13.5pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; 
+}
+H2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 18pt; MARGIN-LEFT: 0in; MARGIN-RIGHT: 0in; FONT-FAMILY: "Times New Roman"; 
+}
+-->
+</style>
+</head>
+
+<body>
+
+<div class="Section1">
+	<table class="MsoNormalTable" style="width: 100%" cellPadding="0" width="100%" border="0">
+		<tr>
+			<td style="padding: 0.75pt" vAlign="top">
+			<h1><span style="font-family: Verdana">Microsoft</span><sup><span style="font-size: 7.5pt; font-family: Verdana">®</span></sup><span style="font-family: Verdana"> 
+			DirectX</span><sup><span style="font-size: 7.5pt; font-family: Verdana">®</span></sup><span style="font-family: Verdana"> 
+			9.0 SDK Update (December 2004)</span></h1>
+			<p class="MsoNormal">Final Release</p>
+			<p class="MsoNormal">
+			<span style="font-size: 7.5pt; font-family: Verdana">Last updated 
+			December 8, 2004</span></p>
+			<h1><a name="Welcome"><span style="font-family: Verdana">Welcome</span></a></h1>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">This is 
+			Microsoft's DirectX 9.0 Software Development Kit (SDK) Update for 
+			December 2004 Final release. Primary areas of concentration for the 
+			this SDK Update were for PIX, Preview pipeline, and updates for the 
+			Direct3D Extension Library (D3DX), Graphics Samples, Sample Frame 
+			work, tools and documentation. &nbsp;This includes the final version of 
+			the next DirectX Runtime release called &quot;DirectX 9.0c&quot; with updated 
+			Managed DirectX binaries from the SDK Update (December 2004).</span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">After 
+			installing, those new to DirectX should start with the DirectX 9.0 
+			documentation.&nbsp; More seasoned developers may also want to view 
+			the &quot;What's New&quot; section.&nbsp; Professional DirectX developers 
+			should refer to the &quot;KNOWN ISSUES&quot; section prior to raising 
+			concerns.</span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="_Contents:"><span style="font-family: Verdana">Contents</span></a><span style="font-family: Verdana">:</span></h1>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#WhatsNew">
+				What’s New </a> </span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#Whats_Coming">
+				What’s Coming </a>&nbsp;</span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#Known_Issues_">
+				Known Issues</a> </span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#install">
+				Installation</a> </span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#docs">
+				Documentation </a> <br>
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#Managed_DirectX">
+				DirectX for Managed Code </a> </span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#compiler">
+				Compiler Support</a> </span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#cd">
+				CD Layout </a> </span></p>
+			</blockquote>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="#roland">
+				Roland <span class="SpellE">SoundCanvans</span> Sound Set for 
+				General MIDI and GS </a></span></p>
+			</blockquote>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">&nbsp;</p>
+			<h1><a name="WhatsNew"><span style="font-family: Verdana">What's New
+			</span></a></h1>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Below are 
+			highlights of what is new in this DirectX 9.0 SDK Update (December 
+			2004) release.&nbsp; For a complete list of updates, please refer to 
+			the SDK Documentation &quot;What's News&quot; sections.</span></p>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size: 10pt; color: black; font-family: Verdana">
+			New Samples:</span></i></b></p>
+			<div>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				Updated <span class="SpellE">PRTDemo</span> (formally known as
+				<span class="SpellE">PRTPerVertex</span>) to support LDPRT and 
+				Transfer visualization</span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				LocalDeformablePRT</span></span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				BasicHLSL</span></span><span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt"> 
+				sample for Visual Basic .NET</span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				New <span class="SpellE">Techical</span> Articles</span></p>
+				<p style="text-indent: -0.25in; margin-left: 1in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Courier New">o<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				Install on Demand for Games</span></p>
+				<p style="text-indent: -0.25in; margin-left: 1in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Courier New">o<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana; letter-spacing: -0.25pt">
+				Gaming with Limited-User Accounts</span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana">Project and 
+				solution files for both Microsoft Visual Studio .NET 2002 and 
+				Visual Studio .NET 2003 are now provided.</span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana">Samples and 
+				tool source code now use safer string functions (<span class="SpellE">strsafe.h</span>)
+				</span></p>
+				<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">&nbsp;</div>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size: 10pt; color: black; font-family: Verdana">
+			Tool Updates</span></i></b></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; color: black; font-family: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;
+			</span></p>
+			<p class="MsoNormal" style="margin-left:.25in"><b>
+			<span style="font-size:10.0pt;
+font-family:Verdana;color:black">PIX </span></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">A collection 
+				of <span class="spelle">countersets</span> is provided as a 
+				starting point for you to record useful runtime data from your 
+				application. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">A new Key 
+				Combination trigger is provided. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">You can now 
+				set triggers to recur. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">Options are 
+				available to display PIX information on top of your running 
+				application. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">You can set a 
+				call capture action on a single frame. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">Full stream 
+				capture performance is improved. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">You can 
+				launch experiment and log files, or open image files, simply by 
+				dragging them onto a PIX window. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">The tool is 
+				compatible with older versions of D3dx. </span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">Many bugs 
+				have been fixed.</span> </li>
+			</ul>
+			<p class="MsoNormal">
+			<span style="font-size:10.0pt;font-family:Verdana;
+color:black">&nbsp;</span></p>
+			<p class="MsoNormal">
+			<span style="font-size:10.0pt;font-family:Verdana;
+color:black">&nbsp;&nbsp;&nbsp;&nbsp; <b>Maya </b></span></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">The Effect 
+				File Exporter for Alias Maya now supports options to control the 
+				set of exported data, and it can export and preview smooth 
+				skinned meshes</span> </li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size: 10pt; color: black; font-family: Verdana">
+			D3DX </span></i></b></p>
+			<p class="MsoNormal"><b>
+			<span style="font-size: 10pt; font-family: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</span></b></p>
+			<p class="MsoNormal" style="margin-left:.25in"><b>
+			<span style="font-size:10.0pt;
+font-family:Verdana">Tangent Frame Computation</span></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">New 
+				functionality for robust, customizable, tangent-frame 
+				computation.</span> </li>
+			</ul>
+			<p class="MsoNormal"><b>
+			<span style="font-size:10.0pt;font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp; </span></b>
+			</p>
+			<p class="MsoNormal"><b>
+			<span style="font-size:10.0pt;font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="spelle">Precomputed</span> Radiance Transfer</span></b></p>
+			<p class="MsoNormal">
+			<span style="font-size:10.0pt;font-family:Verdana">&nbsp;&nbsp;&nbsp; 
+			The
+			<span class="spelle">precomputed</span> radiance transfer (PRT) 
+			application programming interface (API) has been enhanced:</span></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Added support 
+				for adaptive subsurface scattering simulations. </span></li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Added a new 
+				callback for <span class="spelle">retreiving</span> the status 
+				of CPCA compression.</span></li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Added new 
+				methods to enable PRT computation for arbitrary point/normal 
+				pairs in space.</span></li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Developers 
+				can now specify minimum and maximum distances of intersection 
+				between objects for PRT simulation.</span></li>
+			</ul>
+			<p class="MsoNormal" style="margin-left:.5in">
+			<span style="font-size:10.0pt">&nbsp;</span></p>
+			<p class="MsoNormal"><b>
+			<span style="font-size:10.0pt;font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			Effects
+			</span></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">A series of 
+				performance enhancements and optimizations have been implemented 
+				in the Effects framework.</span> </li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size:10.0pt;
+font-family:Verdana;color:black">Other Notes:</span></i></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">This is the 
+				last release that is fully tested on the Windows 2000 platform. 
+				Starting with the next SDK release Windows 2000 is no longer a 
+				supported platform for DirectX development</span> </li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Microsoft 
+				DirectInput, Microsoft DirectSound and Microsoft DirectMusic are 
+				in maintenance mode and will continue their current status until 
+				new technologies in these areas is made available.</span> </li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">DirectSound 
+				debug files are available in the Extras folder</span> </li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size:10.0pt;font-family:Verdana">Microsoft 
+				DirectPlay has been deprecated and is considered obsolete. While 
+				the DirectPlay runtime components will still be supported for 
+				the life of the operating system, the headers, libraries and 
+				documentation may be removed in a future release of the SDK. 
+				When modifying existing applications, you are strongly 
+				encouraged to remove any dependency on this component.</span> 
+				</li>
+			</ul>
+			<p style="text-align: right" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">
+			back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<div class="Section1">
+				<h1><a name="Whats_Coming"><b><font face="Verdana" size="6">
+				<span style="FONT-SIZE: 24pt; FONT-FAMILY: Verdana">What's 
+				Coming</span></font></b></a></h1>
+				<p class="MsoNormal"><font face="Verdana" size="2">
+				<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Below are 
+				some of the updates that will be available in future DirectX SDK 
+				releases.&nbsp; All information is subject to change and will be 
+				updated as appropriate.</span></font></p>
+				<p class="MsoNormal"><font face="Verdana" size="2">
+				<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;</span></font></p>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Removal 
+					of support for Windows 2000 as a development platform</span></font> 
+					</li>
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Removal 
+					of DirectShow from the DirectX SDK.&nbsp; The DirectShow SDK 
+					components are being moved into the Platform SDK</span></font> 
+					</li>
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">D3DX is 
+					moving from a static library (.lib) for its release code to 
+					a dynamic link library (.<span class="spelle">dll</span>).&nbsp; 
+					Samples, tools and other dependencies will be updated to 
+					support this </span></font></li>
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt; COLOR: navy">
+					<font face="Verdana" color="black" size="2">
+					<span style="FONT-SIZE: 10pt; COLOR: windowtext; FONT-FAMILY: Verdana">
+					Dependency on the Microsoft Platform SDK will become more 
+					explicit</span></font> </li>
+				</ul>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt; COLOR: navy">
+					<font face="Verdana" color="black" size="2">
+					<span style="FONT-SIZE: 10pt; COLOR: windowtext; FONT-FAMILY: Verdana">
+					Addition of deep scene analysis in PIX which will allow 
+					users to capture information about one or more frames and 
+					then do in-depth analysis of those frames</span></font> 
+					</li>
+				</ul>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Better 
+					application compatibility and enhanced scripting support in 
+					PIX</span></font> </li>
+				</ul>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">
+					Additional whitepapers on texture management and IPv6 
+					networking</span></font> </li>
+				</ul>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Preview 
+					Pipeline support for 3DS-Max, Photoshop and XSI</span></font> 
+					</li>
+				</ul>
+				<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Support 
+					for Visual Studio 2005 (<span class="spelle">aka</span> 
+					Whidbey) for samples, tools and shader debugger</span></font> 
+					</li>
+					<li class="MsoNormal" style="MARGIN-BOTTOM: 6pt">
+					<font face="Verdana" size="2">
+					<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Addition 
+					of XACT for Windows, allowing composers and sound designers 
+					to create dynamic sound effects and take advantage of 
+					sophisticated, real-time effects processing.</span></font> 
+					</li>
+				</ul>
+			</div>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">
+			back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><span style="font-family: Verdana"><a name="Known_Issues_">Known 
+			Issues</a></span></h1>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">Visual 
+			Studio 2005 Support</span></b></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The samples do 
+			not compile immediately with Visual Studio 2005 Beta 1 Refresh.&nbsp; 
+			The workaround is to add the library “<span class="SpellE">libcp.lib</span>” 
+			to the ignore library project setting (Project Settings / Linker / 
+			Input / Ignore Specific Library).&nbsp; An error is generated by the 
+			manifest generator which <span class="GramE">will can</span> be 
+			safely ignored as it will not affect the execution of the 
+			application.&nbsp; These issues will be resolved when Visual Studio 
+			2005 is supported.</span></p>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">64-bit 
+			Platform Support:</span></b></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Many of the 
+			DirectShow samples include <span class="SpellE">atlbase.h</span>, 
+			which in turn includes <span class="SpellE">shlwapi.h</span>. In 
+			order for these samples to build, the Internet Development SDK 
+			(version 6.0 or newer) SDK component of the Platform SDK must be 
+			installed. This can be done by selecting that component after 
+			successful Core SDK installation, or <span class="SpellE">reinvoking</span> 
+			SetupA64.Exe and selecting the component for installation. Note that 
+			invoking &quot;Platform SDK Update Site&quot; from the start menu with the 
+			beta 1 SDK will attempt to download an older version of the Internet 
+			Development SDK which is not suitable for X64 builds. </span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The DirectShow 
+			Filters\<span class="SpellE">PushSource</span> sample will fail to 
+			register when built for debug X64. This is a known issue and should 
+			be ignored. </span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The x64 
+			DirectShow <span class="SpellE">DVDSample</span> and
+			<span class="SpellE">PlayDVD</span> samples require a 64-bit native 
+			DVD decoder to function properly. No such decoders were available at 
+			the time of this SDK beta release. It is likely that 3rd parties 
+			will provide decoders, so the sample build environments and 
+			pre-built binaries have been left intact in the SDK.</span></p>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size: 10pt; font-family: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</span></i></b></p>
+			<p class="MsoNormal"><b><span style="font-family:Verdana">Tools:</span></b></p>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><i>
+			<span style="font-size:10.0pt;font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			Maya</span></i></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">The preview 
+				pipeline will only work on Windows XP</span> </li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">There is a 
+				known error with the color control where by using the color 
+				picker (by clicking the &quot;...&quot; button or on the color) the 
+				resulting color will be grayscale. This behavior will be 
+				corrected in future releases. Alternatively, manually entering 
+				your color in the 4 associated textboxes will result in the 
+				expected behavior.</span> </li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">Maya may be 
+				unstable if you unload the DirectX <span class="spelle">plugin</span> 
+				after the plug-in has been started and viewed objects. If you do 
+				not want the plug-in loaded into Maya, you should choose the 
+				option to no auto-load the plug-in into Maya and restart Maya.</span> 
+				</li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">When 
+				exporting an x file from the 'DirectX&gt;Export Scene' menu option, 
+				make sure that you include the .x extension when saving as it is 
+				not being added by default. </span></li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><span class="spelle"><b><i>
+			<span style="font-size:10.0pt;
+font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Paintshop</span></i></b></span><b><i><span style="font-size:10.0pt;font-family:Verdana"> 
+			Pro</span></i></b></p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">When this 
+				plug-in is used with <span class="spelle">Paintshop</span> Pro 
+				8, the loading of images with alpha channel causes
+				<span class="spelle">Paintshop</span> Pro to multiply the alpha 
+				channel by the RGB channels and discards the alpha channel.&nbsp; 
+				This causes images with the format XRGB to be loaded empty.
+				</span></li>
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">The 
+				D3DXTextureFormat plug-ins returns an error when saving a file 
+				as one of D3DX texture formats. </span></li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p style="margin:0in;margin-bottom:.0001pt"><b><i>
+			<span style="font-size:10.0pt;
+font-family:Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PIX</span></i></b></p>
+			<p style="text-indent: -.25in; margin-left: .5in; margin-right: 0in; margin-top: 0in; margin-bottom: .0001pt">
+			<span style="font-size: 10.0pt; font-family: Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</span></span><span style="font-size:10.0pt;font-family:Verdana">Pix 
+			will fail to profile 64-bit applications. This is issue will be 
+			fixed in a future release.</span> </p>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal">
+				<span style="font-size:10.0pt;font-family:Verdana">After 
+				playback of a full Direct3D stream, it may be necessary to exit 
+				from PIX before running other programs that use Direct3D or 
+				playing back another Direct3D stream within PIX.</span> </li>
+				<li class="MsoNormal"><span class="grame">
+				<span style="font-size:10.0pt;font-family:Verdana">PIX uses</span></span><span style="font-size:10.0pt;font-family:Verdana"> 
+				an application's PDB file in order to monitor its D3DX usage. 
+				You may have problems gathering D3DX usage information with PIX 
+				if your application's PDB file was generated by prerelease 
+				versions of Visual Studio 2005</span> </li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">D3DX:</span></b></p>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">
+				D3D_DEBUG_INFO extensions define a <span class="SpellE">
+				CreationCallStack</span> field on Direct3D resources. To enable 
+				creation call stacks, create the following registry value: \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Direct3D\D3D9Debugging\EnableCreationStack 
+				= 1.<br>
+				Enabling this feature can cause a large performance hit in many 
+				applications, and should only be used when the functionality is 
+				specifically needed for <span class="GramE">debugging.</span></span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">The D3DX 
+				library included in this release is dependant on the Direct3D 
+				runtimes that shipped with this SDK. If you link against this 
+				D3DX you must redistribute the runtime from this SDK</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">When 
+				compiling HLSL code to the 3.0 target, significant code 
+				reordering is done to move gradient computations outside of flow 
+				control.</span> 
+        		</li>
+				<li class="MsoNormal"><span class="GramE">
+				<span style="font-size: 10pt; font-family: Verdana">
+				D3DXSaveMeshHierarchyToFiles(</span></span><span style="font-size: 10pt; font-family: Verdana">) 
+				does not currently save compressed animation sets.</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">
+				ID3DXSkinInfo:<span class="GramE">:ConvertToBlendedMesh</span>/ConvertToIndexedBlendedMesh() 
+				does not currently run on hardware that does not support 
+				fixed-function vertex blending.</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">When opening 
+				files originally in X8R8G8B8 format and saving them in DXT1, 
+				DXT2 or DXT4 formats, the resulting texture will be blank. This 
+				is due to the fact that these formats use pre-multiplied alpha. 
+				Saving in DXT3 and DXT5 formats works as expected, since those 
+				formats do not use pre-multiplied alpha. This will be fixed in a 
+				future release.</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">For texture 
+				files containing simple textures (not cubes or volumes) with 
+				multiple <span class="SpellE">mip</span> levels, if the image is 
+				opened as an ENTIRE file and then saved back into the original 
+				or into a new file (via “Save As”), the file is not saved 
+				correctly, and the <span class="SpellE">mip</span> levels below 
+				the main image are all blank. This is due to an incorrect memory 
+				offset when copying file data. This will be fixed in a future 
+				release.</span> </li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">
+			Documentation</span></b></p>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">After 
+				installing the SDK, the documentation listed on the Visual 
+				Studio Help Contents page is incorrectly labeled as October 
+				2004. The documentation is correct, only the label is incorrect. 
+				This will be correct in the next SDK release.</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">The known 
+				issues with the DirectX 9.0 Documentation are described in a 
+				separate file.&nbsp; You will find these issues listed in the 
+				DirectX9_Doc_Readme.txt file found in the &lt;DXSDK Installed 
+				Folder&gt;\Documentation\DirectX9 folder.&nbsp; </span></li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">Installing 
+				DirectX documentation from both the DirectX SDK and MSDN® 
+				Library can result in duplicate topics in Visual Studio. If this 
+				occurs, you should take the following steps to uninstall the 
+				DirectX documentation from the SDK. </span></li>
+			</ul>
+			<ul type="disc" style="margin-bottom: 0in">
+				<ol type="1" style="margin-bottom: 0in">
+					<li class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">In 
+					Control Panel, click the Add/Remove Programs icon. </span>
+					</li>
+					<li class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					Highlight Microsoft DirectX 9.0 Documentation and then click 
+					Remove.</span> 
+          			</li>
+				</ol>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">DirectX 
+			for Managed Code</span></b></p>
+			<ul>
+				<li>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">Managed 
+				Direct3DX version 1.0.2903.0 can prevent users from loading 
+				meshes using <span class="SpellE">AllocateHierarchyFromFile</span> 
+				if they do not contain skinning information. They only 
+				workaround at this time is to use version 1.0.2902 from the 
+				October 2004 SDK.&nbsp; This will be corrected in the February 
+				release.</span></li>
+			</ul>
+			<p class="MsoNormal"><b><span style="font-family: Verdana">
+			DirectShow</span></b></p>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Retail symbols 
+			for DirectShow binaries weren't updated for this release. This 
+			affects matching of symbols for 9.0b and 9.0c updates to:</span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">NT:</span></p>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">quartz.dll</span> 
+				</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">qdv.dll</span> 
+				</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">qdvd.dll</span> 
+				</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">devenum.dll</span> 
+				</li>
+				<li class="MsoNormal"><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana">kstvtune.ax</span></span> 
+				</li>
+				<li class="MsoNormal"><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana">ksxbar.ax</span></span> 
+				</li>
+				<li class="MsoNormal"><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana">stream.sys</span></span> 
+				</li>
+			</ul>
+			<p class="MsoNormal">&nbsp;</p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Win9x:</span></p>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">quartz.dll</span> 
+				</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">devenum.dll</span> 
+				</li>
+			</ul>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">This will be 
+			corrected in the next DirectX release.</span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">
+			back to top</a></span></p>
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="install"><span style="font-family: Verdana">
+			Installation</span></a><span style="font-family: Verdana"> </span>
+			</h1>
+			<ul style="margin-top: 0in; margin-bottom: 0in" type="disc">
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">The SDK 
+				requires Microsoft Internet Explorer Version 6 or higher.</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">Installation 
+				of the Microsoft Platform SDK is recommended and may be required 
+				for some samples.</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">You must be 
+				logged on as an administrator before installing the DirectX 9.0 
+				SDK and runtime.</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">We recommend 
+				you remove previous versions of the DirectX SDK prior to 
+				installing DirectX 9.0 SDK Release (see UNINSTALL).&nbsp; </span>
+				</li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">In addition, 
+				you should uninstall any DirectX SDK installations that may be 
+				part of a Microsoft Platform SDK installation prior to 
+				installing the DirectX 9.0 SDK. </span></li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">SDK 
+				Installation to a network share is not supported. Specifically 
+				some components (ex. documentation will not install, managed 
+				samples will not run).</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">The 
+				Reference <span class="SpellE">Rasterizer</span> is not 
+				installed on any versions of Windows Server 2003 product family.
+				</span></li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">Several 
+				Virus Protection software applications interfere with SDK 
+				installation and may require you to temporarily disable the 
+				Virus Protection software until SDK installation is completed.
+				</span></li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">Installing 
+				the Dec '04 SDK update will remove previously installed 
+				d3dx8d.dll file in system32 folder. This file is no longer 
+				shipped by the SDK and to get it back the user may have to copy 
+				the file from the Developer Runtime\Win2K directory of previous 
+				SDK source path or back up the file before installing Dec 04 
+				update.</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">&quot;A cabinet 
+				file is necessary for installation and cannot be trusted.&quot; ERROR 
+				during installation.&nbsp; This problem happens in most cases 
+				due to system corruption or users disabling their cryptography 
+				services. Please try the following steps to see if it resolves 
+				the issue.</span> 
+        		<ol style="margin-top: 0in; margin-bottom: 0in" type="1">
+					<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+					<span style="font-size: 10pt; font-family: Verdana">Make 
+					sure your cryptography services are enabled. To do this, go 
+					to my computer | manage | services and applications | 
+					services. Then go to cryptography services properties and 
+					make sure the service is started and startup type is set to 
+					automatic.</span> 
+          			</li>
+					<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+					<span style="font-size: 10pt; font-family: Verdana">If you 
+					are running Windows on a FAT32 drive, run scandisk.</span> 
+          			</li>
+					<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+					<span style="font-size: 10pt; font-family: Verdana">Try the 
+					resolution steps in
+					<a style="color: blue; text-decoration: underline; text-underline: single" href="http://support.microsoft.com/default.aspx?scid=kb;en-us;813442">
+					http://support.microsoft.com/default.aspx?scid=kb;en-us;813442</a></span> 
+
+          			</li>
+					<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+					<span style="font-size: 10pt; font-family: Verdana">Try the 
+					resolution steps in
+					<a style="color: blue; text-decoration: underline; text-underline: single" href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;822798">
+					http://support.microsoft.com/default.aspx?scid=kb;EN-US;822798</a></span> 
+
+          			</li>
+					<li class="MsoNormal" style="margin-top: 2.25pt; margin-bottom: 4.5pt">
+					<span style="font-size: 10pt; font-family: Verdana">Remove 
+					temporary files in %temp% and (if installing end-user 
+					runtime) %windir%\system32\directx\websetup Error</span> 
+					</li>
+				</ol>
+				</li>
+			</ul>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<h3><span style="font-family: Verdana">Installation notes on 
+				64-bit Platforms</span></h3>
+			</blockquote>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">When 
+				installing on a 64 platform, both the 32 and the 64 bit version 
+				of debug files will be installed.</span> 
+        		</li>
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">The 32-bit 
+				version of the DirectX control panel which controls debug 
+				settings can be opened&nbsp;by&nbsp;choosing &quot;View x86 Control Panel 
+				Icons&quot; from the Control Panel and starting the DirectX icon 
+				or&nbsp;by running the command %windir%\syswow64\control.exe %windir%\syswow64\directx.cpl.&nbsp; 
+				The 64 bit version of the DirectX control panel will show up in 
+				the Windows Control Panel after installing the SDK.</span> </li>
+			</ul>
+			<p style="text-indent: -0.25in; margin-left: 0.5in; margin-right: 0in; margin-top: 5pt; margin-bottom: 4.5pt">
+			<span style="font-size: 10pt; font-family: Symbol">·<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</span></span><span style="font-size: 10pt; font-family: Verdana">
+			There is no support for the IA64 bit platforms.</span>&nbsp;
+			<span style="font-size: 10pt; font-family: Verdana">&nbsp;</span> </p>
+			<h1><span style="font-family: Verdana">Uninstall:</span></h1>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">To uninstall, 
+			use &quot;Add/Remove Programs&quot; from the Control Panel to
+			<span class="grame">uninstall</span> the <span class="spelle">SDK 
+			Update</span> installations.</span></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">
+			back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="docs"><span style="font-family: Verdana">Documentation</span></a><span style="font-family: Verdana">
+			</span></h1>
+			<h2><span style="font-size: 16pt; font-family: Verdana">
+			Requirements:</span></h2>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">The DirectX 
+				managed code application programming interface (API) 
+				documentation is automatically installed with DirectX 9.0 when 
+				Visual Studio .Net is installed.</span><span style="font-size: 10pt; font-family: Verdana"> 
+				Open Visual Studio .NET and then, from the Help menu at the top, 
+				choose Contents. The documentation node in the Table of Contents 
+				is called DirectX 9.0 (Managed). The documentation can also be 
+				viewed on the Web at http://www.msdn.microsoft.com. See the help 
+				topic, &quot;Tips and Tricks Using Managed Code,&quot; for the basics of 
+				how to install and use DirectX managed code and documentation.
+				</span>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+				</li>
+			</ul>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="Managed_DirectX"><span style="font-family: Verdana">
+			DirectX for Managed </span></a><span style="font-family: Verdana">
+			Code</span></h1>
+			<h2><span style="font-family: Verdana">Requirements:</span></h2>
+			<ul type="disc" style="margin-bottom: 0in">
+				<li class="MsoNormal" style="margin-bottom: 4.5pt">
+				<span style="font-size: 10pt; font-family: Verdana">Developing 
+				managed applications with this DirectX SDK release requires 
+				Visual Studio.NET 2003 and .NET Runtime 1.1</span> 
+        		</li>
+				<li class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">Distributing 
+				the DirectX for Managed Code Update</span><span style="font-size: 10pt; font-family: Verdana">. 
+				&nbsp;</span><span style="font-size: 10pt; font-family: Verdana">There 
+				are several ways to redistribute DirectX for Managed Code:</span> 
+        		<ol type="1" style="margin-bottom: 0in">
+					<li class="MsoNormal"><b>
+					<span style="font-size: 10pt; font-family: Verdana">Install 
+					both DirectX9.0c and DirectX for Managed Code:</span></b><span style="font-size: 10pt; font-family: Verdana">&nbsp; 
+					Install the DirectX 9.0c Runtime using the command 
+					DXSETUP.EXE /<span class="SpellE">InstallManagedDirectX</span>. 
+					This will extract MDXREDIST.MSI from the
+					<span class="SpellE">ManagedDX.CAB</span> file and install 
+					the DirectX 9.0c runtime along with DirectX for Managed Code 
+					with minimal user interaction.</span> </li>
+					<li class="MsoNormal">
+					<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;
+					</span><b>
+					<span style="font-size: 10pt; font-family: Verdana">Install 
+					just DirectX for managed Code:</span></b><span style="font-size: 10pt; font-family: Verdana">&nbsp; 
+					Extract the MDXREDIST.MSI from the <span class="SpellE">
+					ManagedDX.cab</span> file and use one of the following 
+					options:</span></li>
+				</ol>
+				</li>
+			</ul>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<ul type="disc" style="margin-bottom: 0in">
+					<ul type="circle" style="margin-bottom: 0in">
+						<li class="MsoNormal">
+						<span style="font-size: 10pt; font-family: Verdana">
+						Launch MDXREDIST.MSI directly, this will display a 
+						License Agreement and install the package with full user 
+						interaction, including a Setup completed dialog.</span> 
+            			</li>
+						<li class="MsoNormal">
+						<span style="font-size: 10pt; font-family: Verdana">
+						Launch MDXREDIST.MSI with a command line for Windows 
+						Installer. i.e. msiexec.exe /<span class="SpellE">i</span>
+						<span class="SpellE">mdxredist.msi</span>. Additional 
+						parameters for msiexec.exe are documented in the Windows 
+						Installer SDK, available at the Microsoft MSDN website, 
+						in the Microsoft Platform SDK. These other parameters 
+						allow you to control the level of user interaction, and 
+						what else is displayed.</span> 
+            			</li>
+					</ul>
+				</ul>
+				<p class="MsoNormal" style="text-indent: 0in; margin-left: 1in">
+				<span style="font-size: 10pt; font-family: Courier New">o<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span>
+				<span style="font-size: 10pt; font-family: Verdana">Use the
+				<span class="SpellE"><span class="GramE">MsiInstallProduct</span></span><span class="GramE">(</span>) 
+				API also documented in the Windows Installer SDK. The
+				<span class="SpellE">MsiInstallProduct</span> function displays 
+				the user interface with the current settings and log mode. You 
+				can change user interface settings with the <span class="SpellE">
+				MsiSetInternalUI</span> and <span class="SpellE">
+				MsiSetExternalUI</span> functions. You can set the log mode with 
+				the <span class="SpellE">MsiEnableLog</span> function.</span></p>
+			</blockquote>
+			<p class="MsoNormal" style="margin-left: 0.5in">
+			<span style="font-size: 10pt; font-family: Verdana">If the .NET 
+			Framework v.1.1 and DirectX 9.0 are not previously installed, the 
+			MDXREDIST.MSI will display an appropriate message and DirectX for 
+			Managed Code will not be installed.</span></p>
+			<p class="MsoNormal" style="margin-left: 0.5in">
+			<span style="font-size: 10pt; font-family: Verdana">To remove the 
+			installation, you may launch the installer again, or run the command 
+			msiexec.exe /x <span class="SpellE">mdxredist.msi</span></span><span style="font-size: 10pt; font-family: Verdana">.</span></p>
+			<p class="MsoNormal" style="margin-left: 0.5in; margin-bottom: 4.5pt">&nbsp;</p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="d3d"><sup><span style="font-family: Verdana">Direct3D</span></sup></a><sup><span style="font-size: 7.5pt; font-family: Verdana">®</span></sup></h1>
+			<p><i><span style="font-size: 10pt; font-family: Verdana">This 
+			release of Direct3D has identical features to that of DirectX 9.0c 
+			and there is no plan to add additional features for the DirectX 9.0 
+			SDK Update. See </span>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a></span><span style="font-size: 10pt; font-family: Verdana"> 
+			for previous SDK release.</span></i></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="audio"><span style="font-family: Verdana">Direct</span></a><span style="font-family: Verdana">Sound</span><sup><span style="font-size: 7.5pt; font-family: Verdana">®</span></sup><span style="font-family: Verdana">
+			</span></h1>
+			<h2><i>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			This release of DirectSound has identical features to that of 
+			DirectX 9.0 and there is no plan to add additional features for the 
+			DirectX 9.0 SDK Update. See
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a> for previous </span>
+			<span style="font-weight: 400; font-size: 10pt; font-family: Verdana">
+			SDK release.</span></i></h2>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><span style="font-family: Verdana">DirectMusic</span><sup><span style="font-size: 7.5pt; font-family: Verdana">®</span></sup></h1>
+			<h2><i>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			This release of DirectMusic has identical features to that of 
+			DirectX 9.0 and there is no plan to add additional features.&nbsp; 
+			The samples, documentation, and release notes are available on
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a>.</span></i></h2>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="dinput"><span style="font-family: Verdana">DirectInput</span></a></h1>
+			<p class="MsoNormal">&nbsp;<i><span style="font-size: 10pt; font-family: Verdana">This 
+			release of DirectInput has identical features to that of DirectX 8.1 
+			and there is no plan to add additional features to DirectInput in 
+			DirectX 9.0</span></i></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="dplay"><span style="font-family: Verdana">DirectPlay</span></a></h1>
+			<h2><i>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			This release of DirectPlay has identical features to that of DirectX 
+			9.0 and there is no plan to add additional features.&nbsp; The 
+			samples, documentation, and release are available on
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a>.</span></i></h2>
+			<p><span style="font-size: 10pt; font-family: Verdana">No DirectPlay 
+			Debug DLLs ships with this SDK release, so when you run
+			<span class="SpellE">DirectSetup</span> only the DirectPlay Retail 
+			installation option is available.</span></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="dshow"><span style="font-family: Verdana">DirectShow</span></a></h1>
+			<h2><i>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			This release of DirectShow has identical features to that of DirectX 
+			9.0 and there is no plan to add additional features for the DirectX 
+			9.0 SDK Update.&nbsp; See
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a> for previous </span>
+			<span style="font-weight: 400; font-size: 10pt; font-family: Verdana">
+			SDK release.</span><span style="font-weight: normal; font-size: 10pt; font-family: Verdana">&nbsp; </span></i></h2>
+			<p><span style="font-size: 10pt; font-family: Verdana">The X64 
+			DirectShow <span class="SpellE">DVDSample</span> and
+			<span class="SpellE">PlayDVD</span> samples require a 64-bit native 
+			DVD decoder to function properly. No such decoders were available at 
+			the time of this SDK beta release. It is likely that 3rd parties 
+			will provide decoders, so the sample build environments and 
+			pre-built binaries have been left intact in the SDK.&nbsp;</span></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="bda"><span style="font-family: Verdana">Broadcast</span></a><span style="font-family: Verdana"> 
+			Driver Architecture</span></h1>
+			<h2><i>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			This release of Broadcast Driver Architecture has identical features 
+			to that of DirectX 9.0 and there is no plan to add additional 
+			features for the DirectX 9.0 SDK Update.&nbsp; See
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.msdn.microsoft.com/directx">
+			MSDN</a> for previous </span>
+			<span style="font-weight: 400; font-size: 10pt; font-family: Verdana">
+			SDK release.</span></i></h2>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="compiler"><span style="font-family: Verdana">Compiler</span></a><span style="font-family: Verdana"> 
+			Support</span></h1>
+			<p class="MsoNormal" style="margin-bottom: 6pt">
+			<span style="font-size: 10pt; font-family: Verdana">Developing C++ 
+			applications with this release requires Visual Studio .NET 2002 or 
+			later. Visual Studio version 6 is no longer supported. Developing 
+			managed applications requires Visual Studio .NET 2003 and .NET 
+			Runtime 1.1. Developing 64-bit applications requires the Microsoft 
+			Platform SDK. All DirectX SDK supported 64-bit samples have a 
+			corresponding sample_makefile.x64. These <span class="SpellE">
+			makefiles</span> are compatible with AMD64 and Intel64.</span></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="cd"><span style="font-family: Verdana">CD</span></a><span style="font-family: Verdana"> 
+			Layout: </span></h1>
+			<h1>
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			The following is a brief description of the directories found 
+			following installation of the DirectX 9.0 SDK Update.&nbsp; 
+			Depending on options specified during installation, some of these 
+			directories may not be installed on your hard drive.&nbsp; The 
+			description below assumes a complete SDK install.</span></h1>
+			<p style="margin-bottom: 0pt"><b><span style="font-family: Verdana">
+			\<span class="spelle">Developer Runtime</span>&nbsp;</span></b></p>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">The 
+				Developer Runtime folder contains OS-specific debug versions of 
+				the DirectX runtime that have been customized to help DirectX 
+				developers debug issues related to their applications. It also 
+				contains Retail and Debug versions of the DirectX® 9.0 for 
+				Managed Code runtime.</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">The debug 
+				files are installed during the SDK portion of the setup program 
+				and can be loaded on demand, based on settings in the DirectX 
+				control panel.&nbsp; The files in this directory should be 
+				adequate for debugging most DirectX applications.</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">Upon 
+				installation of these versions of the DirectX runtime, 
+				DXDiag.exe will report that the debug versions of the files have 
+				been installed and will give the following notice:</span></p>
+				<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">&quot;Several 
+					files (d3dx9d.dll, d3d9d.dll) are Debug versions, which will 
+					run slower than the Retail version.&quot;&nbsp;</span></p>
+				</blockquote>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; font-family: Verdana">Note that 
+				this is only applicable when the Debug switch in the DirectX 
+				control panel is applied.&nbsp;&nbsp;&nbsp;Setting all the switches to Retail 
+				in the DirectX control panel will configure DirectX to perform 
+				just as the normal version of the End-User Runtime.</span></p>
+				<p class="MsoNormal"><i><u>
+				<span style="font-size: 10pt; font-family: Verdana">List of 
+				DirectX <span class="SpellE">Switchable</span> Debug DLL's:</span></u></i></p>
+				<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3d8d.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3d9d.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3dx9d.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dinput8d.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmbandd.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmcompod.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmimed.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmloaded.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmscripd.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmstyled.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmsynthd.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dmusicd.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					dswaved.dll</span></p>
+				</blockquote>
+				<p class="MsoNormal"><i><u>
+				<span style="font-size: 10pt; font-family: Verdana">Additional 
+				Files Installed with the Developer Runtime:</span></u></i></p>
+				<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3dref.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3dref8.dll</span></p>
+					<p class="MsoNormal">
+					<span style="font-size: 10pt; font-family: Verdana">
+					d3dref9.dll</span></p>
+					<p class="MsoNormal"><span class="SpellE">
+					<span style="font-size: 10pt; font-family: Verdana">
+					directx.cpl</span></span></p>
+				</blockquote>
+			</blockquote>
+			<h1 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\Documentation</span></h1>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Verdana">\<b>DirectX9</b></span></p>
+				<h1 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span class="GramE"><span class="grame">
+				<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+				Contains reference documentation for the DirectX 9.0 APIs.</span></span></span><span style="font-weight: normal; font-size: 10pt; font-family: Verdana">&nbsp; 
+				The CHM Documentation must be viewed with Windows
+				<span class="SpellE"><span class="spelle">HTMLHelp</span></span>.&nbsp; 
+				Note:&nbsp; The <span class="SpellE"><span class="spelle">
+				HTMLHelp</span></span> viewer requires a minimum installation of 
+				Internet Explorer 5.0 (IE5).&nbsp; IE5 can be found at
+				<a style="color: blue; text-decoration: underline; text-underline: single" href="http://www.microsoft.com/windows/ie/default.htm">
+				http://www.microsoft.com/windows/ie/default.htm</a>.&nbsp; 
+				Documentation for DirectX for Managed Code is installed 
+				automatically when Visual Studio .NET 2002 is installed.</span></h1>
+				<h1 style="margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\License 
+				Agreements</span></h1>
+				<h1 style="margin-top: 0in"><span class="GramE">
+				<span class="grame">
+				<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+				Text versions of the DirectX SDK, End User License Agreements 
+				and the Redistributable License Agreement.</span></span></span></h1>
+			</blockquote>
+			<h1><span style="font-size: 12pt; font-family: Verdana">\Extras&nbsp;&nbsp;&nbsp;
+			</span><span style="font-size: 10pt; font-family: Verdana">
+			(Available as separate downloads)</span></h1>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\DirectShow</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span class="grame">
+				<span style="font-size: 10pt; font-family: Verdana">Contains the
+				</span></span><span class="spelle">
+				<span style="font-size: 10pt; font-family: Verdana">DirectShow 
+				Samples (C++ &amp; VB), tools, <span class="SpellE">DVDBoilerplate</span>, 
+				documentation, utilities and </span></span><span class="grame">
+				<span style="font-size: 10pt; font-family: Verdana">additional 
+				media that can be used with DirectShow and the DirectShow 
+				Editing Services (DES) interfaces</span></span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Verdana">&nbsp;</span></p>
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\DirectSound</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span class="grame">
+				<span style="font-size: 10pt; font-family: Verdana">Contains the 
+				debug version of the DirectSound DLLS.</span></span></p>
+				<h2><span style="font-size: 12pt; font-family: Verdana">\Symbols</span></h2>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">The retail 
+				symbols directory contains symbol files for the version of 
+				DirectX 9.0 contained in the <span class="SpellE">Redist</span> 
+				directory. The Debug symbols directory contains symbol files for 
+				the switch-able debug files that can be activated using the 
+				DirectX Control Panel.</span></p>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">To use the 
+				symbol files, add the appropriate directories to your symbol 
+				path, or copy the files to your symbols directory. Depending on 
+				the operating system you want to debug you may need to include 
+				different directories first. There is a general directory and 
+				possibly an addition directory with symbol files specific for 
+				each operating system.</span></p>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">Non-Platform 
+				specific symbols are located in &lt;build type&gt;\&lt;file type&gt;.<br>
+				Ex:<br>
+				Retail\<span class="SpellE">dll</span> -&gt; Symbols for retail 
+				DLLs<br>
+				Debug\exe -&gt; Symbols for debug <span class="SpellE">EXEs</span><br>
+				<br>
+				Platform specific symbols are located in &lt;build 
+				type&gt;\&lt;platform&gt;\&lt;file type&gt;.<br>
+				Ex<span class="GramE">:</span><br>
+				Retail\Win2k\dll -&gt; Symbols for Win2k only retail DLLs<br>
+				Debug\win9x\exe -&gt; Symbols for Win9x only debug
+				<span class="SpellE">EXEs</span><br>
+				<br>
+				If you cannot find platform specific symbols for a component, 
+				use the non-platform specific symbols.</span></p>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">Your symbol 
+				path should include the specific directory if one exists first, 
+				then the general directory. For example to use the files for 
+				Windows XP you would have a symbol path that looked something 
+				like this:</span></p>
+				<p style="margin-left: 0.5in"><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana">SymPath</span></span><span style="font-size: 10pt; font-family: Verdana">=c:\symbols\retail\WinXP
+				<span class="SpellE">Only;c</span>: \symbols\retail\Win2K-XP;</span></p>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">For Windows 
+				ME you might use a symbol path like this:</span></p>
+				<p style="margin-left: 0.5in"><span class="SpellE">
+				<span style="font-size: 10pt; font-family: Verdana">SymPath</span></span><span style="font-size: 10pt; font-family: Verdana">=c:\symbols\retail\Win9x</span></p>
+				<p style="margin-left: 0.5in">
+				<span style="font-size: 10pt; font-family: Verdana">There is not 
+				additional directory required for Windows ME. All the supported 
+				symbol files exist in the \Symbols\Retail\Win9x directory.</span></p>
+			</blockquote>
+			<h1 style="margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\Include</span></h1>
+			<h1 style="margin-top: 0in">
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			Contains DirectX 9.0 include files for DirectX core components.</span></h1>
+			<h1 style="margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\Lib</span></h1>
+			<h1 style="margin-top: 0in"><span class="GramE"><span class="grame">
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			Contains DirectX 9.0 library files for DirectX core components.</span></span></span></h1>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\Lib\x64
+				</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">This 
+				directory contains the 64 bit version of the library files which 
+				supports the x64 bit platforms.</span></p>
+			</blockquote>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\Lib\x86</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">This 
+				directory contains the 32 bit version of the library files which 
+				supports the x86 bit platforms.</span></p>
+			</blockquote>
+			<h1 style="margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\<span class="SpellE"><span class="spelle">Redist</span></span></span></h1>
+			<h1 style="margin-top: 0in"><span class="grame">
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			Redistributable versions of the DirectX 9.0c Runtime with update 
+			Managed DirectX binaries from this SDK release.</span></span></h1>
+			<h1 style="margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\Samples</span></h1>
+			<h1 style="margin-top: 0in">
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			Contains all sample code and sample binaries.&nbsp;&nbsp; Most 
+			samples can be <span class="grame">accessed</span> directly by&nbsp;the 
+			SDK Sample Browser located on the Start menu when installed via the 
+			downloaded <span class="SpellE"><span class="grame">InstallShield</span></span><span class="grame"> 
+			setup.</span></span></h1>
+			<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+			<span style="font-family: Verdana">&nbsp;</span></p>
+			<h1 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+			<span style="font-size: 12pt; font-family: Verdana">\Utilities</span></h1>
+			<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+			<span class="GramE"><span class="grame">
+			<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+			High level DirectX applications, tools, plug-ins and source code.</span></span></span><span class="grame"><span style="font-weight: normal; font-size: 10pt; font-family: Verdana">&nbsp; 
+			Most can be accessed from the SDK sample browser. </span></span>
+			</h2>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">
+				\Bin\Extensions for Visual Studio .NET</span></h2>
+				<h1 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-weight: normal; font-size: 10pt; font-family: Verdana">
+				Microsoft® Visual Studio® supports debugging assembly level and 
+				high-level language vertex and pixel shaders.</span></h1>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></p>
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\Bin\x64
+				</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">This 
+				directory contains the 64 bit version of the tools which 
+				supports the x64 bit platforms.</span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Palatino">&nbsp;</span></p>
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\Bin\x86</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">This 
+				directory contains the 32 bit version of the tools which 
+				supports the x86 bit platforms.</span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Palatino">&nbsp;</span></p>
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">
+				\Bin\Plug-ins</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">This 
+				directory contains Maya and <span class="SpellE">photoshop</span> 
+				plug-ins.</span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Palatino">&nbsp;</span></p>
+				<h2 style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 12pt; font-family: Verdana">\Source</span></h2>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-size: 10pt; font-family: Verdana">Contains the 
+				source code for many of the utilities.</span></p>
+				<p style="margin-left: 0in; margin-right: 0in; margin-top: 0in; margin-bottom: 0pt">
+				<span style="font-family: Palatino">&nbsp;</span></p>
+			</blockquote>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p>
+			<div class="MsoNormal" style="text-align: center" align="center">
+				<hr align="center" width="100%" SIZE="2"></div>
+			<h1><a name="roland"><span style="font-family: Verdana">ROLAND</span></a><span style="font-family: Verdana">
+			<span class="SpellE">SoundCanvas</span> Sound Set For General MIDI
+			<span class="GramE">And</span> GS Format</span></h1>
+			<p class="MsoNormal"><span class="spelle">
+			<span style="font-size: 10pt; font-family: Verdana">The Roland
+			<span class="SpellE">SoundCanvas</span> Sound Set includes the 
+			necessary sounds to make a complete General MIDI compatible sound 
+			set.&nbsp; It also includes additional sounds necessary to make a 
+			complete GS Format compatible sound set.</span></span></p>
+			<p class="MsoNormal"><span class="spelle">
+			<span style="font-size: 10pt; font-family: Verdana">WHAT IS THE GS 
+			FORMAT?</span></span></p>
+			<p class="MsoNormal"><span class="spelle">
+			<span style="font-size: 10pt; font-family: Verdana">The GS Format is 
+			a standardized set of specifications for sound sources that defines 
+			the manner in which <span class="SpellE">multitimbral</span> sound 
+			generating devices will respond to MIDI messages.&nbsp; The GS 
+			Format also complies with General MIDI System Level 1.</span></span></p>
+			<p class="MsoNormal"><span class="spelle">
+			<span style="font-size: 10pt; font-family: Verdana">The GS Format 
+			also defines a number of other details over and above the features 
+			of General MIDI.&nbsp; These include unique specifications for sound 
+			and functions available for tone editing, effects, and other 
+			specifications concerning the manner in which sound sources will 
+			respond to MIDI messages.&nbsp; Any device that is equipped with GS 
+			Format sound sources can faithfully reproduce both General MIDI 
+			sound recordings and GS Format MIDI sound recordings.</span></span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">HOW TO CONTACT 
+			ROLAND:</span></p>
+			<blockquote style="margin-top: 5pt; margin-bottom: 5pt">
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; color: blue; font-family: Verdana">
+				Roland Corporation U.S.</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; color: blue; font-family: Verdana">
+				7200 Dominion Circle</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; color: blue; font-family: Verdana">
+				Los Angeles, CA&nbsp; 90040-3696</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; color: blue; font-family: Verdana">
+				Phone:&nbsp; (323) 890-3700</span></p>
+				<p class="MsoNormal">
+				<span style="font-size: 10pt; color: blue; font-family: Verdana">
+				Fax:&nbsp;&nbsp;&nbsp; (323) 890-3701</span></p>
+			</blockquote>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">COPYRIGHT NOTICE 
+			AND LICENSE LIMITATIONS</span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Roland GS Sound 
+			Set/Microsoft (P) 1996 Roland Corporation U.S.</span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The Roland GS 
+			Sound Set/Microsoft, the &quot;Sample Set&quot;, incorporates the Roland
+			<span class="SpellE"><span class="spelle">SoundCanvas</span></span> 
+			Sound Set. Roland Corporation U.S. owns the Sample Set
+			<span class="grame">and</span> all copyrights pertaining thereto and 
+			has licensed the Sample Set for <span class="grame">use</span> 
+			solely on Microsoft operating system products and Microsoft 
+			Application <span class="grame">Products.</span>&nbsp; </span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">Roland reserves 
+			all rights to the Sample Set not expressly granted by Roland 
+			Corporation U.S. or by Microsoft under the terms of Microsoft's End 
+			User<span class="grame"> License Agreement.</span></span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The Sample Set 
+			may only be redistributed with your software application as a
+			<span class="grame">part</span> of a Microsoft operating system 
+			product installation and under the terms<span class="grame"> of</span> 
+			Microsoft's End User License Agreement. The Sample Set may not be<span class="grame"> 
+			separated</span> from the Microsoft operating system product; the 
+			Sample Set may<span class="grame"> only</span> be installed by the 
+			Microsoft installation procedure for the associated Microsoft 
+			operating system product or for an associated software development<span class="grame"> 
+			kit</span>.&nbsp; All other uses of the Sample Set require a 
+			separate written license<span class="grame"> from</span> Roland 
+			Corporation U.S.</span></p>
+			<p class="MsoNormal">
+			<span style="font-size: 10pt; font-family: Verdana">The Sample Set 
+			may not be used, copied or redistributed in hardware ROM or
+			<span class="grame">similar</span> technology of any device without 
+			prior express written permission<span class="grame"> from</span> an 
+			authorized representative of Roland Corporation U.S. The Sample Set 
+			may not be redistributed with any Musical <span class="GramE">
+			<span class="grame">Instrument .</span></span> A &quot;Musical 
+			Instrument&quot; is any device that is capable of generating musical 
+			sounds <span class="grame">without</span> being directly connected 
+			to a computer with a licensed Microsoft<span class="grame"> 
+			operating</span> system product. You may not modify the Sample Set 
+			under any <span class="grame">circumstances</span>.</span></p>
+			<p class="MsoNormal" align="right">
+			<span style="font-size: 7.5pt; font-family: Verdana">
+			<a style="color: blue; text-decoration: underline; text-underline: single" href="#Welcome">back to top</a></span></p></td>
+		</tr>
+		<tr>
+			<td style="padding: 0.75pt" vAlign="top">
+			<p class="MsoNormal">&nbsp;</td>
+		</tr>
+	</table>
+	<p class="MsoNormal">&nbsp;</div>
+
+</body>
+
+</html>
