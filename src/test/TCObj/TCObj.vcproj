@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\..\..\ZLib\ZLib.lib $(OutDir)\..\TCLib\TCLib.lib winmm.lib delayimp.lib"
+				AdditionalDependencies="..\..\Lib\Steam\steam_api.lib $(OutDir)\..\..\ZLib\ZLib.lib $(OutDir)\..\TCLib\TCLib.lib winmm.lib delayimp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -290,10 +290,10 @@
 				Name="VCMIDLTool"
 				AdditionalIncludeDirectories="$(OutDir);..\Inc"
 				GenerateTypeLibrary="true"
-				TypeLibraryName=""
+				TypeLibraryName="$(TargetDir)\TCObj.tlb"
 				OutputDirectory="$(OutDir)"
-				HeaderFileName="_dlldataX.h"
-				DLLDataFileName="_dlldataX.c"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName="$(InputName).c"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -321,7 +321,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(OutDir)\..\..\ZLib\ZLib.lib $(OutDir)\..\TCLib\TCLib.lib winmm.lib delayimp.lib"
+				AdditionalDependencies="..\..\Lib\Steam\steam_api.lib $(OutDir)\..\..\ZLib\ZLib.lib $(OutDir)\..\TCLib\TCLib.lib winmm.lib delayimp.lib"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
 			/>
 			<Tool
