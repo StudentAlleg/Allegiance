@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="0"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids;..\..\FreeZoneAuth"
+				AdditionalIncludeDirectories="..\Lib\AllegianceSecurity; ..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
 				PreprocessorDefinitions="..\USEAUTH;WIN32;_WINDOWS;STRICT;_AFXDLL"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
@@ -105,7 +105,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids;..\..\FreeZoneAuth"
+				AdditionalIncludeDirectories="..\Lib\AllegianceSecurity; ..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
 				PreprocessorDefinitions="USEAUTH;WIN32;_WINDOWS;STRICT;_AFXDLL;_DEBUG;DEBUG"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -170,7 +170,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
+				AdditionalIncludeDirectories="..\Lib\AllegianceSecurity; ..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
 				PreprocessorDefinitions="_ALLOW_RTCc_IN_STL;DUMPMSGS;..\WIN32;_WINDOWS;STRICT;_AFXDLL;_DEBUG;DEBUG;_CRT_SECURE_NO_DEPRECATE"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
@@ -238,7 +238,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
+				AdditionalIncludeDirectories="..\Lib\AllegianceSecurity; ..\Lib\Steam;..\Inc;..\igc;..\_Utility;..\ZLib;..\WinTrek;..\jpeg;..\clintlib;..\Zone;..\training;..\lobby;..\engine;..\guids"
 				PreprocessorDefinitions="STEAMSECURE;..\WIN32;_WINDOWS;STRICT;_AFXDLL"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"
