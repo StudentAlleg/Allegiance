@@ -915,6 +915,7 @@ public:
 			const Point&   point,
 			const ZString& str
 		) = 0;		
+		virtual void SetDeferredStringDrawing(bool deferredModeEnabled) = 0;																	  
 };
 
 #endif

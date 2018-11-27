@@ -112,6 +112,7 @@ public:
 
 class ContextImpl : public PrivateContext {
 private:
+	bool m_bdeferredModeEnabled;							 
     //////////////////////////////////////////////////////////////////////////////
     //
     // types
@@ -299,7 +300,8 @@ public:
         m_bRendering(false),
         m_bIn3DLayer(false),
         m_bInScene(false),
-        m_bRenderingCallbacks(false)
+        m_bRenderingCallbacks(false),
+		m_bdeferredModeEnabled(false)							   
     {
         //
         // Create a rasterizer and a 3D device
@@ -794,9 +796,12 @@ public:
 
 			pointScreen.SetY(pointScreen.Y() - size.Y());
 
-			m_drawstringinfos.push_back(DrawStringInfo(pfont, color, pointScreen, str));
 
-			//m_psurface->DrawString(pfont, color, pointScreen, str);
+
+			if(m_bdeferredModeEnabled)
+				m_drawstringinfos.push_back(DrawStringInfo(pfont, color, pointScreen, str));
+			else
+				m_psurface->DrawString(pfont, color, pointScreen, str);
 		};
 
 		
@@ -842,6 +847,11 @@ public:
         };
     }
 
+	void SetDeferredStringDrawing(bool deferredModeEnabled)
+	{
+		m_bdeferredModeEnabled = deferredModeEnabled;
+	}
+	
     void DrawRectangle(const Rect& rect, const Color& color)
     {
         Texture2D();
