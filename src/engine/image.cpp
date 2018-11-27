@@ -1,5 +1,23 @@
 #include "pch.h"
 
+class DeferredStringRenderImageImpl : public DeferredStringRenderImage
+{
+public:
+	DeferredStringRenderImageImpl(Viewport* pviewport)
+		: DeferredStringRenderImage(pviewport)
+	{
+	}
+
+	void Render(Context *pcontext)
+	{
+		pcontext->DrawDeferredStrings();
+	}
+};
+
+TRef<DeferredStringRenderImage> DeferredStringRenderImage::Create(Viewport* pviewport)
+{
+	return new DeferredStringRenderImageImpl(pviewport);
+}
 //////////////////////////////////////////////////////////////////////////////
 //
 // Empty Image

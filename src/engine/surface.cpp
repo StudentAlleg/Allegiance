@@ -657,14 +657,16 @@ public:
         IEngineFont* pfont, 
         const Color& color, 
         const WinPoint& point, 
-        const ZString& str
+        const ZString& str,
+		BYTE * writablePointer						
     ) {
         pfont->DrawString(
             this, 
             point + m_pointOffset, 
             m_rectClip,
             str, 
-            color
+            color,
+			writablePointer				  
         );
     }
 
@@ -675,8 +677,8 @@ public:
         const WinPoint& point, 
         const ZString& str
     ) {
-        DrawString(pfont, colorShadow, point + WinPoint(1, 1), str);
-        DrawString(pfont, color      , point                 , str);
+        DrawString(pfont, colorShadow, point + WinPoint(1, 1), str, nullptr);
+        DrawString(pfont, color      , point                 , str, nullptr);
     }
 
     //////////////////////////////////////////////////////////////////////////////

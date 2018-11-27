@@ -27,6 +27,18 @@ TRef<Image> CreateTransparentImage();
 //
 //////////////////////////////////////////////////////////////////////////////
 
+class DeferredStringRenderImage : public Image {
+protected:
+	DeferredStringRenderImage(Viewport* pviewport) :
+		Image(pviewport)
+	{
+	}
+public:
+
+	virtual void        Render(Context* pcontext) = 0;
+
+	static TRef<DeferredStringRenderImage> Create(Viewport* pviewport);
+};
 class VideoImage : public Image {
 protected:
     VideoImage(RectValue* prect) :

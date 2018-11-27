@@ -17,7 +17,7 @@
 #include "regkey.h"
 #include <zreg.h>
 #include "badwords.h"
-#include "..\Inc\nullptr_emulation.h"
+
 class ClusterSiteImpl : public ClusterSite
 {
     public:

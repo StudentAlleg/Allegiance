@@ -5,7 +5,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "..\Lib\steam\steam_api.h"
-#include "..\Inc\nullptr_emulation.h"
 
 // BT - STEAM - Integrated Steam Exception at the highest level.
 void MiniDumpFunction(unsigned int nExceptionCode, EXCEPTION_POINTERS *pException)

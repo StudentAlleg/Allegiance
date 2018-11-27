@@ -438,7 +438,8 @@ public:
         const WinPoint& point, 
         const WinRect&  rectClip,
         const ZString&  str, 
-        const Color&    color
+        const Color&    color,
+		BYTE * writablePointer						
     ) {
         if (str.GetLength() == 0) {
             return;
@@ -485,8 +486,12 @@ public:
         // Get a pointer to the destination memory
         //
 
+		BYTE * localWritablePointer = writablePointer;
+		if (localWritablePointer == nullptr)
+			localWritablePointer = psurface->GetWritablePointer();
+
         BYTE* pdestTop = 
-              psurface->GetWritablePointer() 
+			localWritablePointer
             + (point.Y() + ytop) * psurface->GetPitch();
 
         //
@@ -517,7 +522,8 @@ public:
             //
         }
 
-        psurface->ReleasePointer();
+		if(writablePointer == nullptr)
+	        psurface->ReleasePointer();
     }
 
     int  HexDigitToInt (int hexDigit)

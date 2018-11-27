@@ -135,7 +135,8 @@ public:
         IEngineFont* pfont, 
         const Color& color, 
         const WinPoint& point, 
-        const ZString& str
+        const ZString& str,
+		BYTE * writablePointer = nullptr								  
     ) = 0;
 
     virtual void DrawStringWithShadow(

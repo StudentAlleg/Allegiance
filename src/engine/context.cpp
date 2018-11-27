@@ -1,5 +1,6 @@
 #include "pch.h"
 
+#include <vector>				 
 //////////////////////////////////////////////////////////////////////////////
 //
 // Plane
@@ -709,7 +710,116 @@ public:
     //
     //////////////////////////////////////////////////////////////////////////////
 
-    void DrawString(
+	class DrawStringInfo
+	{
+	public: 
+		IEngineFont*   m_pfont;
+		Color   m_color;
+		WinPoint   m_point;
+		ZString m_str;
+
+		DrawStringInfo():
+			m_pfont(nullptr),
+			m_color(Color::Black()),
+			m_point(WinPoint(0,0)),
+			m_str("PORK!!!")
+		{
+		}
+
+		/*DrawStringInfo() :
+			m_pfont(nullptr),
+			m_color(nullptr),
+			m_point(nullptr),
+			m_str(nullptr)
+		{
+		}*/
+
+		DrawStringInfo(IEngineFont*   pfont,
+			const Color&   color,
+			const WinPoint&   point,
+			const ZString& str) :
+			m_pfont(pfont),
+			m_color(color),
+			m_point(point), 
+			m_str(str)
+		{
+			m_color.SetAlpha(color.A());
+			m_color.SetBlue(color.B());
+			m_color.SetGreen(color.G());
+
+			float h, s, b;
+			((Color) color).GetHSB(h, s, b);
+
+			m_color.SetHSBA(h, s, b, color.A());
+			m_color.SetRed(color.R());
+			m_color.SetRGBA(color.R(), color.G(), color.B(), color.A());
+			m_point = point;
+			m_str = str;
+
+		}
+		/*DrawStringInfo(IEngineFont*   pfont,
+			const Color*   color,
+			const Point*   point,
+			const ZString* str) :
+			m_pfont(pfont),
+			m_color(color),
+			m_point(point),
+			m_str(str)
+		{
+
+		}*/
+
+	};
+
+	std::vector<DrawStringInfo> m_drawstringinfos;
+
+	void DrawString(
+		IEngineFont*   pfont,
+		const Color&   color,
+		const Point&   point,
+		const ZString& str
+	)
+	{
+#ifdef EnablePerformanceCounters
+		m_countDrawString++;
+		m_countDrawStringChars += str.GetLength();
+#endif
+
+		DD2D();
+
+		Point pointImage;
+		if (TransformLocalToImage(Vector(point.X(), point.Y(), 0), pointImage)) {
+			WinPoint pointScreen = TransformImageToSurface(pointImage);
+			WinPoint size = pfont->GetTextExtent(str);
+
+			pointScreen.SetY(pointScreen.Y() - size.Y());
+
+			m_drawstringinfos.push_back(DrawStringInfo(pfont, color, pointScreen, str));
+
+			//m_psurface->DrawString(pfont, color, pointScreen, str);
+		};
+
+		
+	}
+
+	void DrawDeferredStrings()
+	{
+		BYTE * writablePointer = m_psurface->GetWritablePointer();
+		for (std::vector<DrawStringInfo>::iterator iter = m_drawstringinfos.begin(); iter != m_drawstringinfos.end(); iter++)
+		{
+			m_psurface->DrawString((iter)->m_pfont, (iter)->m_color, (iter)->m_point, (iter)->m_str, writablePointer);
+
+			//DrawStringDeferred((iter)->m_pfont, (iter)->m_color, (iter)->m_point, (iter)->m_str);
+
+			//delete (*iter);
+		}
+
+		m_psurface->ReleasePointer();
+
+		m_drawstringinfos.clear();
+	}
+
+    void DrawStringDeferred(
         IEngineFont*   pfont,
         const Color&   color,
         const Point&   point,

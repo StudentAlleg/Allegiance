@@ -906,6 +906,15 @@ public:
         virtual int GetPerformanceCounter(Counter counter) = 0;
         virtual void ResetPerformanceCounters() = 0;
     #endif
+
+		virtual void DrawDeferredStrings() = 0;
+
+		virtual void DrawStringDeferred(
+			IEngineFont*   pfont,
+			const Color&   color,
+			const Point&   point,
+			const ZString& str
+		) = 0;		
 };
 
 #endif

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include    <limits.h>
-#include "..\Inc\nullptr_emulation.h"
 //
 // Helper function for handling ship updates.
 //
