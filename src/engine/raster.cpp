@@ -419,7 +419,8 @@ public:
             case BlendModeSourceAlpha:
                 D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true));
                 D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_ONE));
-                D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA));
+                //D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA));
+				D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_ONE)); 																			  
                 break;
 
             default:

@@ -2788,7 +2788,6 @@ public:
 
         m_pgroupImageHUD->AddImage(CreateIndicatorImage(GetModeler(), m_pviewport, GetTime()));
         m_pgroupImageHUD->AddImage(m_pwrapImageRadar   = new WrapImage(m_pradarImage));
-		m_pgroupImageHUD->AddImage(m_pwrapImageDeferredStringRender = new WrapImage(m_pdeferredStringRenderImage));																											 
         //m_pgroupImageHUD->AddImage(m_pwrapImageTurret = new WrapImage(Image::GetEmpty()));
 
         //

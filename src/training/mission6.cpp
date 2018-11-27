@@ -81,15 +81,15 @@ namespace Training
         pGoalList->AddGoal (CreatePlaySoundGoal (salCommenceScanSound));
 
         // wait half  second
-        pGoalList->AddGoal (new Goal (new ElapsedTimeCondition (0.5f)));
+        //pGoalList->AddGoal (new Goal (new ElapsedTimeCondition (0.5f)));
 
 		// tm_6_01
 		// Okay, Cadet, here's your Advanced Fighter. There's a base 
 		// outpost here in case you need to replenish yourself.
-        pGoalList->AddGoal (CreatePlaySoundGoal (tm_6_01Sound));
+        //pGoalList->AddGoal (CreatePlaySoundGoal (tm_6_01Sound));
 
         // wait two more seconds
-        pGoalList->AddGoal (new Goal (new ElapsedTimeCondition (2.0f)));
+        //pGoalList->AddGoal (new Goal (new ElapsedTimeCondition (2.0f)));
 
 		// tm_6_02
 		// Iron Coalition Intelligence reports inbound enemy craft. 

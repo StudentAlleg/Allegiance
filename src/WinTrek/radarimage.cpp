@@ -254,6 +254,7 @@ public:
                 delta = m;
         }
 
+		pcontext->SetBlendMode(BlendModeAdd);									   
         pcontext->DrawImage3D(psurface, Rect(       0,        0, xsizeMid, ysizeMid), color, true, Point(-delta, -delta));
         pcontext->DrawImage3D(psurface, Rect(xsizeMid,        0,    xsize, ysizeMid), color, true, Point( delta, -delta));
         pcontext->DrawImage3D(psurface, Rect(xsizeMid, ysizeMid,    xsize,    ysize), color, true, Point( delta,  delta));
@@ -1197,6 +1198,7 @@ public:
                     if (psurfaceIcon)
                     {
                         offset.SetX(offset.X() + xshift * 0.5f);
+						pcontext->SetBlendMode(BlendModeAdd);										   
                         pcontext->DrawImage3D(psurfaceIcon, data.m_color, true, offset);
                         offset.SetX(offset.X() + xshift * 0.5f);
                     }
