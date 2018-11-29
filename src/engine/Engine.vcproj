@@ -249,7 +249,7 @@
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\Lib\Steam;..\Lib\AllegianceSecurity;..\Inc;..\_Utility;..\WinTrek;..\ZLib;..\Guids;..\Zone"
 				PreprocessorDefinitions="STEAMSECURE;_AFXDLL;WIN32;_WINDOWS;STRICT;DIRECTINPUT_VERSION=0x0700"
-				ExceptionHandling="0"
+				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="true"
 				RuntimeTypeInfo="true"
