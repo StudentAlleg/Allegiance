@@ -419,8 +419,8 @@ public:
             case BlendModeSourceAlpha:
                 D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true));
                 D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_ONE));
-                //D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA));
-				D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_ONE)); 																			  
+                D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA)); // Not fully compatible with modern cards?
+								//D3DCall(m_pd3dd->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_ONE)); // This made all the game UIs way too bright. Will have to adjust on a case by case basis when ever black boxes are seen around game images. 
                 break;
 
             default:
