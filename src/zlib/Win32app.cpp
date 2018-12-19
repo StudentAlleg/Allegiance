@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "regkey.h"
 #include "..\Lib\steam\steam_api.h"
-#include "..\Inc\nullptr_emulation.h" BBT
+#include "..\Inc\nullptr_emulation.h"
 //////////////////////////////////////////////////////////////////////////////
 //
 // Some assertion functions
