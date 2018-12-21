@@ -136,7 +136,7 @@ private:
 
 public:
     EngineImpl(bool bAllow3DAcceleration, bool bAllowSecondary, DWORD dwBPP) :
-        m_pointFullscreen(800, 600),
+        m_pointFullscreen(640, 480),
         m_pointFullscreenCurrent(0, 0),
         m_bFullscreen(false),
         m_bAllow3DAcceleration(bAllow3DAcceleration),
