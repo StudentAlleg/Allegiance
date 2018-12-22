@@ -32,7 +32,6 @@ private:
     bool                      m_bFullscreen;
     bool                      m_bAllowSecondary;
     bool                      m_bAllow3DAcceleration;
-	DWORD					  m_dwMaxTextureSize;// yp Your_Persona August 2 2006 : MaxTextureSize Patch
     bool                      m_b3DAccelerationImportant;
 
     DWORD                     m_dwBPP; // KGJV 32B - user choosen bpp or desktop bbp
@@ -952,17 +951,6 @@ private:
             m_bValidDevice = false;
         }
     }
-// yp Your_Persona August 2 2006 : MaxTextureSize Patch
-	void SetMaxTextureSize(DWORD dwMaxTextureSize)
-	{
-		if (m_dwMaxTextureSize != dwMaxTextureSize)
-		{
-			m_dwMaxTextureSize = dwMaxTextureSize;
-			m_pdddevicePrimary->SetMaxTextureSize(m_dwMaxTextureSize);
-			m_bValid		= false;
-			m_bValidDevice	= false;
-		}
-	}
 
     void Set3DAccelerationImportant(bool b3DAccelerationImportant)
     {

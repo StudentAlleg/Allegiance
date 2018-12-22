@@ -2466,11 +2466,7 @@ public:
     TRef<ZFile> GetFile(const PathString& pathStr, const ZString& strExtensionArg, bool bError)
     {
         ZString strExtension = pathStr.GetExtension();
-        ZString strToTryOpen;// yp Your_Persona October 7 2006 : TextureFolder Patch
-        ZString strToTryOpenFromDev;// KGJV - 'dev' subfolder
-
         ZString strToOpen;
-		TRef<ZFile> pfile = NULL;
 
         if (!strExtension.IsEmpty()) {
             if (!strExtensionArg.IsEmpty()) // KGJV 32B - ignore empty strExtensionArg
@@ -2478,37 +2474,11 @@ public:
                 return NULL;
             }
             strToOpen = m_pathStr + pathStr;
-            strToTryOpenFromDev = m_pathStr + "dev/" + pathStr;
-			strToTryOpen = m_pathStr + "Textures/" + pathStr;
         } else {
             strToOpen = ZString(m_pathStr + pathStr) + ("." + strExtensionArg);
-            strToTryOpenFromDev = ZString(m_pathStr + "dev/" + pathStr) + ("." + strExtensionArg);
-			strToTryOpen = ZString(m_pathStr + "Textures/" + pathStr) + ("." + strExtensionArg);
         }
-		// yp Your_Persona October 7 2006 : TextureFolder Patch
-		if(strToTryOpen.Right(7) == "bmp.mdl") // if its a texture, try loading from the strToTryOpen
-		{
-			pfile = new ZFile(strToTryOpen, OF_READ | OF_SHARE_DENY_WRITE);
-			// mmf modified Y_P's logic
-			if(!pfile->IsValid())
-			{
-				pfile = NULL;
-			}
-		}
-		if(!pfile) // if we dont have a file here, then load regularly.
-		{
-			// mmf #if this out for release.  I left the strtoTryOpenFromDev code in above
-#if 0
-            // KGJV try dev folder 1st
-            pfile = new ZFile(strToTryOpenFromDev, OF_READ | OF_SHARE_DENY_WRITE);
-            if (!pfile->IsValid())
-			    pfile = new ZFile(strToOpen, OF_READ | OF_SHARE_DENY_WRITE);
-            else
-                if (g_bMDLLog)
-                    ZDebugOutput("'dev' file found for " + pathStr + "'\n");
-#else
-			pfile = new ZFile(strToOpen, OF_READ | OF_SHARE_DENY_WRITE);
-#endif                
+
+        TRef<ZFile> pfile = new ZFile(strToOpen, OF_READ | OF_SHARE_DENY_WRITE);
 
 			// mmf added debugf but will still have it call assert
 			if (!pfile->IsValid()) {
@@ -2528,8 +2498,6 @@ public:
 				}
 #endif
 			}
-		}
-
 
 		//Imago 11/09/09 - Provide a helpful message box for this common error
 		if (bError && !pfile->IsValid() && m_psite) {

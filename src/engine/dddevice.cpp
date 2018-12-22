@@ -254,7 +254,6 @@ private:
     ZString                m_strName;
     bool                   m_b3DAcceleration;
     bool                   m_bAllow3DAcceleration;
-	DWORD				   m_dwMaxTextureSize;// yp Your_Persona August 2 2006 : MaxTextureSize Patch
 
     PrivateEngine*         m_pengine;
     D3DDeviceList          m_listD3DDevices;
@@ -590,16 +589,6 @@ public:
     {
         return m_b3DAcceleration;
     }
-// yp Your_Persona August 2 2006 : MaxTextureSize Patch
-	void SetMaxTextureSize(DWORD dwMaxTextureSize)
-	{
-		m_dwMaxTextureSize = dwMaxTextureSize;
-	}
-// yp Your_Persona August 2 2006 : MaxTextureSize Patch
-	DWORD GetMaxTextureSize()
-	{
-		return m_dwMaxTextureSize;
-	}
 
     void SetAllow3DAcceleration(bool bAllow3DAcceleration)
     {
@@ -869,7 +858,7 @@ public:
         WinPoint size = pddsurface->GetSize();
 
         WinPoint pointMin = pd3dd->GetMinTextureSize();
-        WinPoint pointMax = pd3dd->GetMaxTextureSize(GetMaxTextureSize());// yp Your_Persona August 2 2006 : MaxTextureSize Patch
+        WinPoint pointMax = pd3dd->GetMaxTextureSize();
 
         if (pointMin.X() != 0 || pointMin.Y() != 0) {
             while (

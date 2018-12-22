@@ -133,11 +133,13 @@ public:
         //return WinPoint(m_pd3ddd->dwMinTextureWidth, m_pd3ddd->dwMinTextureHeight);
     }
 
-    WinPoint GetMaxTextureSize(DWORD dwMaxTextureSize)
+    WinPoint GetMaxTextureSize()
     {
-		// yp Your_Persona August 2 2006 : MaxTextureSize Patch
-		int i = pow(2.0f,(float)(8+dwMaxTextureSize)); 
-		return WinPoint(i, i);
+        //  : the 3DFX card doesn't report max texture size correctly
+        //         so return 256 x 256
+
+        return WinPoint(256, 256);
+        //return WinPoint(m_pd3ddd->dwMaxTextureWidth, m_pd3ddd->dwMaxTextureHeight);
     }
 };
 
