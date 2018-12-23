@@ -1260,6 +1260,7 @@ public:
     TRef<IMenuItem>            m_pitemSFXVolumeDown;
     TRef<IMenuItem>            m_pitemVoiceOverVolumeUp;
     TRef<IMenuItem>            m_pitemVoiceOverVolumeDown;
+	TRef<IMenuItem>            m_pitemMaxTextureSize;		// yp Your_Persona August 2 2006 : MaxTextureSize Patch
 	TRef<IMenuItem>            m_pitemMuteFilter;			//TheBored 30-JUL-07: Filter Unknown Chat patch
 	TRef<IMenuItem>            m_pitemFilterUnknownChats;	//TheBored 30-JUL-07: Filter Unknown Chat patch
 
@@ -2924,7 +2925,10 @@ public:
             CycleStyleHUD();
         if (LoadPreference("LargeDeadZone", FALSE))
             ToggleLargeDeadZone();
+		ToggleMaxTextureSize(LoadPreference("MaxTextureSize", 1));// yp Your_Persona August 2 2006 : MaxTextureSize Patch
 		ToggleFilterLobbyChats(LoadPreference("FilterLobbyChats", 0)); //TheBored 25-JUN-07: Mute lobby chat patch // mmf 04/08 default this to 0 
+
+		GetEngine()->SetMaxTextureSize(trekClient.MaxTextureSize());// yp Your_Persona August 2 2006 : MaxTextureSize Patch
 
         bool bAllow3DAcceleration;
 
@@ -3600,6 +3604,7 @@ public:
     #define idmToggleFlipY                 629
     #define idmToggleStickyChase           630
     #define idmToggleEnableFeedback        631
+    #define idmMaxTextureSize              632 // yp Your_Persona August 2 2006 : MaxTextureSize Patch
     #define idmPings                       633 // w0dk4 player-pings feature
 	#define	idmMuteFilterOptions		   634 //TheBored 30-JUL-07: Filter Unknown Chat patch
 	#define idmFilterUnknownChats		   635 //TheBored 30-JUL-07: Filter Unknown Chat patch
@@ -4113,6 +4118,9 @@ public:
                 m_pitemToggleLensFlare             = pmenu->AddMenuItem(idmToggleLensFlare,             GetLensFlareMenuString()            , 'F');
                 m_pitemToggleBidirectionalLighting = pmenu->AddMenuItem(idmToggleBidirectionalLighting, GetBidirectionalLightingMenuString(), 'B');
                 m_pitemStyleHUD                    = pmenu->AddMenuItem(idmStyleHUD,                    GetStyleHUDMenuString()             , 'H');
+                // yp Your_Persona August 2 2006 : MaxTextureSize Patch
+                m_pitemMaxTextureSize              = pmenu->AddMenuItem(idmMaxTextureSize,            GetMaxTextureSizeMenuString(),    'X');
+
 				break;
 
             case idmGameOptions:
@@ -4413,6 +4421,19 @@ public:
             m_pitemToggleBidirectionalLighting->SetString(GetBidirectionalLightingMenuString());
         }
     }
+
+	// yp Your_Persona August 2 2006 : MaxTextureSize Patch
+	void ToggleMaxTextureSize(DWORD dwNewMaxSize)
+	{
+		if(dwNewMaxSize > 3){dwNewMaxSize =0;}
+        trekClient.MaxTextureSize(dwNewMaxSize);
+		GetEngine()->SetMaxTextureSize(trekClient.MaxTextureSize());
+        SavePreference("MaxTextureSize", trekClient.MaxTextureSize());
+ 
+        if (m_pitemMaxTextureSize != NULL) {
+            m_pitemMaxTextureSize->SetString(GetMaxTextureSizeMenuString());
+        }
+	}
 
     SoundID GetFlightMusic()
     {
@@ -4877,6 +4898,16 @@ public:
         return (m_pwrapImageEnvironment->GetImage() == m_pimageEnvironment) ? "Environment On " : "Environment Off ";
     }
 
+// yp Your_Persona August 2 2006 : MaxTextureSize Patch
+	ZString GetMaxTextureSizeMenuString()
+    {
+		int i = 0;
+		int j = 2;
+		i = 8 + trekClient.MaxTextureSize();
+		j = pow((float)j,(float)i);
+        return "Max Texture Size ("  + ZString( j)  + ") ";
+    }
+
     ZString GetRoundRadarMenuString()
     {
         return (m_bRoundRadar) ? "Round Radar" : "Square Radar";
@@ -5293,6 +5324,11 @@ public:
 
             case idmToggleEnvironment:
                 ToggleEnvironment();
+                break;
+
+			// yp Your_Persona August 2 2006 : MaxTextureSize Patch
+            case idmMaxTextureSize:
+                ToggleMaxTextureSize(trekClient.MaxTextureSize()+1);
                 break;
 
             case idmToggleRoundRadar:
