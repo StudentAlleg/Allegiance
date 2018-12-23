@@ -2469,6 +2469,7 @@ public:
         ZString strToOpen;
 
         if (!strExtension.IsEmpty()) {
+            if (strExtension != strExtensionArg)
             if (!strExtensionArg.IsEmpty()) // KGJV 32B - ignore empty strExtensionArg
             if (strExtension.ToLower() != strExtensionArg.ToLower()) { // KGJV 32B - ignore case
                 return NULL;
