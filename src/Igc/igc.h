@@ -490,6 +490,7 @@ typedef ObjectID        ExpendableTypeID;
 typedef ObjectID        CivID;
 typedef ObjectID        MunitionID;
 typedef ObjectID        TreasureSetID;
+const ObjectID         RANDOM_ID = 9999;  //Xynth #170 8/2010
 typedef int             SquadID;
 
 typedef ObjectID        WingID;
@@ -4256,6 +4257,9 @@ class IsideIGC : public IbaseIGC
 			return (side1->GetAllies() == side2->GetAllies());
 		}
 		//
+		//Xynth #170 8/10
+		virtual bool GetRandomCivilization(void) const = 0;
+		virtual void SetRandomCivilization(bool rand) = 0;
 
 		//Xynth Adding function to return number of players on a side
 		virtual int GetNumPlayersOnSide(void) const = 0;

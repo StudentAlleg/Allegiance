@@ -42,6 +42,7 @@ HRESULT         CsideIGC::Initialize(ImissionIGC*   pMission,
 	//#ALLY
 	m_data.allies = NA;	
 
+	bRandomCivilization = false; //Xynth #170 8/10 Initialize new bool
     return S_OK;
 }
 

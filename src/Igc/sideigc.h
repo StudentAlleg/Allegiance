@@ -499,6 +499,14 @@ class       CsideIGC : public IsideIGC
         {
             m_data.nBaseCaptures++;
         }
+		bool GetRandomCivilization(void) const
+		{
+			return bRandomCivilization;
+		}
+		void SetRandomCivilization(bool rand)
+		{
+			bRandomCivilization = rand;
+		}
 		
 		//Xynth add funtion to set number of players on a side
 		int CsideIGC::GetNumPlayersOnSide(void) const
@@ -670,6 +678,7 @@ class       CsideIGC : public IsideIGC
         Time                m_lastUpdate;
 
         bool                m_activeF;		
+		bool bRandomCivilization;  //Xynth #170 8/10
 };
 
 #endif //__SIDEIGC_H_
