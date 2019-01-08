@@ -859,7 +859,7 @@ private:
                     m_pcomboCiv->AddItem(linkCiv->data()->GetName(), linkCiv->data()->GetObjectID());
 					numCivilizations++; //Xynth #170 8/2010 fill an array of faction IDs to pick one at random
 					CivilizationArray[numCivilizations-1] = linkCiv->data()->GetObjectID();					
-            }
+				}
             }
 
 			//Xynth #170 removed selection until bugs can be worked out
