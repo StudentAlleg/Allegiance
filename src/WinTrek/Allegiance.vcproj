@@ -238,7 +238,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib $(OutDir)\..\Vorbis\vorbis.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity2005d.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib $(OutDir)\..\Vorbis\vorbis.lib"
 				GenerateDebugInformation="true"
 				GenerateMapFile="true"
 				SubSystem="2"
@@ -323,7 +323,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib $(OutDir)\..\Vorbis\vorbis.lib"
+				AdditionalDependencies="..\Lib\Steam\steam_api.lib ..\Lib\AllegianceSecurity\AllegianceSecurity2005.lib atls.lib ddraw.lib dsound.lib dinput.lib $(OutDir)\..\zlib\zlib.lib $(OutDir)\..\soundengine\soundengine.lib $(OutDir)\..\_utility\Utility.lib $(OutDir)\..\engine\Engine.lib $(OutDir)\..\effect\Effect.lib $(OutDir)\..\igc\igc.lib $(OutDir)\..\clintlib\clintlib.lib $(OutDir)\..\agc\AGCGuid.lib $(OutDir)\..\Guids\guids.lib $(OutDir)\..\training\training.lib urlmon.lib dxguid.lib winmm.lib amstrmid.lib comctl32.lib version.lib ws2_32.lib delayimp.lib wininet.lib lz32.lib netapi32.lib comsupp.lib oledb.lib ..\Engine\FreeImage\FreeImage.lib dbghelp.lib $(OutDir)\..\Vorbis\vorbis.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames=""
