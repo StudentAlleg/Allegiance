@@ -92,6 +92,8 @@
 #include "treksound.h"
 #include "GameTypes.h"
 
+// BT - STEAM
+#include "CallsignTagInfo.h"
 //
 //#if defined __cplusplus_cli
 //#define CALEETYPE __clrcall
