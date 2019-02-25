@@ -1413,8 +1413,8 @@ void BaseClient::UpdateServerLoginRequestWithSteamAuthTokenInformation(FMD_C_LOG
 
 		int authTicketCRC = MemoryCRC(pfmLogon->steamAuthTicket, pfmLogon->steamAuthTicketLength);
 
-		DrmChecker drmChecker;
-		drmChecker.GetDrmWrapChecksum(authTicketCRC, pfmLogon->drmHash, sizeof(pfmLogon->drmHash)); // Note, this is always empty, unless it's an official retail steam build!
+//		DrmChecker drmChecker;
+//		drmChecker.GetDrmWrapChecksum(authTicketCRC, pfmLogon->drmHash, sizeof(pfmLogon->drmHash)); // Note, this is always empty, unless it's an official retail steam build!
 
 
 	}
