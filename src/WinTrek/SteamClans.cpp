@@ -26,17 +26,17 @@ SteamClans::SteamClans()
 
 		nGroupsFound++;
 
-		m_officerDataReceived = false;
+//		m_officerDataReceived = false;
 		SteamAPICall_t handle = SteamFriends()->RequestClanOfficerList(groupSteamID);
 		m_SteamCallResultClanOfficerListResponse.Set(handle, this, &SteamClans::OnClanOfficerListResponse);
 
-		for (int i = 0; i < 30 && m_officerDataReceived == false; i++)
+//		for (int i = 0; i < 30 && m_officerDataReceived == false; i++)
 		{
 			SteamAPI_RunCallbacks();
 			Sleep(100);
 		}
 
-		if (m_officerDataReceived == true)
+//		if (m_officerDataReceived == true)
 		{
 
 			int nOfficers = SteamFriends()->GetClanOfficerCount(groupSteamID);
@@ -63,7 +63,7 @@ SteamClans::SteamClans()
 
 void SteamClans::OnClanOfficerListResponse(ClanOfficerListResponse_t *pCallback, bool bIOFailure)
 {
-	m_officerDataReceived = true;
+//	m_officerDataReceived = true;
 }
 
 TVector<CallsignTagInfo, DefaultEquals, DefaultCompare> * SteamClans::GetAvailableCallsignTags()
