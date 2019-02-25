@@ -3439,38 +3439,6 @@ public:
 			pfmQuitSide->shipID = contextPlayerInfo->ShipID();
 		pfmQuitSide->reason = QSR_AdminBooted;
 	}
-	
-	void contextDockDrone() //Xynth #48 8/2010
-	{
-		//Spunky #250 #257
-		bool docked=contextPlayerInfo->LastSeenState() == c_ssDocked; //GetStation() doesn't work here
-		if (docked && !contextPlayerInfo->GetShip()->GetStayDocked() || !docked) 
-			contextPlayerInfo->GetShip()->SetStayDocked(true);
- 		else
-			contextPlayerInfo->GetShip()->SetStayDocked(false);
-	
-		if (trekClient.m_fm.IsConnected())
-		{
-			trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
-			BEGIN_PFM_CREATE(trekClient.m_fm, pfmOC, CS, ORDER_CHANGE)
-			END_PFM_CREATE
-
-			pfmOC->shipID = contextPlayerInfo->GetShip()->GetObjectID();			
-			pfmOC->command = c_cmdAccepted;
-			if (docked && contextPlayerInfo->GetShip()->GetStayDocked())
-				pfmOC->commandID = c_cidDoNothing;
-			else 
-				pfmOC->commandID = c_cidGoto; 
-			pfmOC->objectType = OT_invalid;
-			pfmOC->objectID = NA;
-		}
-	}
-
-	//Xynth #197 8/2010
-	void contextChat()
-	{
-		GetWindow()->GetConsoleImage()->GetConsoleData()->PickShip(contextPlayerInfo->GetShip());
-	}
 
     //////////////////////////////////////////////////////////////////////////////
     //
@@ -3657,11 +3625,6 @@ public:
 	#define idmContextRejectPlayer	802
 	#define idmContextMakeLeader	803
 	#define idmContextMutePlayer	804
-
-	//Xynth #48 8/2010
-	#define idmContextDockDrone		815
-	//Xynth #197 8/2010
-	#define idmContextChat			816
 
 	// BT - STEAM
 	#define idmCallsignTag0		900
@@ -3974,76 +3937,76 @@ public:
 		char str2[30];
 		char str3[30];
 		char str4[30];
-		
+
 		//Xynth #48 8/2010 Add Dock menu item
 		bool bEnableDock = false;
 		bool bEnableChat = false;
 		bool bEnableReject = false;
 		bool bEnableAccept = false;
 
-		if (playerInfo->SideID() == trekClient.GetSideID())
-		{
-			// pkk #211 08/05/2010 Allow all drones stay docked Xynth Only commander can staydock and launch
-			if (playerInfo->GetShip()->GetPilotType() < c_ptPlayer && trekClient.GetPlayerInfo()->IsTeamLeader())
-			{
-				if (playerInfo->GetShip()->GetPilotType() != c_ptCarrier)
-				{ 					 
-					if ((playerInfo->LastSeenState() == c_ssDocked || playerInfo->LastSeenState() == NULL) && playerInfo->GetShip()->GetStayDocked()) //Spunky #250					
-						sprintf(str1,"Launch  ");
-					else
-						sprintf(str1,"Dock    ");
-					bEnableDock  = true;
+		//if (playerInfo->SideID() == trekClient.GetSideID())
+		//{
+		//	// pkk #211 08/05/2010 Allow all drones stay docked Xynth Only commander can staydock and launch
+		//	if (playerInfo->GetShip()->GetPilotType() < c_ptPlayer && trekClient.GetPlayerInfo()->IsTeamLeader())
+		//	{
+		//		if (playerInfo->GetShip()->GetPilotType() != c_ptCarrier)
+		//		{
+		//			if ((playerInfo->LastSeenState() == c_ssDocked || playerInfo->LastSeenState() == NULL) && playerInfo->GetShip()->GetStayDocked()) //Spunky #250					
+		//				sprintf(str1, "Launch  ");
+		//			else
+		//				sprintf(str1, "Dock    ");
+		//			bEnableDock = true;
 
-				}				
-				else  //carrier
-				{					
-					if (!(playerInfo->LastSeenState() == c_ssDocked || playerInfo->LastSeenState() == NULL))
-					{
-						sprintf(str1,"Dock/Flee ");  //if no shipyard, carriers go to nearest base players can launch from
-						bEnableDock  = true;  //no launch, since carriers don't have a default command
-					}
-				}
-				}
-			}
+		//		}
+		//		else  //carrier
+		//		{
+		//			if (!(playerInfo->LastSeenState() == c_ssDocked || playerInfo->LastSeenState() == NULL))
+		//			{
+		//				sprintf(str1, "Dock/Flee ");  //if no shipyard, carriers go to nearest base players can launch from
+		//				bEnableDock = true;  //no launch, since carriers don't have a default command
+		//			}
+		//		}
+		//	}
+		//}
 
 		bEnableChat = (playerInfo->ShipID() != trekClient.GetShipID()) &&
-					   (playerInfo->GetShip()->GetPilotType() == c_ptPlayer);
-		sprintf(str2,"Chat       ");
+			(playerInfo->GetShip()->GetPilotType() == c_ptPlayer);
+		sprintf(str2, "Chat       ");
 
-		if (playerInfo->SideID() != trekClient.GetSideID())		
+		if (playerInfo->SideID() != trekClient.GetSideID())
 		{
-			if(trekClient.GetPlayerInfo()->IsTeamLeader())
+			if (trekClient.GetPlayerInfo()->IsTeamLeader())
 			{
-				sprintf(str3,"Accept       ");
+				sprintf(str3, "Accept       ");
 				bEnableAccept = trekClient.MyMission()->SideAvailablePositions(trekClient.GetSideID()) > 0
 					&& trekClient.MyMission()->FindRequest(trekClient.GetSideID(), playerInfo->ShipID());
 
-				sprintf(str4,"Reject       ");
+				sprintf(str4, "Reject       ");
 				bEnableReject = playerInfo->ShipID() != trekClient.GetShipID()
 					&& trekClient.MyMission()->FindRequest(trekClient.GetSideID(), playerInfo->ShipID())
 					&& (!trekClient.MyMission()->GetMissionParams().bLockTeamSettings
-					|| playerInfo->SideID() != trekClient.GetSideID());
+						|| playerInfo->SideID() != trekClient.GetSideID());
 			}
 		}
 
 		bool bSteamModerator = IsPlayerSteamModerator();
 
-		if (bEnableDock || bEnableChat ||bEnableReject || bEnableAccept || bSteamModerator)  //Xynth #205 8/2010 Will need || for any other menu options.  
-						  //The point is don't create the menu if nothing is on it
+		if (bEnableDock || bEnableChat || bEnableReject || bEnableAccept || bSteamModerator)  //Xynth #205 8/2010 Will need || for any other menu options.  
+																							  //The point is don't create the menu if nothing is on it
 		{
 
 			m_pmenu =
 				CreateMenu(
-				GetModeler(),
-				TrekResources::SmallFont(),
-				m_pmenuCommandSink
+					GetModeler(),
+					TrekResources::SmallFont(),
+					m_pmenuCommandSink
 				);
 
 
-			if(bEnableDock)			m_pmenu->AddMenuItem(idmContextDockDrone , str1 , 'D'); //Xynth #48 8/2010
-			if(bEnableChat)			m_pmenu->AddMenuItem(idmContextChat , str2 , 'C'); //Xynth #197 8/2010
-			if(bEnableAccept)		m_pmenu->AddMenuItem(idmContextAcceptPlayer , str3 , 'A');
-			if(bEnableReject)		m_pmenu->AddMenuItem(idmContextRejectPlayer , str4 , 'R');
+			//if (bEnableDock)			m_pmenu->AddMenuItem(idmContextDockDrone, str1, 'D'); //Xynth #48 8/2010
+			//if (bEnableChat)			m_pmenu->AddMenuItem(idmContextChat, str2, 'C'); //Xynth #197 8/2010
+			if (bEnableAccept)		m_pmenu->AddMenuItem(idmContextAcceptPlayer, str3, 'A');
+			if (bEnableReject)		m_pmenu->AddMenuItem(idmContextRejectPlayer, str4, 'R');
 
 			// BT - STEAM - Enable moderators to ban players by context menu.
 			if (bSteamModerator == true && bEnableDock == false && playerInfo->IsHuman())
@@ -4060,7 +4023,7 @@ public:
 			Point p = Point::Cast(ppane->GetSize());
 
 			popupPosition.SetY(popupPosition.Y() - p.Y());
-			OpenPopup(m_pmenu,	popupPosition);
+			OpenPopup(m_pmenu, popupPosition);
 		}
 	}
 
@@ -4080,7 +4043,6 @@ public:
 
         OpenPopup(m_pmenu, Point(10, 10));
     }
-
 
 	// BT - STEAM 
 #ifdef STEAM_APP_ID
@@ -5533,14 +5495,6 @@ public:
 				contextBanPlayer();				CloseMenu();
 				break;
 
-			//Xynth #48 8/2010
-			case idmContextDockDrone:
-				contextDockDrone();				CloseMenu();
-				break;
-			//Xynth #197 8/2010
-			case idmContextChat:
-				contextChat();				CloseMenu();
-				break;
 
 #ifdef STEAM_APP_ID
 				// BT - STEAM
