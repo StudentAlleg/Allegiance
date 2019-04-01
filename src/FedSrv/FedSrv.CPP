@@ -3274,6 +3274,7 @@ bool CommandToDrone(CFSMission*         pfsMission,
 
         if (pshipTo->LegalCommand(pcd->commandID, *ppmodelTarget))
         {
+            pshipTo->SetStayDocked(false);  //Xynth #48 8/2010 reset staydocked on any command																							  
             bAccepted = true;
             pfsMission->GetSite()->SendChat(pshipTo, CHAT_INDIVIDUAL, pfsSender->GetIGCShip()->GetObjectID(),
                                             voAffirmativeSound, "Affirmative.");
@@ -6631,12 +6632,73 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       IshipIGC*   pship = pfsPlayer->GetIGCShip();
       assert (pship);
 
-      IsideIGC*   pside = pship->GetSide();
-      if (pside->GetObjectID() >= 0)
+	  IsideIGC*   pside = pship->GetSide();
+	  if (pside->GetShip(pfmOC->shipID))  //Xynth #48 8/2010 This msg handler is normally used for 
+	  {									 //ownship commands.  Tagging on miner commands from playerpane
+      	  pship = pside->GetShip(pfmOC->shipID);		 
+	  }
+
+	  ImodelIGC*  pmodel;
+
+	  //Spunky #250 #257
+	  bool DoNotExecute = false;
+	  // pkk #211 08/05/2010 Allow all drones stay docked
+      if (pship->GetPilotType() < c_ptPlayer)
+	  {
+			DoNotExecute = true; //don't carry out the sent command later, since we are handling it here
+			if (pship->GetStation() != NULL) //if docked..	
+			{ 
+				if (pfmOC->commandID==c_cidDoNothing) //stay docked
+				{
+					pship->SetStayDocked(true);
+					pfsMission->GetSite()->SendChat(pship, CHAT_INDIVIDUAL, pfsPlayer->GetIGCShip()->GetObjectID(),
+                                            voAffirmativeSound, "Affirmative.");
+				}
+			    else //launch
+				{
+					pship->SetStayDocked(false);
+					pfsMission->GetSite()->SendChat(pship, CHAT_INDIVIDUAL, pfsPlayer->GetIGCShip()->GetObjectID(),
+                                            voAffirmativeSound, "Affirmative. Preparing to launch.");
+					pship->PickDefaultOrder(pship->GetStation()->GetCluster(), pship->GetStation()->GetPosition(), true);			  
+				}
+			}
+			else //we are going back to base
+			{
+				//we find the nearest station server side because the ship's exact location is only available here when we are in a different sector
+				if (pship->GetPilotType() != c_ptCarrier)
+				{
+					pmodel = FindTarget(pship, c_ttFriendly | c_ttStation | c_ttNearest| c_ttAnyCluster,
+						NULL, NULL, NULL, NULL, c_sabmRepair);
+				}
+				else
+				{
+					// Find shipyard
+					pmodel = FindTarget(pship, c_ttFriendly | c_ttStation | c_ttNearest | c_ttAnyCluster,
+					NULL, NULL,NULL, NULL, c_sabmCapLand);
+					if (pmodel == NULL) //No shipyard, carrier flees to nearest base for protection
+						pmodel = FindTarget(pship, c_ttFriendly | c_ttStation | c_ttNearest | c_ttAnyCluster,
+								NULL, NULL, NULL, NULL, c_sabmRepair);
+				}
+				pship->SetStayDocked(true);
+                pship->SetCommand(c_cmdQueued, NULL, c_cidNone); //Don't remember any sector
+				if (pmodel)
+				{
+					pfsMission->GetSite()->SendChat(pship, CHAT_INDIVIDUAL, pfsPlayer->GetIGCShip()->GetObjectID(),
+                                            voAffirmativeSound, "Affirmative.");
+											pfsMission->GetSite()->SendChat(pship, CHAT_TEAM, pship->GetSide()->GetObjectID(),
+                                            NA, "Heading back to base. I'll sit tight.");
+		
+					pship->SetCommand(pfmOC->command, pmodel, pfmOC->commandID);
+				}
+			}
+	  }//Xynth #48 Spunky #250 #257 End Changes
+
+      if (pside->GetObjectID() >= 0  && !DoNotExecute)
       {
-        ImodelIGC*  pmodel = pMission->GetModel(pfmOC->objectType, pfmOC->objectID);
-        pship->SetCommand(pfmOC->command, pmodel, pfmOC->commandID);
+		pmodel = pMission->GetModel(pfmOC->objectType, pfmOC->objectID);
+		pship->SetCommand(pfmOC->command, pmodel, pfmOC->commandID);
       }
+	  
     }
     break;
 
