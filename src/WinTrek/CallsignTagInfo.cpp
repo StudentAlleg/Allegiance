@@ -1,7 +1,7 @@
 #include "pch.h"
 
-//#include <inttypes.h> 
-#include "..\Inc\int_types.h"
+#include "..\Inc\int_types.h" 
+
 // BT - STEAM
 
 #include "CallsignTagInfo.h"
@@ -109,7 +109,23 @@ void CallsignTagInfo::LoadFromRegistry()
 		RegQueryValueEx(hKey, "SteamOfficerToken", NULL, &dwType, (BYTE *)&szSteamOfficerToken, &cbSteamOfficerToken);
 		RegCloseKey(hKey);
 	}
+#ifdef STEAM_APP_ID
+	CSteamID targetGroupID(_strtoui64(szSteamClanID, NULL, NULL));
 
+	CSteamID currentUser = SteamUser()->GetSteamID();
+
+	int clanCount = SteamFriends()->GetClanCount();
+	for (int i = 0; i < clanCount; i++)
+	{
+		if (targetGroupID == SteamFriends()->GetClanByIndex(i))
+		{
+			m_steamGroupID = targetGroupID.ConvertToUint64();
+			break;
+		}
+	}
+
+	UpdateStringValues(szSteamOfficerToken);
+#endif
 }
 
 void CallsignTagInfo::SaveToRegistry()
