@@ -2447,7 +2447,7 @@ public:
         m_bQuitComposing(true),
         m_bEnableVirtualJoystick(true),
         m_bFlipY(false),
-        m_bEnableFeedback(false),
+        m_bEnableFeedback(true),
         m_aabmInvest(0),
         m_aabmCommand(0)
     {
@@ -2653,9 +2653,9 @@ public:
         // Load Input toggles
         //
 
-        m_bEnableVirtualJoystick = (LoadPreference("EnableVirtualJoystick", 1) != 0);
+        m_bEnableVirtualJoystick = (LoadPreference("EnableVirtualJoystick", 0) != 0);
         m_bFlipY                 = (LoadPreference("FlipY",                 0) != 0);
-        m_bEnableFeedback        = (LoadPreference("EnableFeedback",        0) != 0);
+        m_bEnableFeedback        = (LoadPreference("EnableFeedback",        1) != 0);
 
         //
         // Initial screen size
