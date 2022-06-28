@@ -70,6 +70,8 @@ namespace SoundInit {
 TRef<ZWriteFile> g_pzfFrameDump = NULL;
 FrameDumpInfo    g_fdInfo;
 
+TRef<ModifiableNumber> m_boosterShake;//Student 6/27/2022 - needs to be defined earlier, might need a better method for this
+
 const float s_fCommandViewDistanceMax = 20000.0f;
 const float s_fCommandViewDistanceMin = 50.0f;
 const float s_fCommandViewDistanceDefault = 6000.0f;
@@ -373,8 +375,8 @@ class   CameraControl
             //
             // Jiggle the camera orientation based on the amount of afterburner and any residual effects
             //
-
-            // Student TODO: reduce camera jiggle on afterburn (maybe make it adjustable? also potential accessibility issue)
+            
+            // Student 6/27/2022 - camera jiggle is reduced/amplified by user choice in the escape/graphics menu
 
             const double jiggleHalfLife = 0.25f;
             m_jiggle *= (float)pow(jiggleHalfLife, (double)dt);
@@ -388,8 +390,10 @@ class   CameraControl
                 if (afterburner || m_jiggle > 1.0)
                 {
                     float power = m_jiggle + (afterburner ? afterburner->GetPower() : 0);
+                    power *= m_boosterShake->GetValue(); //Student 6/27/2022 - temper the strength of the shake by user preference
                     if (power != 0.0f)
                     {
+                         
                         float amount = RadiansFromDegrees(0.5) * power;
 
                         orientation = m_orientation;
@@ -1232,6 +1236,7 @@ public:
     TRef<Geo>        m_pgeoDebris;
     TRef<WrapGeo>          m_pwrapGeoDebris;
 	TRef<ModifiableNumber> m_debrisDensity; //LANS
+   
     //TRef<Geo>              m_pgeoTurret;
     //TRef<MatrixTransform>  m_pmtTurret;
     TRef<WrapGeo>          m_pgeoScene;
@@ -1344,6 +1349,7 @@ public:
     TRef<IMenuItem>            m_pitemToggleEnvironment;
     TRef<IMenuItem>			   m_pitemToggleUseOldUi;
     TRef<IMenuItem>			   m_pitemToggleShowJoystickIndicator;
+    TRef<IMenuItem>            m_pitemToggleBoosterShake;
     TRef<IMenuItem>            m_pitemToggleRoundRadar;
     TRef<IMenuItem>            m_pitemToggleLinearControls;
     TRef<IMenuItem>            m_pitemToggleLargeDeadZone;
@@ -3039,6 +3045,11 @@ public:
 
         GetInputEngine()->GetMouse()->SetAccel(m_iMouseAccel);
 
+        //Student 6/27/2022 - load booster shake preference
+        m_boosterShake =  new ModifiableNumber(atof(LoadPreference("BoosterShake", "1.0")));
+
+        
+
 // BUILD_DX9
 
         //
@@ -3933,6 +3944,7 @@ public:
 	#define idmIncreaseChatLines		 638 // #294 - Turkey
 	#define idmReduceChatLines			 639 // #294 - Turkey
 	#define idmCycleTimestamp			 640 // #294 - Turkey
+    #define idmToggleBoosterShake        641 // Student 6/27/2022 - toggle booster shake
 
     #define idmResetSound           701
     #define idmSoundQuality         702
@@ -4480,6 +4492,7 @@ public:
 
             case idmOptions:
                 		       		 				 pmenu->AddMenuItem(idmDeviceOptions,					"Advanced Options",				  'A', m_psubmenuEventSink);
+                m_pitemToggleBoosterShake          = pmenu->AddMenuItem(idmToggleBoosterShake,           GetBoosterShakeMenuString(), 'M');
                 m_pitemToggleEnvironment           = pmenu->AddMenuItem(idmToggleEnvironment,           GetEnvironmentMenuString()          , 'E');
                 m_pitemTogglePosters               = pmenu->AddMenuItem(idmTogglePosters,               GetPostersMenuString()              , 'P');
                 m_pitemToggleDebris                = pmenu->AddMenuItem(idmToggleDebris,                GetDebrisMenuString()               , 'D');
@@ -4499,7 +4512,8 @@ public:
 
                 m_pitemToggleShowJoystickIndicator = pmenu->AddMenuItem(idmShowJoystickIndicator, GetShowJoystickIndicatorMenuString(), 'J');
  				
-				break;
+	            
+                break;
 
             case idmGameOptions:
                 m_pitemMuteFilter		           = pmenu->AddMenuItem(idmMuteFilterOptions,					"Mute/Filter",						'M', m_psubmenuEventSink); //TheBored 30-JUL-07: Filter Unknown Chat patch
@@ -4560,7 +4574,8 @@ public:
 				m_pitemVsync			= pmenu->AddMenuItem(idmVsync  			  , GetVsyncString()                                    , 'V'); //Spunky #265 backing out //Imago 7/10
 				// yp Your_Persona August 2 2006 : MaxTextureSize Patch
 				m_pitemMaxTextureSize	= pmenu->AddMenuItem(idmMaxTextureSize,     GetMaxTextureSizeMenuString(),    					  'X');
-				break;
+				
+                break;
 
 			//Imago 7/10 #187
 			case idmFFOptions:
@@ -4586,6 +4601,39 @@ public:
         }
 
         return pmenu;
+    }
+
+    //Student 6/27/2022 - Toggle Booster
+
+    void ToggleBoosterShake()
+    {
+        if (m_boosterShake->GetValue() == 1.25f) { //high->normal
+            m_boosterShake->SetValue(1.0f);
+            SavePreference("BoosterShake", "1.0");
+        }
+        else if (m_boosterShake->GetValue() == 1.0f) { //normal -> medium
+            m_boosterShake->SetValue(0.75f);
+            SavePreference("BoosterShake", "0.75");
+        }
+        else if (m_boosterShake->GetValue() == 0.75f) { //medium -> low
+            m_boosterShake->SetValue(0.5f);
+            SavePreference("BoosterShake", "0.5");
+        }
+        else if (m_boosterShake->GetValue() == 0.5f) { //low -> min
+            m_boosterShake->SetValue(0.25f);
+            SavePreference("BoosterShake", "0.25");
+        }
+        else if (m_boosterShake->GetValue() == 0.25f) { //min -> none
+            m_boosterShake->SetValue(0.0f);
+            SavePreference("BoosterShake", "0.0");
+        }
+        else { //none -> high
+            m_boosterShake->SetValue(1.25f);
+            SavePreference("BoosterShake", "1.25");
+        }
+        if (m_pitemToggleBoosterShake != NULL) {
+            m_pitemToggleBoosterShake->SetString(GetBoosterShakeMenuString());
+        }
     }
 
     void ToggleDebris()
@@ -5428,6 +5476,37 @@ public:
         return (m_pwrapImagePosters->GetImage() != Image::GetEmpty()) ? "Posters On " : "Posters Off ";
     }
 
+    //Student 6/27/2022 - booster shake toggle string
+    ZString GetBoosterShakeMenuString()
+    {
+ 
+        static const ZString	c_strMin("Booster Shake Min");
+        static const ZString	c_strLow("Booster Shake Low");
+        static const ZString	c_strMed("Booster Shake Medium");
+        static const ZString    c_strNorm("Booster Shake Normal");
+        static const ZString	c_strHigh("Booster Shake High");
+        static const ZString	c_strOff("Booster Shake Off");
+
+        if (m_boosterShake->GetValue() == 1.25f) {
+            return c_strHigh;
+        }
+        else if (m_boosterShake->GetValue() == 1.0f) {
+            return c_strNorm;
+        }
+        else if (m_boosterShake->GetValue() == 0.75f) {
+            return c_strMed;
+        }
+        else if (m_boosterShake->GetValue() == 0.5f) {
+            return c_strLow;
+        }
+        else if (m_boosterShake->GetValue() == 0.25f) {
+            return c_strMin;
+        }
+        else {
+            return c_strOff;
+        }
+    }
+
     ZString GetDebrisMenuString()
     {
 		//LANS - multiple debris options
@@ -6061,6 +6140,10 @@ public:
 
             case idmShowJoystickIndicator:
                 ToggleShowJoystickIndicator();
+                break;
+
+            case idmToggleBoosterShake: //Student 6/27/2022 - toggle booster shake
+                ToggleBoosterShake();
                 break;
 
 			/* pkk May 6th: Disabled bandwidth patch
