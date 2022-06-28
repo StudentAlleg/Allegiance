@@ -373,6 +373,9 @@ class   CameraControl
             //
             // Jiggle the camera orientation based on the amount of afterburner and any residual effects
             //
+
+            // Student TODO: reduce camera jiggle on afterburn (maybe make it adjustable? also potential accessibility issue)
+
             const double jiggleHalfLife = 0.25f;
             m_jiggle *= (float)pow(jiggleHalfLife, (double)dt);
 
@@ -3722,7 +3725,7 @@ public:
 	void contextBanPlayer()
 	{
 		char szMessageParam[CB_ZTS];
-		lstrcpy(szMessageParam, "You have been banned from this game an administrator.");
+		lstrcpy(szMessageParam, "You have been banned from this game by an administrator.");
 		trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
 		BEGIN_PFM_CREATE(trekClient.m_fm, pfmQuitSide, CS, QUIT_MISSION)
 			FM_VAR_PARM(szMessageParam, CB_ZTS)
