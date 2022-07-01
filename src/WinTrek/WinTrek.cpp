@@ -70,7 +70,7 @@ namespace SoundInit {
 TRef<ZWriteFile> g_pzfFrameDump = NULL;
 FrameDumpInfo    g_fdInfo;
 
-TRef<ModifiableNumber> m_boosterShake;// Student 6/27/2022 - needs to be defined earlier, might need a better method for this
+TRef<ModifiableNumber> m_boosterJiggle;// Student 6/27/2022 - needs to be defined earlier, might need a better method for this
 
 const float s_fCommandViewDistanceMax = 20000.0f;
 const float s_fCommandViewDistanceMin = 50.0f;
@@ -390,7 +390,7 @@ class   CameraControl
                 if (afterburner || m_jiggle > 1.0)
                 {
                     float power = m_jiggle + (afterburner ? afterburner->GetPower() : 0);
-                    power *= m_boosterShake->GetValue(); //Student 6/27/2022 - temper the strength of the shake by user preference
+                    power *= m_boosterJiggle->GetValue(); //Student 6/27/2022 - temper the strength of the shake by user preference
                     if (power != 0.0f)
                     {
                          
@@ -1349,7 +1349,7 @@ public:
     TRef<IMenuItem>            m_pitemToggleEnvironment;
     TRef<IMenuItem>			   m_pitemToggleUseOldUi;
     TRef<IMenuItem>			   m_pitemToggleShowJoystickIndicator;
-    TRef<IMenuItem>            m_pitemToggleBoosterShake;
+    TRef<IMenuItem>            m_pitemToggleBoosterJiggle; //Student 6/27/2022
     TRef<IMenuItem>            m_pitemToggleRoundRadar;
     TRef<IMenuItem>            m_pitemToggleLinearControls;
     TRef<IMenuItem>            m_pitemToggleLargeDeadZone;
@@ -3046,7 +3046,7 @@ public:
         GetInputEngine()->GetMouse()->SetAccel(m_iMouseAccel);
 
         //Student 6/27/2022 - load booster shake preference
-        m_boosterShake =  new ModifiableNumber(atof(LoadPreference("BoosterShake", "1.0")));
+        m_boosterJiggle =  new ModifiableNumber(atof(LoadPreference("BoosterJiggle", "1.0")));
 
         
 
@@ -3944,7 +3944,7 @@ public:
 	#define idmIncreaseChatLines		 638 // #294 - Turkey
 	#define idmReduceChatLines			 639 // #294 - Turkey
 	#define idmCycleTimestamp			 640 // #294 - Turkey
-    #define idmToggleBoosterShake        641 // Student 6/27/2022 - toggle booster shake
+    #define idmToggleBoosterJiggle        641 // Student 6/27/2022 - toggle booster shake
 
     #define idmResetSound           701
     #define idmSoundQuality         702
@@ -4492,7 +4492,7 @@ public:
 
             case idmOptions:
                 		       		 				 pmenu->AddMenuItem(idmDeviceOptions,					"Advanced Options",				  'A', m_psubmenuEventSink);
-                m_pitemToggleBoosterShake          = pmenu->AddMenuItem(idmToggleBoosterShake,           GetBoosterShakeMenuString(), 'M');
+                m_pitemToggleBoosterJiggle          = pmenu->AddMenuItem(idmToggleBoosterJiggle,           GetBoosterJiggleMenuString()      , 'M');
                 m_pitemToggleEnvironment           = pmenu->AddMenuItem(idmToggleEnvironment,           GetEnvironmentMenuString()          , 'E');
                 m_pitemTogglePosters               = pmenu->AddMenuItem(idmTogglePosters,               GetPostersMenuString()              , 'P');
                 m_pitemToggleDebris                = pmenu->AddMenuItem(idmToggleDebris,                GetDebrisMenuString()               , 'D');
@@ -4605,34 +4605,34 @@ public:
 
     //Student 6/27/2022 - Toggle Booster
 
-    void ToggleBoosterShake()
+    void ToggleBoosterJiggle()
     {
-        if (m_boosterShake->GetValue() == 1.25f) { //high->normal
-            m_boosterShake->SetValue(1.0f);
-            SavePreference("BoosterShake", "1.0");
+        if (m_boosterJiggle->GetValue() == 1.25f) { //high->normal
+            m_boosterJiggle->SetValue(1.0f);
+            SavePreference("BoosterJiggle", "1.0");
         }
-        else if (m_boosterShake->GetValue() == 1.0f) { //normal -> medium
-            m_boosterShake->SetValue(0.75f);
-            SavePreference("BoosterShake", "0.75");
+        else if (m_boosterJiggle->GetValue() == 1.0f) { //normal -> medium
+            m_boosterJiggle->SetValue(0.75f);
+            SavePreference("BoosterJiggle", "0.75");
         }
-        else if (m_boosterShake->GetValue() == 0.75f) { //medium -> low
-            m_boosterShake->SetValue(0.5f);
-            SavePreference("BoosterShake", "0.5");
+        else if (m_boosterJiggle->GetValue() == 0.75f) { //medium -> low
+            m_boosterJiggle->SetValue(0.5f);
+            SavePreference("BoosterJiggle", "0.5");
         }
-        else if (m_boosterShake->GetValue() == 0.5f) { //low -> min
-            m_boosterShake->SetValue(0.25f);
-            SavePreference("BoosterShake", "0.25");
+        else if (m_boosterJiggle->GetValue() == 0.5f) { //low -> min
+            m_boosterJiggle->SetValue(0.25f);
+            SavePreference("BoosterJiggle", "0.25");
         }
-        else if (m_boosterShake->GetValue() == 0.25f) { //min -> none
-            m_boosterShake->SetValue(0.0f);
-            SavePreference("BoosterShake", "0.0");
+        else if (m_boosterJiggle->GetValue() == 0.25f) { //min -> none
+            m_boosterJiggle->SetValue(0.0f);
+            SavePreference("BoosterJiggle", "0.0");
         }
         else { //none -> high
-            m_boosterShake->SetValue(1.25f);
-            SavePreference("BoosterShake", "1.25");
+            m_boosterJiggle->SetValue(1.25f);
+            SavePreference("BoosterJiggle", "1.25");
         }
-        if (m_pitemToggleBoosterShake != NULL) {
-            m_pitemToggleBoosterShake->SetString(GetBoosterShakeMenuString());
+        if (m_pitemToggleBoosterJiggle != NULL) {
+            m_pitemToggleBoosterJiggle->SetString(GetBoosterJiggleMenuString());
         }
     }
 
@@ -5477,7 +5477,7 @@ public:
     }
 
     //Student 6/27/2022 - booster shake toggle string
-    ZString GetBoosterShakeMenuString()
+    ZString GetBoosterJiggleMenuString()
     {
  
         static const ZString	c_strMin("Booster Shake Min");
@@ -5487,19 +5487,19 @@ public:
         static const ZString	c_strHigh("Booster Shake High");
         static const ZString	c_strOff("Booster Shake Off");
 
-        if (m_boosterShake->GetValue() == 1.25f) {
+        if (m_boosterJiggle->GetValue() == 1.25f) {
             return c_strHigh;
         }
-        else if (m_boosterShake->GetValue() == 1.0f) {
+        else if (m_boosterJiggle->GetValue() == 1.0f) {
             return c_strNorm;
         }
-        else if (m_boosterShake->GetValue() == 0.75f) {
+        else if (m_boosterJiggle->GetValue() == 0.75f) {
             return c_strMed;
         }
-        else if (m_boosterShake->GetValue() == 0.5f) {
+        else if (m_boosterJiggle->GetValue() == 0.5f) {
             return c_strLow;
         }
-        else if (m_boosterShake->GetValue() == 0.25f) {
+        else if (m_boosterJiggle->GetValue() == 0.25f) {
             return c_strMin;
         }
         else {
@@ -6142,8 +6142,8 @@ public:
                 ToggleShowJoystickIndicator();
                 break;
 
-            case idmToggleBoosterShake: //Student 6/27/2022 - toggle booster shake
-                ToggleBoosterShake();
+            case idmToggleBoosterJiggle: //Student 6/27/2022 - toggle booster shake
+                ToggleBoosterJiggle();
                 break;
 
 			/* pkk May 6th: Disabled bandwidth patch
