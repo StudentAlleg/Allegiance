@@ -402,18 +402,18 @@ public:
             pcontext->Translate(positionIcon);
 			pcontext->SetBlendMode(BlendModeAdd); //Imago 7/10 upgraded #181
 
-            pcontext->DrawImage3D(psurfaceIcon, colorIcon, true); // Student Testing -- draws ship icons
+            pcontext->DrawImage3D(psurfaceIcon, colorIcon, true);
         }
         
-        if (bEye)
+        if (bEye) //Student 7/2022 Draw an eye if friendly ship is detected
         {
-            positionEye.SetX(positionIcon.X());
-            positionEye.SetY(positionIcon.Y() - 5);
+            positionEye.SetX(positionIcon.X() - 0);
+            positionEye.SetY(positionIcon.Y() + 2);
             
             pcontext->Translate(positionEye);
             pcontext->SetBlendMode(BlendModeAdd);
             
-            pcontext->DrawImage3D(m_psurfaceEye, colorIcon, true); //"gh_eye_bmp"
+            pcontext->DrawImage3D(m_psurfaceEye, colorIcon, true); //"eyebmp" from an eye.png in artwork
         }
         
 
@@ -999,7 +999,7 @@ public:
 								//Xynth #47 7/2010
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
 									 (pship->GetSide() == psideMine) &&
-									 (pship->GetPilotType() <= c_ptPlayer))  //Xynth #175 7/2010 
+									 (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010 
                                      // Student NOTE: if set to less than and equal could also see friendlies rip? (testing)
 								{
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
