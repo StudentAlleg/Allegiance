@@ -125,6 +125,8 @@ class RadarImageImpl : public RadarImage {
 
     TRef<Surface>       m_psurfaceTechIcon;
 
+    TRef<Surface>       m_psurfaceEye; //Student 7/2/2022 show if friendly eyed
+
     TRef<Surface>       m_psurfaceAccepted[c_cidMax];
     TRef<Surface>       m_psurfaceQueued[c_cidMax];
 
@@ -211,6 +213,8 @@ public:
 
         m_psurfaceTechIcon    = pmodeler->LoadSurface("icontechbmp", true);
 
+        m_psurfaceEye         = pmodeler->LoadSurface(AWF_FLIGHT_EYE_ICON, false); //Student 7/2/2022 show if friendly eyed
+
         for (CommandID i = c_cidAttack; (i < c_cidMax); i++)
         {
             if (c_cdAllCommands[i].szAccepted[0] != '\0')
@@ -286,7 +290,8 @@ public:
                   int           maskBrackets,
                   float         lock,
                   bool          bIcon,
-                  bool          bStats)
+                  bool          bStats,
+                  bool          bEye)
     {
         float               radiusObject = pts->GetScreenRadius();
         {
@@ -364,6 +369,8 @@ public:
         }
 
         Point   positionIcon;
+        Point   positionEye;
+
         if (ucRadarState != c_ucRadarOnScreenLarge)
         {
             positionIcon.SetX(0.0f);
@@ -395,8 +402,20 @@ public:
             pcontext->Translate(positionIcon);
 			pcontext->SetBlendMode(BlendModeAdd); //Imago 7/10 upgraded #181
 
-            pcontext->DrawImage3D(psurfaceIcon, colorIcon, true);
+            pcontext->DrawImage3D(psurfaceIcon, colorIcon, true); // Student Testing -- draws ship icons
         }
+        
+        if (bEye)
+        {
+            positionEye.SetX(positionIcon.X());
+            positionEye.SetY(positionIcon.Y() - 5);
+            
+            pcontext->Translate(positionEye);
+            pcontext->SetBlendMode(BlendModeAdd);
+            
+            pcontext->DrawImage3D(m_psurfaceEye, colorIcon, true); //"gh_eye_bmp"
+        }
+        
 
         if ((pszName[0] != '\0') || (range > 0) || bStats)
         {
@@ -634,6 +653,7 @@ public:
                         maskBrackets |= c_maskSubject;
 
 					IsideIGC* sthis = pmodel->GetSide();
+                    
 					if (pmodelEnemy) {
 						IsideIGC* sthat = pmodelEnemy->GetSide();
                     	if (pmodel == pmodelEnemy && !sthis->AlliedSides(sthis,sthat))  //ALLY - imago 7/3/09
@@ -661,7 +681,7 @@ public:
                         maskBrackets |= c_maskMe;
 
                     Color color = pside
-                                  ? ((maskBrackets & c_maskFlash) ? Color::Red() : pside->GetColor())
+                                  ? ((maskBrackets & c_maskFlash) ? Color::Red() : pside->GetColor()) //Possibe Student TODO future � color blind colors (or consistent colors)
                                   : s_colorNeutral;
 
 
@@ -690,6 +710,7 @@ public:
                                                        c_maskFlag |
                                                        c_maskArtifact)) != 0);
                     bool    bStats = bLabel;
+                    bool    bEye = false;
 
                     if (bLabel)
                     {
@@ -978,11 +999,19 @@ public:
 								//Xynth #47 7/2010
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
 									 (pship->GetSide() == psideMine) &&
-									 (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010
+									 (pship->GetPilotType() <= c_ptPlayer))  //Xynth #175 7/2010 
+                                     // Student NOTE: if set to less than and equal could also see friendlies rip? (testing)
 								{
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
 								}
 
+                                if (pship->GetPilotType() <= c_ptPlayer && pship->GetSide() == psideMine) { //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
+                                    PlayerInfo* ppi = (PlayerInfo*)(pship->GetPrivateData());
+                                    if (ppi) {
+                                        ShipStatus ss = ppi->GetShipStatus();
+                                        bEye = ss.GetDetected();
+                                    }
+                                }
                             }
                             break;
 
@@ -1065,7 +1094,8 @@ public:
                              maskBrackets,
                              lock,
                              bIcon,
-                             bStats);
+                             bStats,
+                             bEye);
 
                     pcontext->PopState();
                 }
