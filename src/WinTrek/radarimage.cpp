@@ -61,6 +61,7 @@ class RadarImageImpl : public RadarImage {
         Point       m_position;
         Point       m_direction;
         Color       m_color;
+        bool        m_bEye;
 
         TextData(const char*    pszName,
                  int            range,
@@ -71,7 +72,8 @@ class RadarImageImpl : public RadarImage {
                  CommandID      cid,
                  const Point&   position,
                  const Point&   direction,
-                 const Color&   color)
+                 const Color&   color,
+                 bool           bEye      )
         :
             m_pszName(pszName),
             m_range(range),
@@ -82,7 +84,8 @@ class RadarImageImpl : public RadarImage {
             m_cid(cid),
             m_position(position),
             m_direction(direction),
-            m_color(color)
+            m_color(color),
+            m_bEye(bEye)
         {
         }
 
@@ -97,7 +100,8 @@ class RadarImageImpl : public RadarImage {
             m_cid(data.m_cid),
             m_position(data.m_position),
             m_direction(data.m_direction),
-            m_color(data.m_color)
+            m_color(data.m_color),
+            m_bEye(data.m_bEye)
         {
         }
     };
@@ -404,26 +408,14 @@ public:
 
             pcontext->DrawImage3D(psurfaceIcon, colorIcon, true);
         }
-        
-        if (bEye) //Student 7/2022 Draw an eye if friendly ship is detected
-        {
-            positionEye.SetX(positionIcon.X() - 0);
-            positionEye.SetY(positionIcon.Y() + 2);
-            
-            pcontext->Translate(positionEye);
-            pcontext->SetBlendMode(BlendModeAdd);
-            
-            pcontext->DrawImage3D(m_psurfaceEye, colorIcon, true); //"eyebmp" from an eye.png in artwork
-        }
-        
 
         if ((pszName[0] != '\0') || (range > 0) || bStats)
         {
             Point   positionLabel = positionObject + positionIcon;
             if (maskBrackets & (c_maskTarget | c_maskAccepted | c_maskThreat))
-                m_listTextData.PushEnd(TextData(pszName, range, shield, hull, fill, cmd, cid, positionLabel, directionCenter, colorOther));
+                m_listTextData.PushEnd(TextData(pszName, range, shield, hull, fill, cmd, cid, positionLabel, directionCenter, colorOther, bEye));
             else
-                m_listTextData.PushFront(TextData(pszName, range, shield, hull, fill, cmd, cid, positionLabel, directionCenter, colorOther));
+                m_listTextData.PushFront(TextData(pszName, range, shield, hull, fill, cmd, cid, positionLabel, directionCenter, colorOther, bEye));
         }
     }
 
@@ -998,19 +990,20 @@ public:
 
 								//Xynth #47 7/2010
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
-									 (pship->GetSide() == psideMine) &&
-									 (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010 
-                                     // Student NOTE: if set to less than and equal could also see friendlies rip? (testing)
+									 (pship->GetSide() == psideMine))  //Xynth #175 7/2010 
+                                //Student 7/3/2022 show rip mask for all ships (previous included
+                                //&&(pship->GetPilotType() < c_ptPlayer)
 								{
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
 								}
 
-                                if (pship->GetPilotType() <= c_ptPlayer && pship->GetSide() == psideMine) { //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
+                                if (/*pship->GetPilotType() >= c_ptPlayer &&*/ pship->GetSide() == psideMine) { //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
                                     PlayerInfo* ppi = (PlayerInfo*)(pship->GetPrivateData());
                                     if (ppi) {
                                         ShipStatus ss = ppi->GetShipStatus();
                                         bEye = ss.GetDetected();
                                     }
+
                                 }
                             }
                             break;
@@ -1259,6 +1252,26 @@ public:
                         pcontext->DrawImage3D(psurfaceIcon, data.m_color, true, offset);
                         offset.SetX(offset.X() + xshift * 0.5f);
                     }
+                }
+
+                if (data.m_bEye) //Student 7/3/2022 moving eye drawing here, want to draw below psurfaceIcon if it exists
+                {
+                    float shiftx = m_psurfaceEye->GetSize().X() * 0.5f;
+                    float shifty = 0.0f;
+                    //offset.SetX(offset.X() - shiftx);
+                    if (psurfaceIcon) 
+                    {
+                        offset.SetX(offset.X() - shiftx);
+                        shifty = psurfaceIcon->GetSize().Y();
+                    }
+                    else
+                    {
+                        offset.SetX(offset.X() + shiftx);
+                    }
+                    offset.SetY(offset.Y() - shifty); //shift down if there is a command icon
+                    pcontext->DrawImage3D(m_psurfaceEye, data.m_color, true, offset);
+                    offset.SetX(offset.X() + shiftx);
+                    offset.SetY(offset.Y() + shifty); //reset to before
                 }
 
                 if (data.m_pszName[0] != '\0')
