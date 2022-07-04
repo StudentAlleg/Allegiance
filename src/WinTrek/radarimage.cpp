@@ -997,7 +997,11 @@ public:
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
 								}
 
-                                if (/*pship->GetPilotType() >= c_ptPlayer &&*/ pship->GetSide() == psideMine) { //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
+                                //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
+                                if (pship != pshipSource && //if ship is not me (we already know when we are eyed
+                                    pship->GetPilotType() >= c_ptPlayer && //if ship is a player
+                                    pship->GetSide() == psideMine) //if player is on our team
+                                { 
                                     PlayerInfo* ppi = (PlayerInfo*)(pship->GetPrivateData());
                                     if (ppi) {
                                         ShipStatus ss = ppi->GetShipStatus();
