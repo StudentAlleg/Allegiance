@@ -1023,7 +1023,10 @@ public:
                                     pship->GetRipcordTimeLeft() >= 0 &&
                                     pship->fRipcordActive())
                                 {
+                                    
                                     ripTime = (int) pship->GetRipcordTimeLeft() + 1; //cast to int, we don't care about the decimal (for now)
+                                    if (ripTime > 99999) 
+                                        ripTime = int(9999);
                                 }
                             }
                             break;
@@ -1227,7 +1230,7 @@ public:
                 float       ripShiftConstant = 4.0f;
                 float       ripShift = 0;
                 Point       size;
-                char        szRipTime[20];
+                char        szRipTime[5];
 
                 if (data.m_cid != c_cidNone)
                 {
@@ -1265,6 +1268,9 @@ public:
                         width += xshift;
                     }
                 }
+
+                if (psurfaceIcon || data.m_bEye || (data.m_ripTime > 0))
+                    lines += 1.0f;
 
                 //Find the offset to center the text at position + offset
                 Point   offset(data.m_position.X() - 0.5f * width, data.m_position.Y() + heightFont * 0.5f * (lines - 2.0f));
@@ -1341,16 +1347,9 @@ public:
                             //offset.SetY(offset.Y() + shifty); //reset to before
                         }
 
-                        if (data.m_ripTime > 0) // something wrong here
+                        if (data.m_ripTime > 0)
                         {
-                            /*if (ripShift != xshift)
-                            {
-                                float ripLength = ripShift - ripShiftConstant;
-                                ripShift = xshift - ripLength;
-
-                            }*/
-
-                            offset.SetX(offset.X() + xshift * 0.5f);
+                            offset.SetX(offset.X() - xshift * 0.5f);
                             
                             //offset.SetY(offset.Y() - yshift * 0.5f);
                             if (maxy == 0.0f)
@@ -1360,7 +1359,7 @@ public:
                             }
                             pcontext->DrawString(pfont, data.m_color, offset, ZString(szRipTime));
                             //yshift += heightFont;
-                            offset.SetX(offset.X() + ripShift * 0.5f);
+                            offset.SetX(offset.X() + xshift * 0.5f);
                         }
 
                         offset.SetY(offset.Y() + yshift - maxy * 0.5f);
