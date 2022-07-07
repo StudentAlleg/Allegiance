@@ -1020,13 +1020,17 @@ public:
                                 //Student 7/4/2022
                                 if (pship != pshipSource && //if ship is not me (we already know when we are ripcording)
                                     pship->GetPilotType() >= c_ptPlayer && //if ship is a player
-                                    pship->GetRipcordTimeLeft() >= 0 &&
+                                    pship->GetRipcordTimeLeft() >= 0 && //probably don't need this
                                     pship->fRipcordActive())
                                 {
                                     
                                     ripTime = (int) pship->GetRipcordTimeLeft() + 1; //cast to int, we don't care about the decimal (for now)
-                                    if (ripTime > 99999) 
-                                        ripTime = int(9999);
+                                    if (ripTime > 99999)
+                                    {
+                                        //if somehow we have a riptime over 1 day and change, just show the 1 day and change on countdown.
+                                        debugf("Ridiculous ripcord time of %i.", ripTime);
+                                        ripTime = int(99999);
+                                    }
                                 }
                             }
                             break;
@@ -1232,6 +1236,10 @@ public:
                 Point       size;
                 char        szRipTime[5];
 
+                //go through the possible left-side information:
+                //CMD icon, Eye Icon, and/or rip time
+                //Take greatest x component and add it to width
+                
                 if (data.m_cid != c_cidNone)
                 {
                     assert (data.m_cid >= 0);
@@ -1303,21 +1311,20 @@ public:
 
                     if (psurfaceIcon || data.m_bEye || (data.m_ripTime > 0)) { //if we are drawing things to the left of name, hull, shield, do the x and y offsets together
                         //Student TODO: Fix x centering on ripTime
-                        //Student TODO/NOTES: try setting y *after* drawing with the y of the current
-                        BlendMode previousBlendMode = pcontext->GetBlendMode();
+                        BlendMode previousBlendMode = pcontext->GetBlendMode(); //blend mode might already be this, but being explicit and allowing other things to exist
                         pcontext->SetBlendMode(BlendModeAdd);
                         
-                        float maxy = 0.0f;
+                        float maxy = 0.0f; //this keeps the left-side icons from being too low. Also handy to use to check if there are other icons.
                         float yshift = 0.0f;
-                        offset.SetX(offset.X() + xshift * 0.5f);
                         
+                        offset.SetX(offset.X() + xshift * 0.5f); //move halfway in. 
                         
                         if (psurfaceIcon)
                         {
                             pcontext->DrawImage3D(psurfaceIcon, data.m_color, true, offset);
                             float height = psurfaceIcon->GetSize().Y();
                             offset.SetY(offset.Y() - height);
-                            yshift += psurfaceIcon->GetSize().Y();
+                            yshift += height;
                             if (height > maxy)
                                 maxy = height;
                         }
@@ -1349,17 +1356,31 @@ public:
 
                         if (data.m_ripTime > 0)
                         {
-                            offset.SetX(offset.X() - xshift * 0.5f);
-                            
+                            float shift = 0;
+                            float yoffset = 0;
                             //offset.SetY(offset.Y() - yshift * 0.5f);
-                            if (maxy == 0.0f)
+                            if (maxy == 0.0f) //if we are only showing rip time, move it down so it does not collide with name
                             {
                                 offset.SetY(offset.Y() - heightFont * 0.5f);
                                 yshift += heightFont * 0.5f;
                             }
+                            else
+                            {
+                                if (data.m_ripTime < 10) //if ripTime is in single digits, center it (2 digits is fine,
+                                {                        //3 digits is greater than the x length of other icons 
+                                                         //(and also should rarely if ever come up). Also, if only one, don't screw with it.
+                                    shift = (ripShift - ripShiftConstant) * 0.5f;
+                                }
+
+                                offset.SetY(offset.Y() - yoffset); //help reduce collisions with cmd icon.
+                                yshift += yoffset;
+                            }
+                            offset.SetX(offset.X() - xshift * 0.5f + shift); //Draw String draws from the left side, not the center,
+                                                                             //unlike the other left-side icons. So we move it back.
+
                             pcontext->DrawString(pfont, data.m_color, offset, ZString(szRipTime));
                             //yshift += heightFont;
-                            offset.SetX(offset.X() + xshift * 0.5f);
+                            offset.SetX(offset.X() + xshift * 0.5f - shift);
                         }
 
                         offset.SetY(offset.Y() + yshift - maxy * 0.5f);
