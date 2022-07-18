@@ -62,8 +62,10 @@ private:
     TVector<WORD>     m_indices;
     TRef<IclusterIGC> m_pcluster;
     float             m_zGrid;
+    float             m_radius;
 
     void DrawShips(Context* pcontext);
+    void DrawTop(Context* pcontext);
 
 public:
     CommandGeo(float radius, float zGrid, int nSegments);
