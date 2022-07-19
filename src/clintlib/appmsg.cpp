@@ -2216,7 +2216,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
         case FM_S_PLAYERINFO:
         {
-            if (NULL == m_pCoreIGC->GetSide(SIDE_TEAMLOBBY))
+            if (NULL == m_pCoreIGC->GetSide(SIDE_TEAMLOBBY)) //Student TODO
             {
                 assert(false);
                 OnSessionLost("Unexpected message received.", &m_fm);
@@ -2285,7 +2285,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
             if (sideID != SIDE_TEAMLOBBY)
             {
-                AddPlayerToSide(pPlayerInfo, sideID);
+                AddPlayerToSide(pPlayerInfo, sideID); //Student TODO: What does this do?
                 // pPlayerInfo->SetReady(bReady); Imago commented out so afk not reset
             }
 
@@ -2377,8 +2377,9 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             assert (pside);
             assert (pside->GetObjectID() != SIDE_TEAMLOBBY);
             {
-                //Hack copy side attributes over to lobby side
+                //Hack copy side attributes over to lobby side and spectator side
                 m_pCoreIGC->GetSide(SIDE_TEAMLOBBY)->SetGlobalAttributeSet(pside->GetGlobalAttributeSet());
+                m_pCoreIGC->GetSide(SIDE_TEAMSPECTATOR)->SetGlobalAttributeSet(pside->GetGlobalAttributeSet());
 
                 CASTPFM(pfmCB, S, CREATE_BUCKETS, pfm);
 
@@ -2449,6 +2450,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             // HACK: copy the global attributes to the lobby side for loadout
             if (pSide == GetSide())
                 GetCore()->GetSide(SIDE_TEAMLOBBY)->SetGlobalAttributeSet(pfmSAC->gasAttributes);
+                GetCore()->GetSide(SIDE_TEAMSPECTATOR)->SetGlobalAttributeSet(pfmSAC->gasAttributes);
         }
         break;
 
@@ -2512,7 +2514,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                     break;
                 }
 
-                if (pPlayerInfo->SideID() != SIDE_TEAMLOBBY)
+                if (pPlayerInfo->SideID() != SIDE_TEAMLOBBY) //Student Note: spectator shouldn't be an issue here
                 {
                     assert(false);
                     RemovePlayerFromSide(pPlayerInfo, QSR_Quit);
@@ -3138,7 +3140,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 				{
 					if (pship->GetSide() == GetSide())
 					{
-						if (pfmGain->sideidFlag != SIDE_TEAMLOBBY)
+						if ((pfmGain->sideidFlag != SIDE_TEAMLOBBY) && (pfmGain->sideidFlag != SIDE_TEAMSPECTATOR))
 						{
 							PostText(true, "%s has stolen " START_COLOR_STRING "%s's" END_COLOR_STRING " flag.", 
 								pship->GetName(), 

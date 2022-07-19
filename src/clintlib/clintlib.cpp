@@ -641,7 +641,7 @@ void    ChatInfo::ClearTarget(void)
 
 
 MissionInfo::MissionInfo(DWORD dwCookie) :
-    m_sideLobby(SIDE_TEAMLOBBY)
+    m_sideLobby(SIDE_TEAMLOBBY) //Student TODO spectator might need to be here
 {
     m_pfmMissionDef = new FMD_S_MISSIONDEF;
     memset(m_pfmMissionDef, 0, sizeof(FMD_S_MISSIONDEF));
@@ -974,7 +974,7 @@ SideInfo* MissionInfo::GetSideInfo(SideID sideID)
         assert(false);
         return NULL;
     }
-    else if (!m_mapSideInfo.Find(sideID, pSideInfo) && sideID != SIDE_TEAMLOBBY)
+    else if (!m_mapSideInfo.Find(sideID, pSideInfo) && sideID != SIDE_TEAMLOBBY) //Student TODO: does spec need to be here?
     {
         pSideInfo = new SideInfo(sideID);
         m_mapSideInfo.Set(sideID, pSideInfo);
@@ -991,6 +991,7 @@ List* MissionInfo::GetSideList()
     // make sure we have a complete sides list
     for (SideID id = 0; id < NumSides(); id++)
         GetSideInfo(id);
+    GetSideInfo(SIDE_TEAMSPECTATOR);
     GetSideInfo(SIDE_TEAMLOBBY);
 
     return new ListDelegate(&m_mapSideInfo); //Fix memory leak -Imago 8/2/09
@@ -3786,7 +3787,7 @@ void BaseClient::OnJoinSide()
     m_strBriefingText.SetEmpty();
     m_bGenerateCivBriefing = false;
 
-    if (m_pPlayerInfo->SideID() != SIDE_TEAMLOBBY)
+    if (m_pPlayerInfo->SideID() != SIDE_TEAMLOBBY && m_pPlayerInfo->SideID() != SIDE_TEAMSPECTATOR) //These sides don't need money
         SetMoney(m_pPlayerInfo->GetMoney());
 
     if (m_pMissionInfo->InProgress())
@@ -3798,7 +3799,7 @@ void BaseClient::OnJoinSide()
     m_plinkSelectedChat = NULL;
 
     // if this is the lobby side, we need to manually send the OnAddPlayer message
-    if (m_pPlayerInfo->SideID() == SIDE_TEAMLOBBY)
+    if (m_pPlayerInfo->SideID() == SIDE_TEAMLOBBY || m_pPlayerInfo->SideID() == SIDE_TEAMSPECTATOR)
         m_pClientEventSource->OnAddPlayer(m_pMissionInfo, m_pPlayerInfo->SideID(), m_pPlayerInfo);
 };
 
@@ -4029,7 +4030,8 @@ void BaseClient::RemovePlayerFromSide(PlayerInfo* pPlayerInfo, QuitSideReason re
     m_pMissionInfo->AddPlayer(pPlayerInfo);
 
     // if this is the lobby side, we need to manually send the OnAddPlayer message
-    if (m_pPlayerInfo->SideID() == SIDE_TEAMLOBBY)
+    // Student 7/19/2022 spectator shouldn't be needed here, but just in case
+    if (m_pPlayerInfo->SideID() == SIDE_TEAMLOBBY || m_pPlayerInfo->SideID() == SIDE_TEAMSPECTATOR)
         m_pClientEventSource->OnAddPlayer(m_pMissionInfo, pPlayerInfo->SideID(), pPlayerInfo);
 }
 
@@ -4155,7 +4157,7 @@ void BaseClient::AddPlayerToSide(PlayerInfo* pPlayerInfo, SideID sideID)
 	            ReceiveChat(NULL, CHAT_TEAM, NA, salRecruitsArrivedSound, msg, c_cidNone, NA, NA);
 			}
         }
-        else if (m_pPlayerInfo && GetSide() && GetSideID() != SIDE_TEAMLOBBY)
+        else if (m_pPlayerInfo && GetSide() && (GetSideID() != SIDE_TEAMLOBBY || GetSideID() != SIDE_TEAMSPECTATOR)) //Student 7/19/2022 Spectator
         {
             ZString msg = pPlayerInfo->CharacterName() + ZString(" has joined ")
                 + pside->GetName() + ZString(".");

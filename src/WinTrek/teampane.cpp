@@ -381,6 +381,10 @@ public:
 			  {
 					name="Not On A Team";
 			  }
+              else if (pitem->GetSideID()== SIDE_TEAMSPECTATOR)
+              {
+                  name = "Spectator(s)";
+              }
 			  else
 			  {
 					name=CensorBadWords (m_pMission->SideName(pitem->GetSideID()));
@@ -808,7 +812,7 @@ public:
                         bEnableAccept = CanAcceptJoiners();
                         bEnableBoot = true;
                     }
-                }
+                } //Student TODO 7/19/2022 f6 things
                 else if (pplayer != trekClient.GetPlayerInfo()) // selected player is not me
                 {
                     IshipIGC* pship = pplayer->GetShip();
@@ -1987,9 +1991,12 @@ public:
         m_peventTeams->AddSink(m_psinkTeams = new IItemEvent::Delegate(this));
         m_plistPaneTeams->SetList(
               // WLP 2005 - tacked TEAM LOBBY onto the list of team names 
+              // Student 7/19/2022 added spectator onto list of team names
                 new ConcatinatedList(
 			    new SortedList<ItemIDCompareFunction>(trekClient.MyMission()->GetSideList(), SideCompare),
-                new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY))
+                new ConcatinatedList(
+                    new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMSPECTATOR)),
+                    new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)))
 				));
             //  WLP
         m_plistPaneTeams->UpdateLayout();

@@ -512,7 +512,7 @@ extern const char*      c_pszWingName[c_widMax];
 const DevelopmentID     c_didTeamMoney = 1;
 
 const SideID    SIDE_TEAMLOBBY = -2;
-const SideID    SIDE_TEAMSPECTATOR = -3; //Student 7/18/2022, don't know why team lobby is -2, but for now will put spectator 1 below
+const SideID    SIDE_TEAMSPECTATOR = -3; //Student 7/18/2022 spectator team (NA is -1)
 
 typedef BYTE            Cookie;
 

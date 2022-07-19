@@ -301,7 +301,7 @@ private:
                 );
 			}
 #endif
-            // if this team is empty...
+            // if this team is empty... //Student TODO 7/19/2022 something here
             if (m_pMission->SideNumPlayers(pitem->GetSideID()) == 0 
                 && pitem->GetSideID() != SIDE_TEAMLOBBY)
             {
@@ -375,7 +375,7 @@ private:
 
                 // draw the available positions
                 char cbPositions[80];
-                if (pitem->GetSideID() == SIDE_TEAMLOBBY)
+                if (pitem->GetSideID() == SIDE_TEAMLOBBY) //Student TODO 7/19/2022 something here? maybe?
                 {
                     TRef<List> plistPlayers = pitem->GetMemberList();
 					if (teamTotalRank > 0)
@@ -1330,8 +1330,10 @@ public:
         m_plistPaneTeams->SetList(
             new ConcatinatedList(
                 m_plistSides,// KGJV #62
-                new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
-                )
+                new ConcatinatedList(
+                    new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMSPECTATOR)), //Student 7/19/2022 spectator
+                    new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
+                ))
             );
         m_plistPaneTeams->UpdateLayout();
         m_plistPaneTeams->SetItemPainter(new TeamPainter(
@@ -1479,7 +1481,7 @@ public:
         }
 
         // WLP 2005 - added this to send chat to a highlighted player
-        //   This only works when highlighted – when highlight is off it works normal
+        //   This only works when highlighted ï¿½ when highlight is off it works normal
         // Imago 7/10 - it's wasn't entirely true (had issues)  --^
         else if ( m_plistPanePlayers->GetSelection())  // if something is selected now - 
 														//#11 7/10 Imago ^-- this hits on edge cases even when something is no logner selected 
@@ -2481,7 +2483,12 @@ public:
         IsideIGC* pside = trekClient.GetCore()->GetSide(m_sideCurrent);
         TRef<Image> pimage;
 
-		if (pside && m_sideCurrent != SIDE_TEAMLOBBY && pside->GetShips()->n() > 0 && !pside->GetRandomCivilization()) { //Xynth #170 8/2010 use default for Random
+		if (pside && 
+            m_sideCurrent != SIDE_TEAMLOBBY && 
+            m_sideCurrent != SIDE_TEAMSPECTATOR && //Student 7/19/2022 use defualt for Spectator
+            pside->GetShips()->n() > 0 && 
+            !pside->GetRandomCivilization()) //Xynth #170 8/2010 use default for Random
+        { 
             ZString str = ZString(pside->GetCivilization()->GetIconName()).ToLower() + "lobbybmp";
 
             m_pwrapImageCiv->SetImage(GetModeler()->LoadImage(str, false)); // KGJV 32B - consistency with defaultwatermark below
@@ -2998,8 +3005,8 @@ public:
     {
         ShipID shipID = IntItemIDWrapper<ShipID>(m_plistPanePlayers->GetSelection());
 
-        // WLP 2005 – remove highlight from player to prevent chat target
-        m_plistPanePlayers->SetSelection(NULL); // WLP – remove as chat target
+        // WLP 2005 ï¿½ remove highlight from player to prevent chat target
+        m_plistPanePlayers->SetSelection(NULL); // WLP ï¿½ remove as chat target
         GetWindow()->SetLobbyChatTarget(m_chattargetChannel, NA); //#8 Imago 7/10
 
         trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
@@ -3048,8 +3055,9 @@ public:
 
     void OnCivChosen(int civID)
     {
-        if (trekClient.GetSideID() != SIDE_TEAMLOBBY
-            && trekClient.MyPlayerInfo()->IsTeamLeader())
+        if (trekClient.GetSideID() != SIDE_TEAMLOBBY &&
+            trekClient.GetSideID() != SIDE_TEAMSPECTATOR &&
+            trekClient.MyPlayerInfo()->IsTeamLeader())
         {
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
             BEGIN_PFM_CREATE(trekClient.m_fm, pfmChangeCiv, CS, CHANGE_TEAM_CIV)
@@ -3329,7 +3337,7 @@ public:
         if (trekClient.MyPlayerInfo()->ShipID() == pPlayerInfo->ShipID())
 		{
             debugf("TeamScreen::OnAddPlayer: sideID=%d, m_sideToJoin=%d, m_lastToJoinSend=%d \n",sideID,m_sideToJoin,m_lastToJoinSend); // KGJV #104
-            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY) {
+            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR) { //Student 7/18/2022 don't choose civ's here for spec
                 OnCivChosen(g_civIDStart);
                 g_civStart = -1;
             }

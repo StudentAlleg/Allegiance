@@ -3069,7 +3069,7 @@ void CmissionIGC::Initialize(Time now, IIgcSite* pIgcSite)
 
 
     m_sideTeamLobby = NULL;
-	//m_sideTeamSpectator = NULL; //Student TODO
+	m_sideTeamSpectator = NULL; //Student TODO
 }
 
 void    CmissionIGC::Terminate(void)
@@ -3109,6 +3109,14 @@ void    CmissionIGC::Terminate(void)
             l->data()->Terminate();
         }
     }
+
+	if (m_sideTeamSpectator)
+	{
+		m_sideTeamSpectator->Terminate();
+		m_sideTeamSpectator->Release();
+		m_sideTeamSpectator = NULL;
+	}
+
     if (m_sideTeamLobby)
     {
         m_sideTeamLobby->Terminate();
@@ -3606,12 +3614,12 @@ const MineListIGC*        CmissionIGC::GetMines(void) const
     return &m_mines;
 }
 
-void                        CmissionIGC::AddSide(IsideIGC*  s)
+void                        CmissionIGC::AddSide(IsideIGC* s)
 {
-    // if there is not a team lobby but the civs do exist, go ahead and 
-    // create the team lobby.
+	// if there is not a team lobby but the civs do exist, go ahead and 
+	// create the team lobby.
 	// Student TODO: if there is a civ, also add a spectator
-    
+
 	if (GetCivilizations()->first())
 	{
 		if (!m_sideTeamLobby && s->GetObjectID() != SIDE_TEAMLOBBY)
@@ -3637,8 +3645,32 @@ void                        CmissionIGC::AddSide(IsideIGC*  s)
 			DeleteSide(m_sideTeamLobby); // make sure it does not appear in the normal side list
 			ZAssert(m_sideTeamLobby != NULL);
 		}
+
+		if (!m_sideTeamSpectator && s->GetObjectID() != SIDE_TEAMSPECTATOR)
+		{
+			//create the spectator side
+			DataSideIGC sidedata;
+			strcpy(sidedata.name, "Team Spectator");
+			sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
+			sidedata.sideID = SIDE_TEAMSPECTATOR;
+			sidedata.gasAttributes.Initialize();
+			sidedata.ttbmDevelopmentTechs.ClearAll();
+			sidedata.ttbmInitialTechs.ClearAll();
+			sidedata.color = Color(1.0f, 1.0f, 1.0f);
+			sidedata.conquest = 0;
+			sidedata.territory = 0;
+			sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
+				= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
+			sidedata.squadID = NA;
+			sidedata.allies = NA; // #ALLY
+
+			m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
+			m_sideTeamSpectator->SetActiveF(true);
+			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
+			ZAssert(m_sideTeamSpectator != NULL);
+		}
 	}
-	
+
 
     AddIbaseIGC((BaseListIGC*)&m_sides, s);
 }
@@ -3649,9 +3681,18 @@ void                        CmissionIGC::DeleteSide(IsideIGC* s)
 IsideIGC*                   CmissionIGC::GetSide(SideID id) const
 {
     if (id == SIDE_TEAMLOBBY)
-        return m_sideTeamLobby;
+	{
+		return m_sideTeamLobby;
+	}
+    else if (id == SIDE_TEAMSPECTATOR)
+	{
+		return m_sideTeamSpectator;
+	}
     else
-        return (IsideIGC*)GetIbaseIGC((BaseListIGC*)&m_sides, id);
+	{
+		return (IsideIGC*)GetIbaseIGC((BaseListIGC*)&m_sides, id);
+	}
+        
 }
 const SideListIGC*          CmissionIGC::GetSides(void) const
 {

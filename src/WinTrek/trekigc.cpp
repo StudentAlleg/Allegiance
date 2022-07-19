@@ -5354,7 +5354,7 @@ void WinTrekClient::SetGameoverInfo(FMD_S_GAME_OVER* pfmGameOver)
 {
     m_sideidLastWinner = pfmGameOver->iSideWinner;
 	m_bWonLastGame = (pfmGameOver->iSideWinner == GetSideID() || GetSide()->AlliedSides(GetCore()->GetSide(pfmGameOver->iSideWinner),GetSide())); //#ALLY (Imago) 7/8/09
-    m_bLostLastGame = (!m_bWonLastGame && (GetSideID() != SIDE_TEAMLOBBY) && pfmGameOver->iSideWinner != NA) || (pfmGameOver->iSideWinner != NA && GetSide()->GetAllies() != NA && !GetSide()->AlliedSides(GetCore()->GetSide(pfmGameOver->iSideWinner),GetSide()));
+    m_bLostLastGame = (!m_bWonLastGame && (GetSideID() != SIDE_TEAMLOBBY) && (GetSideID() != SIDE_TEAMSPECTATOR) && pfmGameOver->iSideWinner != NA) || (pfmGameOver->iSideWinner != NA && GetSide()->GetAllies() != NA && !GetSide()->AlliedSides(GetCore()->GetSide(pfmGameOver->iSideWinner),GetSide()));
     m_strGameOverMessage = FM_VAR_REF(pfmGameOver, szGameoverMessage);
     m_nNumEndgamePlayers = 0;
     m_nNumEndgameSides = pfmGameOver->nNumSides;
@@ -5440,7 +5440,7 @@ Color WinTrekClient::GetEndgameSideColor(SideID sideId)
 
 CivID WinTrekClient::GetEndgameSideCiv(SideID sideId)
 {
-    if (sideId == SIDE_TEAMLOBBY)
+    if (sideId == SIDE_TEAMLOBBY) //Student TODO 7/19/2022 does spec need to do something here?
         return NA;
 
     assert(sideId >= 0 && sideId < m_nNumEndgameSides);

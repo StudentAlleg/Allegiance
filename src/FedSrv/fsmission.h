@@ -358,7 +358,7 @@ public:
   { 
     return &m_pFSSides;
   }
-  CFMGroup *            GetGroupRealSides() 
+  CFMGroup *            GetGroupRealSides() //Student TODO - investigate what these functions do
   {
     return m_pgrpSidesReal;
   }

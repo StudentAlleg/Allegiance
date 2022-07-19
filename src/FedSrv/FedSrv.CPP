@@ -2119,7 +2119,7 @@ void SendPlayerInfo(CFSPlayer * pfsPlayer, CFSShip * pfsShip, CFSMission* pfsMis
   //pfmPlayerInfo->wingID     = pfsShip->GetIGCShip()->GetWingID();
   pfmPlayerInfo->rankID     = 0; //NYI
   pfmPlayerInfo->fReady     = pfsShip->IsPlayer() ? pfsShip->GetPlayer()->GetReady() : true; // drones always ready
-  pfmPlayerInfo->money      = 0; //pfsShip->GetMoney() //Do not tell them how much money the player has ...  //ALLYTD imago VISIBILITY
+  pfmPlayerInfo->money      = 0; //pfsShip->GetMoney() //Do not tell them how much money the player has ...  //ALLYTD imago VISIBILITY //Student TODO let spectators see all money
 
   if (pfsShip->IsPlayer() && pfsMission && pside && pfmPlayerInfo->iSide != SIDE_TEAMLOBBY)
   {
@@ -6671,7 +6671,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       CASTPFM(pfmPositionReq, C, POSITIONREQ, pfm);
       SideID iSide = pfmPositionReq->iSide;
       // Choose a side if NA was specified (Pigs-only)
-      TrapHackBoot(iSide >= SIDE_TEAMLOBBY && iSide < c_cSidesMax);
+      TrapHackBoot(iSide >= SIDE_TEAMSPECTATOR && iSide < c_cSidesMax);
 
       if (NA == iSide)
         iSide = pfsMission->PickNewSide(pfsPlayer, false, 0);
@@ -6766,7 +6766,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       IsideIGC* pside = pfsPlayer->GetSide(); // player's side
       assert (pside);
       SideID    sideID = pside->GetObjectID();
-      if (sideID < 0 && sideID != SIDE_TEAMLOBBY && isModerator == false)
+      if (sideID < 0 && sideID != SIDE_TEAMLOBBY && isModerator == false) //Student TODO spec here?
           break;
 
       CASTPFM(pfmQuitMission, CS, QUIT_MISSION, pfm);
@@ -7357,7 +7357,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       IsideIGC * pside = pfsPlayer->GetSide();
       SideID sid = pside->GetObjectID();
 
-      if (sid == SIDE_TEAMLOBBY || pfsPlayer != pfsMission->GetLeader(sid))
+      if (sid == SIDE_TEAMLOBBY || sid == SIDE_TEAMSPECTATOR || pfsPlayer != pfsMission->GetLeader(sid)) //Student 7/19/2022 spectator
         break;
 
       CASTPFM(pfmChangeTeamCiv, CS, CHANGE_TEAM_CIV, pfm);

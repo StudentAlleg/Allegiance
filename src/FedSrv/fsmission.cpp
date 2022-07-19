@@ -1450,7 +1450,7 @@ IstationIGC * CFSMission::GetBase(IsideIGC * pside)
 CFSPlayer * CFSMission::GetLeader(SideID sid)
 {
   assert (NA != sid);
-  if (sid == SIDE_TEAMLOBBY) // lobby side never has a leader
+  if (sid == SIDE_TEAMLOBBY) // lobby side never has a leader // Student TODO: Spectator shouldn't either but won't touch that atm
       return NULL;
   ShipID shipid = m_misdef.rgShipIDLeaders[sid];
   return NA == shipid ? NULL : CFSShip::GetShipFromID(shipid)->GetPlayer();
@@ -3021,7 +3021,9 @@ void CFSMission::QueueGameoverMessage()
       CFSPlayer* pfsPlayer = ((CFSShip *)(plinkShip->data()->GetPrivateData()))->GetPlayer();
 
       PlayerScoreObject*    ppso = pfsPlayer->GetPlayerScoreObject();
-      if (ppso->GetTimePlayed() > 0.0f && pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMLOBBY)
+      if (ppso->GetTimePlayed() > 0.0f &&
+          pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMLOBBY &&
+          pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
       {
           strcpy(playerlist[nPlayerIndex].characterName, pfsPlayer->GetName());
           playerlist[nPlayerIndex].scoring.Set(pfsPlayer->GetPlayerScoreObject());
@@ -3037,7 +3039,9 @@ void CFSMission::QueueGameoverMessage()
   {
       OldPlayerInfo&  opi = popl->data();
 
-      if (opi.pso.GetTimePlayed() != 0.0f && opi.sideID != SIDE_TEAMLOBBY)
+      if (opi.pso.GetTimePlayed() != 0.0f &&
+          opi.sideID != SIDE_TEAMLOBBY &&
+          opi.sideID != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
       {
           strcpy(playerlist[nPlayerIndex].characterName, opi.name);
           playerlist[nPlayerIndex].scoring.Set(&(opi.pso));
@@ -3223,7 +3227,7 @@ void CFSMission::ProcessGameOver()
         if (pfsShip->IsPlayer())
         {
             IsideIGC*   pside = pfsShip->GetSide();
-            if (pside && pside->GetObjectID() != SIDE_TEAMLOBBY)
+            if (pside && pside->GetObjectID() != SIDE_TEAMLOBBY && pside->GetObjectID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
             {
                 SideID  sid = pside->GetObjectID();
                 float   f = GetExpMult(totalExperience, sideExperience[sid], m_pMission->GetSides()->n());
@@ -3240,7 +3244,7 @@ void CFSMission::ProcessGameOver()
       {
         OldPlayerInfo & opi = popl->data();
 
-        if (opi.sideID != SIDE_TEAMLOBBY)
+        if (opi.sideID != SIDE_TEAMLOBBY && opi.sideID != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
         {
           SideID  sid = opi.sideID;
           float   f = GetExpMult(totalExperience, sideExperience[sid], m_pMission->GetSides()->n());
@@ -3319,7 +3323,7 @@ void CFSMission::ProcessGameOver()
         if (pfsShip->IsPlayer())
         {
             IsideIGC*   pside = pfsShip->GetSide();
-            if (pside && pside->GetObjectID() != SIDE_TEAMLOBBY)
+            if (pside && pside->GetObjectID() != SIDE_TEAMLOBBY && pside->GetObjectID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
             {
                 PlayerScoreObject*  ppso = pfsShip->GetPlayerScoreObject();
                 SetCharStats(pfsShip->GetPlayer()->GetCharacterID(), pfsShip->GetPlayer(), pside, *ppso, this);
@@ -3333,8 +3337,10 @@ void CFSMission::ProcessGameOver()
     {
       OldPlayerInfo & opi = popl->data();
 
-      if (opi.sideID != SIDE_TEAMLOBBY)
-        SetCharStats(opi.characterID, NULL, GetIGCMission()->GetSide(opi.sideID), opi.pso, this);
+      if (opi.sideID != SIDE_TEAMLOBBY && opi.sideID != SIDE_TEAMSPECTATOR) //Student 7/19/2022 no scores for specs
+      {
+          SetCharStats(opi.characterID, NULL, GetIGCMission()->GetSide(opi.sideID), opi.pso, this);
+      }
     }
   }
 
@@ -3799,7 +3805,7 @@ IsideIGC*   CFSMission::CheckForVictoryByFlags(IsideIGC*    psideTest, SideID si
         }
         g.fm.SendMessages(GetGroupRealSides(), FM_GUARANTEED, FM_FLUSH);
 
-        if (sidFlag != SIDE_TEAMLOBBY)
+        if (sidFlag != SIDE_TEAMLOBBY || sidFlag != SIDE_TEAMSPECTATOR) //Student 7/19/2022
         {
             if (psideTest->GetFlags() >= pmp->nGoalFlagsCount)
             {
@@ -5405,7 +5411,8 @@ void CFSMission::SetReady(SideID iSide, bool fReady)
  */
 void CFSMission::PlayerReadyChange(CFSPlayer * pfsPlayer)
 {
-  if (pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMLOBBY)
+  //Student 7/19/2022 we don't care if spectators are not ready
+  if (pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMLOBBY || pfsPlayer->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR)
     CheckForSideAllReady(pfsPlayer->GetSide());
 }
 

@@ -402,7 +402,7 @@ public:
 
         IsideIGC* pside = trekClient.GetSide();
 
-        if (pside && trekClient.GetSideID() != SIDE_TEAMLOBBY)
+        if (pside && trekClient.GetSideID() != SIDE_TEAMLOBBY) //Student TODO 7/19/2022 might need to do something with specatating here
         {
             for (ShipLinkIGC*   pshiplink = pside->GetShips()->first();
                  (pshiplink != NULL);
