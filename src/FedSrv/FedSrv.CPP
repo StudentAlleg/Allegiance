@@ -11159,6 +11159,10 @@ class ThingSiteImpl : public ThingSite
         virtual bool    GetSideVisibility(IsideIGC* pside)
         {
             assert (pside != NULL);
+            if (pside->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
+            {
+                return true;
+            }
             return m_bSideVisibility ? m_rgSideVisibility[pside->GetObjectID()].fVisible() : true;
         }
 

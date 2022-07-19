@@ -3069,6 +3069,7 @@ void CmissionIGC::Initialize(Time now, IIgcSite* pIgcSite)
 
 
     m_sideTeamLobby = NULL;
+	//m_sideTeamSpectator = NULL; //Student TODO
 }
 
 void    CmissionIGC::Terminate(void)
@@ -3609,29 +3610,35 @@ void                        CmissionIGC::AddSide(IsideIGC*  s)
 {
     // if there is not a team lobby but the civs do exist, go ahead and 
     // create the team lobby.
-    if (!m_sideTeamLobby && GetCivilizations()->first() && s->GetObjectID() != SIDE_TEAMLOBBY)
-    {
-        //create the lobby side
-        DataSideIGC sidedata;
-        strcpy(sidedata.name, "Team Lobby");
-        sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
-        sidedata.sideID = SIDE_TEAMLOBBY;
-        sidedata.gasAttributes.Initialize();
-        sidedata.ttbmDevelopmentTechs.ClearAll();
-        sidedata.ttbmInitialTechs.ClearAll();
-        sidedata.color = Color(1.0f, 1.0f, 1.0f);
-        sidedata.conquest = 0;
-        sidedata.territory = 0;
-        sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills 
-            = sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
-        sidedata.squadID = NA;
-		sidedata.allies = NA; // #ALLY
+	// Student TODO: if there is a civ, also add a spectator
+    
+	if (GetCivilizations()->first())
+	{
+		if (!m_sideTeamLobby && s->GetObjectID() != SIDE_TEAMLOBBY)
+		{
+			//create the lobby side
+			DataSideIGC sidedata;
+			strcpy(sidedata.name, "Team Lobby");
+			sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
+			sidedata.sideID = SIDE_TEAMLOBBY;
+			sidedata.gasAttributes.Initialize();
+			sidedata.ttbmDevelopmentTechs.ClearAll();
+			sidedata.ttbmInitialTechs.ClearAll();
+			sidedata.color = Color(1.0f, 1.0f, 1.0f);
+			sidedata.conquest = 0;
+			sidedata.territory = 0;
+			sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
+				= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
+			sidedata.squadID = NA;
+			sidedata.allies = NA; // #ALLY
 
-        m_sideTeamLobby = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
-        m_sideTeamLobby->SetActiveF(true);
-        DeleteSide(m_sideTeamLobby); // make sure it does not appear in the normal side list
-        ZAssert(m_sideTeamLobby != NULL);
-    }
+			m_sideTeamLobby = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
+			m_sideTeamLobby->SetActiveF(true);
+			DeleteSide(m_sideTeamLobby); // make sure it does not appear in the normal side list
+			ZAssert(m_sideTeamLobby != NULL);
+		}
+	}
+	
 
     AddIbaseIGC((BaseListIGC*)&m_sides, s);
 }
@@ -3746,7 +3753,7 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
 
-    for (sid = GetSides()->n(); sid < pmp->nTeams; sid++)
+    for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO
     {
         IcivilizationIGC*   pcivilization = GetCivilization(pmp->rgCivID[sid]);
         assert (pcivilization);

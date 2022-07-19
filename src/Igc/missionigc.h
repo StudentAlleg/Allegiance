@@ -946,6 +946,7 @@ class   CmissionIGC : public ImissionIGC
         TreasureListIGC          m_treasures;
         SideListIGC              m_sides;
         IsideIGC*                m_sideTeamLobby;
+        IsideIGC*                m_sideTeamSpectator; // Student 7/18/2022 adding a specator team
         Time                     m_lastUpdate;
 
         BuoyID                   m_nextBuoyID;

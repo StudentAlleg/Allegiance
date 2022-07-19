@@ -2224,6 +2224,12 @@ class ThingSiteImpl : public ThingSitePrivate
                 if (side != trekClient.GetSide())
                     return m_enemySideVisibility.fVisible();
             }
+
+            if (side->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
+            {
+                return true;
+            }
+
             return m_sideVisibility.fVisible();
         }
 
