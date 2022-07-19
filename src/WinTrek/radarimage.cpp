@@ -998,9 +998,9 @@ public:
 
 								//Xynth #47 7/2010
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
-									 (pship->GetSide() == psideMine))  //Xynth #175 7/2010 
-                                //Student 7/3/2022 show rip mask for all ships (previous included
-                                //&&(pship->GetPilotType() < c_ptPlayer)
+									 (pship->GetSide() == psideMine) && 
+                                     (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010 
+                                
 								{
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
 								}
@@ -1019,7 +1019,7 @@ public:
                                 }
                                 //Student 7/4/2022
                                 if (pship != pshipSource && //if ship is not me (we already know when we are ripcording)
-                                    pship->GetPilotType() >= c_ptPlayer && //if ship is a player
+                                    //pship->GetPilotType() >= c_ptPlayer && //if ship is a player
                                     pship->GetRipcordTimeLeft() >= 0 && //probably don't need this
                                     pship->fRipcordActive())
                                 {
