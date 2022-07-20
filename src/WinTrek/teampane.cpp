@@ -83,6 +83,8 @@ protected:
     TeamPane*                m_pTeamPaneTwin;
     //MissionInfo*           m_pMission;
     
+    TRef<List>                         m_plistOtherSides; //Student 7/19/2022 Spectator + NOAT
+    TMapListWrapper<SideID, SideInfo*> m_plistOtherTeams; //Student 7/19/2022 Spectator + NOAT
     
     
     
@@ -1989,13 +1991,17 @@ public:
         
         m_peventTeams = m_plistPaneTeams->GetSelectionEventSource();
         m_peventTeams->AddSink(m_psinkTeams = new IItemEvent::Delegate(this));
+        m_plistOtherTeams.Set(SIDE_TEAMLOBBY, trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)); //Student 7/20/2022 Spectator + NOAT
+        m_plistOtherTeams.Set(SIDE_TEAMSPECTATOR, trekClient.MyMission()->GetSideInfo(SIDE_TEAMSPECTATOR)); //Student 7/20/2022 Spectator + NOAT
+        m_plistOtherSides = new SortedList<ItemIDCompareFunction>(&m_plistOtherTeams, SideCompare);
         m_plistPaneTeams->SetList(
               // WLP 2005 - tacked TEAM LOBBY onto the list of team names 
               // Student 7/19/2022 added spectator onto list of team names
                 new ConcatinatedList(
 			    new SortedList<ItemIDCompareFunction>(trekClient.MyMission()->GetSideList(), SideCompare),
+                    m_plistOtherSides) //Student 7/20/2022 Spectator + NOAT
                 //new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMSPECTATOR)),
-                new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)))
+                //new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)))
 				);
             //  WLP
         m_plistPaneTeams->UpdateLayout();

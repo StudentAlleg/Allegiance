@@ -43,6 +43,9 @@ private:
 	TRef<MapPreviewPane> m_ppaneMapPreview; // KGJV #62
     TRef<ButtonPane>	 m_pbuttonsTeam[6]; // KGJV #62
 	TRef<List>           m_plistSides; // KGJV #62
+    TRef<List>           m_plistOtherSides; //Student 7/19/2022 Spectator + NOAT
+    TMapListWrapper<SideID, SideInfo*> m_plistOtherTeams; //Student 7/19/2022 Spectator + NOAT
+
 	MissionInfo* m_pMission;
 
     int               m_secondsOld;
@@ -1326,12 +1329,18 @@ public:
         m_peventTeams = m_plistPaneTeams->GetSelectionEventSource();
         m_peventTeams->AddSink(m_psinkTeams = new IItemEvent::Delegate(this));
 		// KGJV #62
+        
 		m_plistSides = new SortedList<ItemIDCompareFunction>(m_pMission->GetSideList(), SideCompare);
+        
+        //Student 7/19/2022 Working on manuvering 
+        m_plistOtherTeams.Set(SIDE_TEAMLOBBY, m_pMission->GetSideInfo(SIDE_TEAMLOBBY)); //Student 7/19/2022 spectator + noat
+        m_plistOtherTeams.Set(SIDE_TEAMSPECTATOR, m_pMission->GetSideInfo(SIDE_TEAMSPECTATOR)); //Student 7/19/2022 spectator + noat
+        m_plistOtherSides = new SortedList<ItemIDCompareFunction>(&m_plistOtherTeams, SideCompare); //Student 7/19/2022 spectator + noat
         m_plistPaneTeams->SetList(
             new ConcatinatedList(
                 m_plistSides,// KGJV #62
-                //new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMSPECTATOR)), //Student 7/19/2022 spectator
-                new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
+                m_plistOtherSides //Student 7/19/2022 spectator
+                //new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
                 )
             );
         m_plistPaneTeams->UpdateLayout();
