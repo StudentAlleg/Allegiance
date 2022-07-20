@@ -485,6 +485,7 @@ protected:
     FMD_S_MISSIONDEF* m_pfmMissionDef;
     TMapListWrapper<SideID, SideInfo*> m_mapSideInfo;
     SideInfo m_sideLobby;
+    SideInfo m_sideSpectator; //Student 7/19/2022 Specatator
     int m_nNumPlayers;
 	int m_nNumNoatPlayers; //imago #169
     ZString m_strGameDetailsFiles;

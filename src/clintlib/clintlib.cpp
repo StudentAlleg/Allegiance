@@ -641,7 +641,8 @@ void    ChatInfo::ClearTarget(void)
 
 
 MissionInfo::MissionInfo(DWORD dwCookie) :
-    m_sideLobby(SIDE_TEAMLOBBY) //Student TODO spectator might need to be here
+    m_sideLobby(SIDE_TEAMLOBBY), //Student TODO spectator might need to be here
+    m_sideSpectator(SIDE_TEAMSPECTATOR)
 {
     m_pfmMissionDef = new FMD_S_MISSIONDEF;
     memset(m_pfmMissionDef, 0, sizeof(FMD_S_MISSIONDEF));
@@ -974,7 +975,7 @@ SideInfo* MissionInfo::GetSideInfo(SideID sideID)
         assert(false);
         return NULL;
     }
-    else if (!m_mapSideInfo.Find(sideID, pSideInfo) && sideID != SIDE_TEAMLOBBY) //Student TODO: does spec need to be here?
+    else if (!m_mapSideInfo.Find(sideID, pSideInfo) && sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR) //Student TODO: does spec need to be here?
     {
         pSideInfo = new SideInfo(sideID);
         m_mapSideInfo.Set(sideID, pSideInfo);
@@ -983,6 +984,14 @@ SideInfo* MissionInfo::GetSideInfo(SideID sideID)
     {
         return &m_sideLobby;
     }
+    else if (sideID == SIDE_TEAMSPECTATOR)
+    {
+        debugf("Getting the side info for spectator.");
+        return &m_sideSpectator;
+    }
+
+
+
     return pSideInfo;
 }
 
