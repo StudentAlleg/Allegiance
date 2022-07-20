@@ -304,9 +304,10 @@ private:
                 );
 			}
 #endif
-            // if this team is empty... //Student TODO 7/19/2022 something here
-            if (m_pMission->SideNumPlayers(pitem->GetSideID()) == 0 
-                && pitem->GetSideID() != SIDE_TEAMLOBBY)
+            // if this team is empty...
+            if (m_pMission->SideNumPlayers(pitem->GetSideID()) == 0 && 
+                pitem->GetSideID() != SIDE_TEAMLOBBY &&
+                pitem->GetSideID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 Spectators cannot be destroyed.
             {
                 // draw "available" or "destroyed"
                 ZString strDescription;
@@ -378,7 +379,7 @@ private:
 
                 // draw the available positions
                 char cbPositions[80];
-                if (pitem->GetSideID() == SIDE_TEAMLOBBY) //Student TODO 7/19/2022 something here? maybe?
+                if (pitem->GetSideID() == SIDE_TEAMLOBBY || pitem->GetSideID() == SIDE_TEAMSPECTATOR) //Student TODO 7/19/2022 something here? maybe?
                 {
                     TRef<List> plistPlayers = pitem->GetMemberList();
 					if (teamTotalRank > 0)
@@ -2319,7 +2320,7 @@ public:
 		debugf("menu %s-%d\n",PCC(pitem->GetString()),pitem->GetID());
 		int menucmd = pitem->GetID();
 		CloseMenu();
-		if (m_sideCurrent == SIDE_TEAMLOBBY) return;
+		if (m_sideCurrent == SIDE_TEAMLOBBY || m_sideCurrent == SIDE_TEAMSPECTATOR) return; //Student 7/20/2022 spectators can't have allies
 
 		if (menucmd == NA) return; // NA = cancel menu
 
@@ -2536,7 +2537,8 @@ public:
 		else
 		// KGJV #114 cant select destroyed/inactive & empty teams
 		if (!m_pMission->SideActive(sideinfo->GetSideID()) && //destroyed/inactive
-			m_pMission->SideNumPlayers(sideinfo->GetSideID()) == 0) //empty teams
+			(m_pMission->SideNumPlayers(sideinfo->GetSideID()) == 0 //empty teams
+             && sideinfo->GetSideID() != SIDE_TEAMSPECTATOR)) //Student 7/20/2022 can always join spectator
 		{
             // default the selection to the lobby side
             m_plistPaneTeams->SetSelection(m_pMission->GetSideInfo(SIDE_TEAMLOBBY));
@@ -2977,6 +2979,7 @@ public:
 			}
 
             // try to join the current side
+            debugf("Trying to join %hi.\n", m_sideToJoin);
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
             BEGIN_PFM_CREATE(trekClient.m_fm, pfmPositionReq, C, POSITIONREQ)
             END_PFM_CREATE
@@ -3064,7 +3067,7 @@ public:
     void OnCivChosen(int civID)
     {
         if (trekClient.GetSideID() != SIDE_TEAMLOBBY &&
-            //trekClient.GetSideID() != SIDE_TEAMSPECTATOR && //Student 7/19/2022 spectator testing
+            trekClient.GetSideID() != SIDE_TEAMSPECTATOR && //Student 7/19/2022 spectator testing
             trekClient.MyPlayerInfo()->IsTeamLeader())
         {
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);

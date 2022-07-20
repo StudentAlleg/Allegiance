@@ -805,7 +805,7 @@ public:
             {
                 bHideBoot = !trekClient.GetPlayerInfo()->IsTeamLeader();
                 
-                if (pplayer->SideID() == SIDE_TEAMLOBBY) // my side is NOAT
+                if (pplayer->SideID() == SIDE_TEAMLOBBY || pplayer->SideID() == SIDE_TEAMSPECTATOR) // my side is NOAT or spectator
                 {
                     if (trekClient.MyMission()->FindRequest(trekClient.GetSideID(), pplayer->ShipID()))
                     {
@@ -1347,7 +1347,7 @@ public:
             
             assert(pplayer);
             
-            if (pplayer->SideID() == SIDE_TEAMLOBBY)
+            if (pplayer->SideID() == SIDE_TEAMLOBBY || pplayer->SideID() == SIDE_TEAMSPECTATOR) //Student 7/20/2022 we can accept from spectators
             {
                 trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
                 BEGIN_PFM_CREATE(trekClient.m_fm, pfmPosAck, C, POSITIONACK)
