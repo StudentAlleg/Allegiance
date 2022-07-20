@@ -290,7 +290,7 @@ private:
 
 			// #ALLY - debug display
 #if 0
-			if (pitem->GetSideID() != SIDE_TEAMLOBBY)
+			if (pitem->GetSideID() != SIDE_TEAMLOBBY && pitem->GetSideID() != SIDE_TEAMSPECTATOR)
 			{
 				ZString strAllies("Solo");
 				if (m_pMission->SideAllies(pitem->GetSideID()) != NA)
@@ -1349,7 +1349,7 @@ public:
             m_pMission,
             &m_sideToJoin,// KGJV #104
             m_viTeamColumns, 
-            m_plistPaneTeams->YSize() / (c_cSidesMax + 1), 
+            m_plistPaneTeams->YSize() / (c_cSidesMax + 1),
             m_fColorIntensity,
             m_fColorBrightness
             ));
@@ -1478,7 +1478,7 @@ public:
         {
             // nothing more to do
         }
-        else if (_stricmp(strChat.LeftOf(":"), "admin") == 0)
+        else if (_stricmp(strChat.LeftOf(":"), "admin") == 0) //send chat to admin
         {
             trekClient.SendChat(trekClient.GetShip(), CHAT_ADMIN, NA,
                                 NA, (const char*)strChat.RightOf(":"));
@@ -2548,6 +2548,7 @@ public:
 
 
             m_sideCurrent   = sideinfo->GetSideID();
+            debugf("OnSelTeam: Side current: %hi.\n", m_sideCurrent);
             IsideIGC* pside = trekClient.GetCore()->GetSide(m_sideCurrent);
             
             //
@@ -2886,10 +2887,10 @@ public:
 
 	bool OnButtonDiscord()
 	{
-		switch (m_sideCurrent)
+		switch (m_sideCurrent) //Student - why are we using different discord urls??
 		{
 		case 0: // Yellow.
-			GetWindow()->ShowWebPage("https://discord.gg/qv3cEa7");
+            GetWindow()->ShowWebPage("https://discord.gg/qv3cEa7");
 			break;
 
 		case 1: // Blue.
@@ -2922,6 +2923,7 @@ public:
 
     bool OnButtonJoin()
     {
+        debugf("Join button pressed! Current side is: %hi", m_sideCurrent);
         if (m_pmsgBox)
         {
             // clicks shouldn't be sneaking through the message box
@@ -2937,6 +2939,7 @@ public:
         // already requesting to join here or another team, so we cancel the request
         if (m_sideToJoin != NA)
         {
+            debugf("Canceling join request because m_sideToJoin is not NA");
             OnCancelRequest();
             UpdateButtonStates();
             UpdatePromptText();//KGJV #104 - extra debug
@@ -2948,6 +2951,7 @@ public:
         if (m_sideCurrent == SIDE_TEAMLOBBY
             && trekClient.GetSideID() != SIDE_TEAMLOBBY)
         {
+            debugf("Not on lobby, trying to join lobby");
             // quit the current side
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
             BEGIN_PFM_CREATE(trekClient.m_fm, pfmPositionReq, CS, QUIT_SIDE)
@@ -2966,10 +2970,10 @@ public:
 
             GetWindow()->GetPopupContainer()->OpenPopup(m_pmsgBox, false);
         }
-        else if (m_sideCurrent != trekClient.GetSideID() 
-            && m_sideCurrent != SIDE_TEAMLOBBY
-            && m_pMission->SideAvailablePositions(m_sideCurrent) > 0
-            && m_pMission->SideActive(m_sideCurrent)
+        else if ((m_sideCurrent != trekClient.GetSideID() && 
+            m_sideCurrent != SIDE_TEAMLOBBY) && 
+            ((m_pMission->SideAvailablePositions(m_sideCurrent) > 0 && m_pMission->SideActive(m_sideCurrent)) ||
+             m_sideCurrent == SIDE_TEAMSPECTATOR) //Student 7/20/2022 we dont care if spectators has availible positions or is active
             )
         {
 			
@@ -2979,7 +2983,7 @@ public:
 			}
 
             // try to join the current side
-            debugf("Trying to join %hi.\n", m_sideToJoin);
+            debugf("Trying to join %hi\n", m_sideCurrent);
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
             BEGIN_PFM_CREATE(trekClient.m_fm, pfmPositionReq, C, POSITIONREQ)
             END_PFM_CREATE
@@ -3348,7 +3352,7 @@ public:
         if (trekClient.MyPlayerInfo()->ShipID() == pPlayerInfo->ShipID())
 		{
             debugf("TeamScreen::OnAddPlayer: sideID=%d, m_sideToJoin=%d, m_lastToJoinSend=%d \n",sideID,m_sideToJoin,m_lastToJoinSend); // KGJV #104
-            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY) { //Student TODO maybe
+            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR) { //Student TODO maybe
                 OnCivChosen(g_civIDStart);
                 g_civStart = -1;
             }
