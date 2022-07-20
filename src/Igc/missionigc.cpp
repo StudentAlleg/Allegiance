@@ -3617,7 +3617,7 @@ const MineListIGC*        CmissionIGC::GetMines(void) const
 void                        CmissionIGC::AddSide(IsideIGC* s)
 {
 	// if there is not a team lobby but the civs do exist, go ahead and 
-	// create the team lobby. //Student 7/19/2022 should this really be done here?
+	// create the team lobby.
 
 	debugf("Adding side %hd \n", s->GetObjectID());
 	if (GetCivilizations()->first())
@@ -3647,6 +3647,31 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 			ZAssert(m_sideTeamLobby != NULL);
 			debugf("Created TeamLobby");
 		}
+		//Student TODO: implement the spectator side correctly
+		/*if (GetCivilizations()->first() && !m_sideTeamLobby)
+		{
+			debugf("Creating Team Spectator");
+			DataSideIGC sidedata;
+			strcpy(sidedata.name, "Team Spectator");
+			sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
+			sidedata.sideID = SIDE_TEAMSPECTATOR;
+			sidedata.gasAttributes.Initialize();
+			sidedata.ttbmDevelopmentTechs.ClearAll();
+			sidedata.ttbmInitialTechs.ClearAll();
+			sidedata.color = Color(1.0f, 1.0f, 1.0f);
+			sidedata.conquest = 0;
+			sidedata.territory = 0;
+			sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
+				= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
+			sidedata.squadID = NA;
+			sidedata.allies = NA; // #ALLY
+
+			m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
+			m_sideTeamSpectator->SetActiveF(true);
+			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
+			ZAssert(m_sideTeamSpectator != NULL);
+			debugf("Created Team Spectator");
+		}*/
 	}
 
 
@@ -3771,29 +3796,6 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   { 50.0f/255.0f, 140.0f/255.0f,  20.0f/255.0f}, //icky yellow
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
-
-		//create the spectator side
-		debugf("Creating Team Spectator");
-		DataSideIGC sidedata;
-		strcpy(sidedata.name, "Team Spectator");
-		sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
-		sidedata.sideID = SIDE_TEAMSPECTATOR;
-		sidedata.gasAttributes.Initialize();
-		sidedata.ttbmDevelopmentTechs.ClearAll();
-		sidedata.ttbmInitialTechs.ClearAll();
-		sidedata.color = Color(1.0f, 1.0f, 1.0f);
-		sidedata.conquest = 0;
-		sidedata.territory = 0;
-		sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
-			= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
-		sidedata.squadID = NA;
-		sidedata.allies = NA; // #ALLY
-
-		m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
-		m_sideTeamSpectator->SetActiveF(true);
-		DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
-		ZAssert(m_sideTeamSpectator != NULL);
-		debugf("Created Team Spectator");
 	
 	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO
     {
