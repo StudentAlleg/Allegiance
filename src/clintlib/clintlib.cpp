@@ -982,6 +982,7 @@ SideInfo* MissionInfo::GetSideInfo(SideID sideID)
     }
     else if (sideID == SIDE_TEAMLOBBY)
     {
+        debugf("Getting the side info for team lobby");
         return &m_sideLobby;
     }
     else if (sideID == SIDE_TEAMSPECTATOR)
@@ -4166,7 +4167,7 @@ void BaseClient::AddPlayerToSide(PlayerInfo* pPlayerInfo, SideID sideID)
 	            ReceiveChat(NULL, CHAT_TEAM, NA, salRecruitsArrivedSound, msg, c_cidNone, NA, NA);
 			}
         }
-        else if (m_pPlayerInfo && GetSide() && (GetSideID() != SIDE_TEAMLOBBY || GetSideID() != SIDE_TEAMSPECTATOR)) //Student 7/19/2022 Spectator
+        else if (m_pPlayerInfo && GetSide() && GetSideID() != SIDE_TEAMLOBBY && GetSideID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 Spectator
         {
             ZString msg = pPlayerInfo->CharacterName() + ZString(" has joined ")
                 + pside->GetName() + ZString(".");
