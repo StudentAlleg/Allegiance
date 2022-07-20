@@ -3648,7 +3648,7 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 			debugf("Created TeamLobby");
 		}
 		//Student TODO: implement the spectator side correctly
-		/*if (GetCivilizations()->first() && !m_sideTeamLobby)
+		if (!m_sideTeamSpectator && !(s->GetObjectID() == SIDE_TEAMLOBBY || s->GetObjectID() == SIDE_TEAMSPECTATOR))
 		{
 			debugf("Creating Team Spectator");
 			DataSideIGC sidedata;
@@ -3671,7 +3671,7 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
 			ZAssert(m_sideTeamSpectator != NULL);
 			debugf("Created Team Spectator");
-		}*/
+		}
 	}
 
 

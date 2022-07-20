@@ -5440,7 +5440,7 @@ Color WinTrekClient::GetEndgameSideColor(SideID sideId)
 
 CivID WinTrekClient::GetEndgameSideCiv(SideID sideId)
 {
-    if (sideId == SIDE_TEAMLOBBY) //Student TODO 7/19/2022 does spec need to do something here?
+    if (sideId == SIDE_TEAMLOBBY || sideId == SIDE_TEAMSPECTATOR) //Student TODO 7/19/2022 does spec need to do something here?
         return NA;
 
     assert(sideId >= 0 && sideId < m_nNumEndgameSides);

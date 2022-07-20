@@ -2376,6 +2376,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             IsideIGC*   pside = GetSide();
             assert (pside);
             assert (pside->GetObjectID() != SIDE_TEAMLOBBY);
+            assert(pside->GetObjectID() != SIDE_TEAMSPECTATOR);
             {
                 //Hack copy side attributes over to lobby side and spectator side
                 m_pCoreIGC->GetSide(SIDE_TEAMLOBBY)->SetGlobalAttributeSet(pside->GetGlobalAttributeSet());
@@ -3140,7 +3141,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 				{
 					if (pship->GetSide() == GetSide())
 					{
-						if ((pfmGain->sideidFlag != SIDE_TEAMLOBBY) && (pfmGain->sideidFlag != SIDE_TEAMSPECTATOR))
+						if ((pfmGain->sideidFlag != SIDE_TEAMLOBBY))
 						{
 							PostText(true, "%s has stolen " START_COLOR_STRING "%s's" END_COLOR_STRING " flag.", 
 								pship->GetName(), 

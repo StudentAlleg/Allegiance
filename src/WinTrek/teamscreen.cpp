@@ -1330,10 +1330,9 @@ public:
         m_plistPaneTeams->SetList(
             new ConcatinatedList(
                 m_plistSides,// KGJV #62
-                new ConcatinatedList(
-                    new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMSPECTATOR)), //Student 7/19/2022 spectator
-                    new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
-                ))
+                //new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMSPECTATOR)), //Student 7/19/2022 spectator
+                new SingletonList(m_pMission->GetSideInfo(SIDE_TEAMLOBBY))
+                )
             );
         m_plistPaneTeams->UpdateLayout();
         m_plistPaneTeams->SetItemPainter(new TeamPainter(
@@ -2485,7 +2484,7 @@ public:
 
 		if (pside && 
             m_sideCurrent != SIDE_TEAMLOBBY && 
-            m_sideCurrent != SIDE_TEAMSPECTATOR && //Student 7/19/2022 use defualt for Spectator
+            m_sideCurrent != SIDE_TEAMSPECTATOR && //Student 7/19/2022 use default for Spectator
             pside->GetShips()->n() > 0 && 
             !pside->GetRandomCivilization()) //Xynth #170 8/2010 use default for Random
         { 
@@ -3056,7 +3055,7 @@ public:
     void OnCivChosen(int civID)
     {
         if (trekClient.GetSideID() != SIDE_TEAMLOBBY &&
-            trekClient.GetSideID() != SIDE_TEAMSPECTATOR &&
+            //trekClient.GetSideID() != SIDE_TEAMSPECTATOR && //Student 7/19/2022 spectator testing
             trekClient.MyPlayerInfo()->IsTeamLeader())
         {
             trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
@@ -3337,7 +3336,7 @@ public:
         if (trekClient.MyPlayerInfo()->ShipID() == pPlayerInfo->ShipID())
 		{
             debugf("TeamScreen::OnAddPlayer: sideID=%d, m_sideToJoin=%d, m_lastToJoinSend=%d \n",sideID,m_sideToJoin,m_lastToJoinSend); // KGJV #104
-            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR) { //Student 7/18/2022 don't choose civ's here for spec
+            if (g_civIDStart != -1 && sideID != SIDE_TEAMLOBBY) { //Student TODO maybe
                 OnCivChosen(g_civIDStart);
                 g_civStart = -1;
             }

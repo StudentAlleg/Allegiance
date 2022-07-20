@@ -381,7 +381,7 @@ public:
 			  {
 					name="Not On A Team";
 			  }
-              else if (pitem->GetSideID()== SIDE_TEAMSPECTATOR)
+              else if (pitem->GetSideID()== SIDE_TEAMSPECTATOR) //Student display specators in
               {
                   name = "Spectator(s)";
               }
@@ -1994,10 +1994,9 @@ public:
               // Student 7/19/2022 added spectator onto list of team names
                 new ConcatinatedList(
 			    new SortedList<ItemIDCompareFunction>(trekClient.MyMission()->GetSideList(), SideCompare),
-                new ConcatinatedList(
-                    new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMSPECTATOR)),
-                    new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)))
-				));
+                //new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMSPECTATOR)),
+                new SingletonList(trekClient.MyMission()->GetSideInfo(SIDE_TEAMLOBBY)))
+				);
             //  WLP
         m_plistPaneTeams->UpdateLayout();
         m_plistPaneTeams->SetItemPainter(new TeamPainter(
