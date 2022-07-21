@@ -568,40 +568,55 @@ public:
 	void			SetAllowAlliedViz(bool bValue)	{ m_pfmMissionDef->misparms.bAllowAlliedViz = bValue;}
 	void			SetMaxImbalance(short iMaxImbalance) { m_pfmMissionDef->misparms.iMaxImbalance = iMaxImbalance;} // 8/1/09
     
+    //Student 7/20/2022 Spectator
     // Team Accessors
-    LPCSTR          SideName(SideID sideID)         { return (sideID == SIDE_TEAMLOBBY) ? "Not on a team" : m_pfmMissionDef->rgszName[sideID]; }
+    LPCSTR          SideName(SideID sideID)         
+                    { 
+                    if (sideID == SIDE_TEAMLOBBY) 
+                    { 
+                        return "Not on a team.";
+                    }
+                    else if (sideID == SIDE_TEAMSPECTATOR)
+                    {
+                        return "Spectator(s)";
+                    }
+                    else
+                    {
+                        return m_pfmMissionDef->rgszName[sideID];
+                    }
+                    }
     //CivID           SideCivID(SideID sideID)        { return (sideID == SIDE_TEAMLOBBY) ? NA : m_pfmMissionDef->rgCivID[sideID]; }
-    ShipID          SideLeaderShipID(SideID sideID) { return (sideID == SIDE_TEAMLOBBY) ? NA : m_pfmMissionDef->rgShipIDLeaders[sideID]; }
-    bool            SideAutoAccept(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY) ? true : !!m_pfmMissionDef->rgfAutoAccept[sideID]; }
-    bool            SideReady(SideID sideID)        { return (sideID == SIDE_TEAMLOBBY) ? true : !!m_pfmMissionDef->rgfReady[sideID]; }
-    bool            SideForceReady(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY) ? true : !!m_pfmMissionDef->rgfForceReady[sideID]; }
-    char            SideMaxPlayers(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY) ? 1000 : m_pfmMissionDef->misparms.nMaxPlayersPerTeam; }
-    char            SideNumPlayers(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY) ? 0 : m_pfmMissionDef->rgcPlayers[sideID]; }
-    int             SideAvailablePositions(SideID sideID) { return (sideID == SIDE_TEAMLOBBY) ? 1000 : (SideMaxPlayers(sideID) - SideNumPlayers(sideID)); }
-    int             SideActive(SideID sideID)       { return (sideID == SIDE_TEAMLOBBY) ? true : (m_pfmMissionDef->rgfActive[sideID] != 0); }
+    ShipID          SideLeaderShipID(SideID sideID) { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? NA : m_pfmMissionDef->rgShipIDLeaders[sideID]; }
+    bool            SideAutoAccept(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? true : !!m_pfmMissionDef->rgfAutoAccept[sideID]; }
+    bool            SideReady(SideID sideID)        { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? true : !!m_pfmMissionDef->rgfReady[sideID]; }
+    bool            SideForceReady(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? true : !!m_pfmMissionDef->rgfForceReady[sideID]; }
+    char            SideMaxPlayers(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? 1000 : m_pfmMissionDef->misparms.nMaxPlayersPerTeam; }
+    char            SideNumPlayers(SideID sideID)   { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? 0 : m_pfmMissionDef->rgcPlayers[sideID]; }
+    int             SideAvailablePositions(SideID sideID) { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? 1000 : (SideMaxPlayers(sideID) - SideNumPlayers(sideID)); }
+    int             SideActive(SideID sideID)       { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? true : (m_pfmMissionDef->rgfActive[sideID] != 0); }
     bool            HasSquad(SquadID squadID);
 
-	char			SideAllies(SideID sideID)       { return (sideID == SIDE_TEAMLOBBY) ? NA : m_pfmMissionDef->rgfAllies[sideID]; } // #ALLY
+	char			SideAllies(SideID sideID)       { return (sideID == SIDE_TEAMLOBBY || sideID == SIDE_TEAMSPECTATOR) ? NA : m_pfmMissionDef->rgfAllies[sideID]; } // #ALLY
 
     // Team Operations
-	void			SetSideAllies(SideID sideID, char allies) { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgfAllies[sideID] = allies; } // #ALLY
+	void			SetSideAllies(SideID sideID, char allies) { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); m_pfmMissionDef->rgfAllies[sideID] = allies; } // #ALLY
     void            SetSideActive(SideID sideID, bool fActive) 
-                    { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgfActive[sideID] = fActive; }
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); m_pfmMissionDef->rgfActive[sideID] = fActive; }
     void            SetSideAutoAccept(SideID sideID, bool fAutoAccept) 
-                    { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgfAutoAccept[sideID] = fAutoAccept; }
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); m_pfmMissionDef->rgfAutoAccept[sideID] = fAutoAccept; }
     void            SetSideReady(SideID sideID, bool fReady) 
-                    { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgfReady[sideID] = fReady; }
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); m_pfmMissionDef->rgfReady[sideID] = fReady; }
     void            SetSideForceReady(SideID sideID, bool fForceReady) 
-                    { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgfForceReady[sideID] = fForceReady; }
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); m_pfmMissionDef->rgfForceReady[sideID] = fForceReady; }
     void            SetSideLeader(PlayerInfo* pPlayerInfo);
     /*void            SetSideCivID(SideID sideID, CivID civID) 
                     { assert(sideID != SIDE_TEAMLOBBY); m_pfmMissionDef->rgCivID[sideID] = civID; 
                         GetSideInfo(sideID)->GetMembers().GetSink()(); m_mapSideInfo.GetSink()(); }*/
     void            SetSideName(SideID sideID, const char* szName)
-                    { assert(sideID != SIDE_TEAMLOBBY); strcpy(m_pfmMissionDef->rgszName[sideID], szName); 
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); strcpy(m_pfmMissionDef->rgszName[sideID], szName);
                         m_mapSideInfo.GetSink()(); }
     void            SetSideSquadID(SideID sideID, SquadID squadID)
-                    { assert(sideID != SIDE_TEAMLOBBY); squadIDs[sideID] = squadID; m_mapSideInfo.GetSink()(); }
+                    { assert(sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR); squadIDs[sideID] = squadID; m_mapSideInfo.GetSink()(); }
 
     SideInfo*       GetSideInfo(SideID sideID);
     List*           GetSideList();

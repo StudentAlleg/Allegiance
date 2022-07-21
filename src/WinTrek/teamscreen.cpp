@@ -2537,8 +2537,7 @@ public:
 		else
 		// KGJV #114 cant select destroyed/inactive & empty teams
 		if (!m_pMission->SideActive(sideinfo->GetSideID()) && //destroyed/inactive
-			(m_pMission->SideNumPlayers(sideinfo->GetSideID()) == 0 //empty teams
-             && sideinfo->GetSideID() != SIDE_TEAMSPECTATOR)) //Student 7/20/2022 can always join spectator
+			m_pMission->SideNumPlayers(sideinfo->GetSideID()) == 0) //empty teams
 		{
             // default the selection to the lobby side
             m_plistPaneTeams->SetSelection(m_pMission->GetSideInfo(SIDE_TEAMLOBBY));
@@ -2972,8 +2971,7 @@ public:
         }
         else if ((m_sideCurrent != trekClient.GetSideID() && 
             m_sideCurrent != SIDE_TEAMLOBBY) && 
-            ((m_pMission->SideAvailablePositions(m_sideCurrent) > 0 && m_pMission->SideActive(m_sideCurrent)) ||
-             m_sideCurrent == SIDE_TEAMSPECTATOR) //Student 7/20/2022 we dont care if spectators has availible positions or is active
+            m_pMission->SideAvailablePositions(m_sideCurrent) > 0 && m_pMission->SideActive(m_sideCurrent)
             )
         {
 			

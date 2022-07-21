@@ -982,12 +982,12 @@ SideInfo* MissionInfo::GetSideInfo(SideID sideID)
     }
     else if (sideID == SIDE_TEAMLOBBY)
     {
-        debugf("Getting the side info for team lobby");
+        //debugf("Getting the side info for team lobby");
         return &m_sideLobby;
     }
     else if (sideID == SIDE_TEAMSPECTATOR)
     {
-        debugf("Getting the side info for spectator.");
+        //debugf("Getting the side info for spectator.");
         return &m_sideSpectator;
     }
 

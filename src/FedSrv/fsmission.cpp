@@ -202,7 +202,7 @@ CFSMission::CFSMission(
   m_pMission->SetMissionID(s_iMissionID++);
   char szRealTeams[] = ": All real teams";
   char szBuff[sizeof(m_misdef.misparms.strGameName) + sizeof(szRealTeams)];
-  wsprintf(szBuff, "%s%s", m_misdef.misparms.strGameName, szRealTeams);
+  wsprintf(szBuff, "%s%s", m_misdef.misparms.strGameName, szRealTeams); //how do we get this information?
   m_pgrpSidesReal = g.fm.CreateGroup(szBuff);
 
   GetSystemTime(&m_stStartTime);
@@ -1450,7 +1450,7 @@ IstationIGC * CFSMission::GetBase(IsideIGC * pside)
 CFSPlayer * CFSMission::GetLeader(SideID sid)
 {
   assert (NA != sid);
-  if (sid == SIDE_TEAMLOBBY) // lobby side never has a leader // Student TODO: Spectator shouldn't either but won't touch that atm
+  if (sid == SIDE_TEAMLOBBY || sid == SIDE_TEAMSPECTATOR) // lobby side never has a leader // Student TODO: Spectator shouldn't either but won't touch that atm
       return NULL;
   ShipID shipid = m_misdef.rgShipIDLeaders[sid];
   return NA == shipid ? NULL : CFSShip::GetShipFromID(shipid)->GetPlayer();
@@ -3518,7 +3518,9 @@ IsideIGC*   CFSMission::CheckForVictoryByStationKill(IstationIGC* pstationKilled
                  psl = psl->next())
             {
                 IstationIGC*    pstation = psl->data();
-                if ((pstation != pstationKilled) && pstation->GetBaseStationType()->HasCapability(c_sabmFlag))
+                if ((pstation != pstationKilled) && 
+                     pstation->GetBaseStationType()->HasCapability(c_sabmFlag) &&
+                     pstation->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR) //Student 7/20/2022 spectator stations dont count for win conditions
                 {
                     nStationsTotal++;
                     nStationsPerSide[pstation->GetSide()->GetObjectID()]++;
@@ -3538,7 +3540,7 @@ IsideIGC*   CFSMission::CheckForVictoryByStationKill(IstationIGC* pstationKilled
             {
                 IsideIGC*       pside = l->data();
 				// KGJV #62 count active team
-				if (pside->GetActiveF()) nActiveTeams++;
+				if (pside->GetActiveF() && pside->GetObjectID() != SIDE_TEAMSPECTATOR) nActiveTeams++; //Student 7/20/2022, don't know if this is needed here or not
 				if (pside->GetAllies() != NA) bAllies = true;
 
                 unsigned char   conquest = (unsigned char)(100 * nStationsPerSide[pside->GetObjectID()] / nStationsTotal);
@@ -3573,7 +3575,7 @@ IsideIGC*   CFSMission::CheckForVictoryByStationKill(IstationIGC* pstationKilled
             StationLinkIGC*    psl;
             for (psl = pcluster->GetStations()->first(); (psl != NULL); psl = psl->next())
             {
-                if (psl->data() != pstationKilled)
+                if (psl->data() != pstationKilled && psl->data()->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR) //Student 7/20/2022 spectators don't count for win conditions
                 {
                     IsideIGC*   pside = psl->data()->GetSide();
                     if (psideOwner == NULL)
@@ -3631,7 +3633,9 @@ IsideIGC*   CFSMission::CheckForVictoryByStationKill(IstationIGC* pstationKilled
              psl = psl->next())
         {
             IstationIGC* pstation = psl->data();
-            if ((pstation != pstationKilled) && pstation->GetStationType()->HasCapability(c_sabmRestart))
+            if ((pstation != pstationKilled) &&
+                 pstation->GetStationType()->HasCapability(c_sabmRestart) &&
+                 pstation->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR)
                 break;
         }
         if (psl == NULL)
@@ -3660,7 +3664,9 @@ IsideIGC*   CFSMission::CheckForVictoryByStationKill(IstationIGC* pstationKilled
 		{
 			IsideIGC*   thisside = psl->data();
 			if (!thisside->GetActiveF()) continue;
-			if (!thisside->AlliedSides(otherside,thisside) && otherside != thisside)
+			if (!thisside->AlliedSides(otherside,thisside) && 
+                otherside != thisside && 
+                otherside->GetObjectID() != SIDE_TEAMSPECTATOR)
 				bAllAllies = false;
 			else 
 				allywinside = thisside;
@@ -3700,7 +3706,7 @@ IsideIGC* CFSMission::CheckForVictoryByInactiveSides(bool& bAllSidesInactive)
   for (SideLinkIGC * plinkSide = plistSide->first(); plinkSide; plinkSide = plinkSide->next())
   {
     IsideIGC * pside = plinkSide->data();
-    if (HasPlayers(pside, false) && pside->GetActiveF()) // found one
+    if (HasPlayers(pside, false) && pside->GetActiveF() && pside->GetObjectID() != SIDE_TEAMSPECTATOR) // found one that is not a spectator
     {
       bAllSidesInactive = false;
 
@@ -4032,7 +4038,7 @@ void CFSMission::QueueLobbyMissionInfo()
  * Parameters:
  *    Who the junk goes to (if pfsPlayer is NULL, send it to the entire side)
  */
-void CFSMission::SendMissionInfo(CFSPlayer * pfsPlayer, IsideIGC*   pside)
+void CFSMission::SendMissionInfo(CFSPlayer * pfsPlayer, IsideIGC*   pside) //Student TODO revist here
 {
     ImissionIGC * pMission = GetIGCMission();
 
@@ -4517,7 +4523,7 @@ DelPositionReqReason CFSMission::CheckPositionRequest(CFSPlayer * pfsPlayer, Isi
     else if (pmp->bLockSides && sideID != SIDE_TEAMLOBBY) // TE: Added 2nd check to allow them to go to NOAT any time) --did you even try testing this? 
       return DPR_SidesLocked;
 
-  if (sideID != SIDE_TEAMLOBBY)
+  if (sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR) //Student 7/20/2022 spectators are not present in rgfActive[sideID]
   {
 	 // KGJV fix: no rejoin to a deactivated team
     if (!m_misdef.rgfActive[sideID])
@@ -4678,8 +4684,8 @@ void CFSMission::RequestPosition(CFSPlayer * pfsPlayer, IsideIGC * pside, bool b
   {
     RemovePlayerFromSide(pfsPlayer, QSR_SwitchingSides);
   }
-
-  if (sideID != SIDE_TEAMLOBBY)
+  
+  if (sideID != SIDE_TEAMLOBBY) //Student TODO look here
   {
     if ((!GetLeader(sideID) && m_misdef.fAutoAcceptLeaders)
         || bRejoin
