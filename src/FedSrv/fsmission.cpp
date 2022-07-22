@@ -579,37 +579,42 @@ void CFSMission::AddPlayerToSide(CFSPlayer * pfsPlayer, IsideIGC * pside)
   RemoveJoinRequest(pfsPlayer, pside);
 
   // check to see if we need a mission leader...
-  if (m_misdef.iSideMissionOwner < 0)
-    fMissionOwner = true;
-  else
+  if (pside->GetObjectID() != SIDE_TEAMSPECTATOR)
   {
-    IsideIGC * pside = pMission->GetSide(m_misdef.iSideMissionOwner);
-
-    if (!HasPlayers(pside, true)) // no one on the mission leader's side
+    debugf("We are not joining spectator.");
+    if (m_misdef.iSideMissionOwner < 0)
       fMissionOwner = true;
-  }
-
-  assert(pside->GetActiveF()); // shouldn't be joining an inactive team
-  m_misdef.rgcPlayers[sideid]++;
-
-  // Set their stuff appropriate for this side
-  assert(pfsPlayer->GetMoney() == 0);
-
-  //pfsPlayer->GetIGCShip()->SetWingID(1); // TE: Default wing is Attack(1)  //Imago removed 6/10 #91
-  if (!HasPlayers(pside, true)) // we have a new team leader
-  {
-    fTeamLeader = true;
-    assert (m_misdef.rgShipIDLeaders[sideid] == NA);
-
-    SetLeaderID(sideid, shipid);
-
-    if (fMissionOwner) // we have a new mission leader too
+    else
     {
-      fMissionOwner = true;
-      m_misdef.iSideMissionOwner = sideid;
+      IsideIGC * pside = pMission->GetSide(m_misdef.iSideMissionOwner);
+
+      if (!HasPlayers(pside, true)) // no one on the mission leader's side
+        fMissionOwner = true;
+    }
+
+    assert(pside->GetActiveF()); // shouldn't be joining an inactive team
+    m_misdef.rgcPlayers[sideid]++;
+  
+  
+
+    // Set their stuff appropriate for this side
+    assert(pfsPlayer->GetMoney() == 0);
+
+    //pfsPlayer->GetIGCShip()->SetWingID(1); // TE: Default wing is Attack(1)  //Imago removed 6/10 #91
+    if (!HasPlayers(pside, true)) // we have a new team leader
+    {
+      fTeamLeader = true;
+      assert (m_misdef.rgShipIDLeaders[sideid] == NA);
+
+      SetLeaderID(sideid, shipid);
+
+      if (fMissionOwner) // we have a new mission leader too
+      {
+        fMissionOwner = true;
+        m_misdef.iSideMissionOwner = sideid;
+      }
     }
   }
-
   // announce the guy that we were called for. Make sure nothing got wacky
   assert(IMPLIES(fMissionOwner, fTeamLeader));
 
@@ -715,9 +720,12 @@ void CFSMission::AddPlayerToSide(CFSPlayer * pfsPlayer, IsideIGC * pside)
   }
   else
   {
-    // set them to auto-donate to the team leader
-    CFSPlayer* pfsLeader = GetLeader(pside->GetObjectID());
-    pfsPlayer->SetAutoDonate((pfsPlayer != pfsLeader) ? pfsLeader : NULL, 0, true);
+    if (pside->GetObjectID() != SIDE_TEAMSPECTATOR) { //Sudent 7/21/2022 spectors do not have a leader 
+      // set them to auto-donate to the team leader
+      CFSPlayer* pfsLeader = GetLeader(pside->GetObjectID());
+      pfsPlayer->SetAutoDonate((pfsPlayer != pfsLeader) ? pfsLeader : NULL, 0, true);
+    }
+    
 
     // tell them their starting sector so they can display the mission briefing
     bool bGenerateCivBriefing = m_strStoryText.IsEmpty();
@@ -911,190 +919,194 @@ void CFSMission::RemovePlayerFromSide(CFSPlayer * pfsPlayer, QuitSideReason reas
             g.fm.SendMessages(CFSSide::FromIGC(psideOld)->GetGroup(), FM_GUARANTEED, FM_FLUSH); //GetGroupRealSides(),
     }
   }
+  
+  CFSPlayer* pfsNewLeader = NULL;
 
-  m_misdef.rgcPlayers[sideidOld]--;
-
-  CFSPlayer*    pfsNewLeader = NULL;
-  if (m_misdef.rgShipIDLeaders[sideidOld] == shipid)
+  if (sideidOld != SIDE_TEAMSPECTATOR)
   {
-    //The person leaving the team was the team leader ...
-    bWasTeamLeader = true;
-    SideID iSideNewOwner = sideidOld; // side of person getting promoted, which is same team if anyone left
-    ShipID shipidNewOwner = NA;
-    bool fMissionOwner = false;
+      debugf("We are not spectator, let's check for things for leader's");
+      m_misdef.rgcPlayers[sideidOld]--;
 
-    int cPlayers = GetCountOfPlayers(psideOld, true);
-
-    if (cPlayers == 1)
-    {
-      //There was one player -- the soon to be gone team leader
-
-      if (STAGE_NOTSTARTED == m_misdef.stage)
+      if (m_misdef.rgShipIDLeaders[sideidOld] == shipid)
       {
-        //the game hasn't started yet ... accept everyone on the request list
-        BEGIN_PFM_CREATE(g.fm, pfmAutoAccept, CS, AUTO_ACCEPT)
-        END_PFM_CREATE
-        pfmAutoAccept->iSide = sideidOld;
-        pfmAutoAccept->fAutoAccept = true;
-        g.fm.SendMessages(GetGroupMission(), FM_GUARANTEED, FM_FLUSH);
-        bTurnOnAutoaccept = true;
-      }
-      else
-      {
-        // otherwise, no one accepted them to the team so I suppose they've
-        // been implicitly rejected.
-        RejectSideJoinRequests(psideOld);
-      }
-    }
+          //The person leaving the team was the team leader ...
+          bWasTeamLeader = true;
+          SideID iSideNewOwner = sideidOld; // side of person getting promoted, which is same team if anyone left
+          ShipID shipidNewOwner = NA;
+          bool fMissionOwner = false;
 
-    if (cPlayers > 1) // Other people still on the side--side count not adjusted yet
-    {
-      const ShipListIGC * plistShip = psideOld->GetShips();
+          int cPlayers = GetCountOfPlayers(psideOld, true);
 
-      if (STAGE_STARTED == m_misdef.stage)
-      {
-          //Leader left the game in the middle ... pick a leader based on who has the
-          //most people donating to them
-          IshipIGC* pshipNewLeader = PickNewLeader(plistShip, pshipPlayer, 0);
-          if (pshipNewLeader)
+          if (cPlayers == 1)
           {
-              pfsNewLeader = ((CFSShip*)(pshipNewLeader->GetPrivateData()))->GetPlayer();
-              shipidNewOwner = pshipNewLeader->GetObjectID();
-          }
-      }
+              //There was one player -- the soon to be gone team leader
 
-      if (pfsNewLeader == NULL)
-      {
-        // Look for someone else on the team to be team leader
-        // (there must be one), favoring someone who can lead the current squad.
-        for (ShipLinkIGC * plinkShip = plistShip->first(); plinkShip; plinkShip = plinkShip->next())
-        {
-          if (plinkShip->data() != pshipPlayer && ISPLAYER(plinkShip->data()))
+              if (STAGE_NOTSTARTED == m_misdef.stage)
+              {
+                  //the game hasn't started yet ... accept everyone on the request list
+                  BEGIN_PFM_CREATE(g.fm, pfmAutoAccept, CS, AUTO_ACCEPT)
+                      END_PFM_CREATE
+                      pfmAutoAccept->iSide = sideidOld;
+                  pfmAutoAccept->fAutoAccept = true;
+                  g.fm.SendMessages(GetGroupMission(), FM_GUARANTEED, FM_FLUSH);
+                  bTurnOnAutoaccept = true;
+              }
+              else
+              {
+                  // otherwise, no one accepted them to the team so I suppose they've
+                  // been implicitly rejected.
+                  RejectSideJoinRequests(psideOld);
+              }
+          }
+
+          if (cPlayers > 1) // Other people still on the side--side count not adjusted yet
           {
-            CFSPlayer* pfsPlayerTemp = ((CFSShip*)(plinkShip->data()->GetPrivateData()))->GetPlayer();
+              const ShipListIGC* plistShip = psideOld->GetShips();
 
-            if (pfsPlayerTemp->GetCanLeadSquad(squadID))
-            {
-              pfsNewLeader = pfsPlayerTemp;
-              shipidNewOwner = plinkShip->data()->GetObjectID();
-              break;
-            }
-            else if (!pfsNewLeader)
-            {
-              pfsNewLeader = pfsPlayerTemp;
-              shipidNewOwner = plinkShip->data()->GetObjectID();
-            }
+              if (STAGE_STARTED == m_misdef.stage)
+              {
+                  //Leader left the game in the middle ... pick a leader based on who has the
+                  //most people donating to them
+                  IshipIGC* pshipNewLeader = PickNewLeader(plistShip, pshipPlayer, 0);
+                  if (pshipNewLeader)
+                  {
+                      pfsNewLeader = ((CFSShip*)(pshipNewLeader->GetPrivateData()))->GetPlayer();
+                      shipidNewOwner = pshipNewLeader->GetObjectID();
+                  }
+              }
+
+              if (pfsNewLeader == NULL)
+              {
+                  // Look for someone else on the team to be team leader
+                  // (there must be one), favoring someone who can lead the current squad.
+                  for (ShipLinkIGC* plinkShip = plistShip->first(); plinkShip; plinkShip = plinkShip->next())
+                  {
+                      if (plinkShip->data() != pshipPlayer && ISPLAYER(plinkShip->data()))
+                      {
+                          CFSPlayer* pfsPlayerTemp = ((CFSShip*)(plinkShip->data()->GetPrivateData()))->GetPlayer();
+
+                          if (pfsPlayerTemp->GetCanLeadSquad(squadID))
+                          {
+                              pfsNewLeader = pfsPlayerTemp;
+                              shipidNewOwner = plinkShip->data()->GetObjectID();
+                              break;
+                          }
+                          else if (!pfsNewLeader)
+                          {
+                              pfsNewLeader = pfsPlayerTemp;
+                              shipidNewOwner = plinkShip->data()->GetObjectID();
+                          }
+                      }
+                  }
+                  assert(pfsNewLeader);
+              }
+
+              SetLeaderID(iSideNewOwner, shipidNewOwner);
+
+              if (m_misdef.iSideMissionOwner == sideidOld)
+              {
+                  fMissionOwner = true;
+              }
           }
-        }
-        assert(pfsNewLeader);
-      }
-
-      SetLeaderID(iSideNewOwner, shipidNewOwner);
-
-      if (m_misdef.iSideMissionOwner == sideidOld)
-      {
-        fMissionOwner = true;
-      }
-    }
-    else // no one left on the team
-    {
-      // Then it better be auto-accept again
-      SetLeaderID(sideidOld, NA);
-
-      // also, better set the squad to NA if the game hasn't started
-      // (but leave the squad for scoring purposes if it has started)
-      if (STAGE_NOTSTARTED == m_misdef.stage)
-        SetSideSquad(sideidOld, NA);
-
-      if (m_misdef.iSideMissionOwner == sideidOld)
-      {
-        m_misdef.iSideMissionOwner = NA;
-
-        // Now gotta look for another side to be mission owner
-        const SideListIGC * plistSide = m_pMission->GetSides();
-        for (SideLinkIGC * plinkSide = plistSide->first(); plinkSide; plinkSide = plinkSide->next())
-        {
-          IsideIGC * pside = plinkSide->data();
-          if ((psideOld != pside) && HasPlayers(pside, true)) // found one
+          else // no one left on the team
           {
-            iSideNewOwner = pside->GetObjectID();
-            shipidNewOwner = GetLeader(iSideNewOwner)->GetShipID();
-            fMissionOwner = true;
-            assert(m_misdef.rgShipIDLeaders[iSideNewOwner] == shipidNewOwner);
-            m_misdef.iSideMissionOwner = iSideNewOwner;
-            break;
+              // Then it better be auto-accept again
+              SetLeaderID(sideidOld, NA);
+
+              // also, better set the squad to NA if the game hasn't started
+              // (but leave the squad for scoring purposes if it has started)
+              if (STAGE_NOTSTARTED == m_misdef.stage)
+                  SetSideSquad(sideidOld, NA);
+
+              if (m_misdef.iSideMissionOwner == sideidOld)
+              {
+                  m_misdef.iSideMissionOwner = NA;
+
+                  // Now gotta look for another side to be mission owner
+                  const SideListIGC* plistSide = m_pMission->GetSides();
+                  for (SideLinkIGC* plinkSide = plistSide->first(); plinkSide; plinkSide = plinkSide->next())
+                  {
+                      IsideIGC* pside = plinkSide->data();
+                      if ((psideOld != pside) && HasPlayers(pside, true)) // found one
+                      {
+                          iSideNewOwner = pside->GetObjectID();
+                          shipidNewOwner = GetLeader(iSideNewOwner)->GetShipID();
+                          fMissionOwner = true;
+                          assert(m_misdef.rgShipIDLeaders[iSideNewOwner] == shipidNewOwner);
+                          m_misdef.iSideMissionOwner = iSideNewOwner;
+                          break;
+                      }
+                  }
+
+                  // if we don't have a new mission owner, unlock the lobby and the sides
+                  if (m_misdef.iSideMissionOwner == NA)
+                  {
+                      if (m_misdef.misparms.bLockLobby)
+                      {
+                          SetLockLobby(false);
+                          BEGIN_PFM_CREATE(g.fm, pfmLockLobby, CS, LOCK_LOBBY)
+                              END_PFM_CREATE
+                              pfmLockLobby->fLock = false;
+                      }
+
+                      if (m_misdef.misparms.bLockSides)
+                      {
+                          SetLockSides(false);
+                          BEGIN_PFM_CREATE(g.fm, pfmLockSides, CS, LOCK_SIDES)
+                              END_PFM_CREATE
+                              pfmLockSides->fLock = false;
+                      }
+
+                      // mmf reset skill level on an empty game
+                      // Note using current values in skilllevels.mdl which could change
+                      // mmf revist
+                      // This works (when they try and connect) but it does not let the clients know things were reset so it does not update their gui
+                      // AFAIK there is no corresponding message we can send for this like there is above for LOCK_SIDES, etc
+                      // mmf don't reset skill level if there is a server skill level setting for this server (KGJV added this feature keying off registry)
+                      // mmf since there isn't an easy way to check for Min/MaxRank# entries in registry as we don't know the game number
+                      //     assume if game is locked open we don't want to change the min and max rank
+                      if (!(m_misdef.misparms.bLockGameOpen) && !m_misdef.misparms.bObjectModelCreated) {//#203 Turkey 6/11
+                          m_misdef.misparms.iMinRank = -1;
+                          m_misdef.misparms.iMaxRank = 1000;
+                      }
+                  }
+
+                  // No one's left in this side
+                  SetLeaderID(sideidOld, NA);
+              }
           }
-        }
 
-        // if we don't have a new mission owner, unlock the lobby and the sides
-        if (m_misdef.iSideMissionOwner == NA)
-        {
-            if (m_misdef.misparms.bLockLobby)
+            if (shipidNewOwner != NA) // somebody's getting promoted
             {
-                SetLockLobby(false);
-                BEGIN_PFM_CREATE(g.fm, pfmLockLobby, CS, LOCK_LOBBY)
-                END_PFM_CREATE
-                pfmLockLobby->fLock = false;
-            }
+                if (shipidNewOwner > 0) {
+                    //set command wing Imago 6/10
+                    BEGIN_PFM_CREATE(g.fm, pfmSetWingID, CS, SET_WINGID)
+                        END_PFM_CREATE
+                        pfmSetWingID->wingID = 0;
+                    pfmSetWingID->shipID = shipidNewOwner;
+                    pfmSetWingID->bCommanded = true;
+                    g.fm.SendMessages(GetGroupMission(), FM_GUARANTEED, FM_FLUSH);
+                    GetLeader(iSideNewOwner)->GetIGCShip()->SetWingID(0);
+                }
 
-            if (m_misdef.misparms.bLockSides)
-            {
-                SetLockSides(false);
-                BEGIN_PFM_CREATE(g.fm, pfmLockSides, CS, LOCK_SIDES)
-                END_PFM_CREATE
-                pfmLockSides->fLock = false;
-            }
+                // announce new leader
+                BEGIN_PFM_CREATE(g.fm, pfmSetTeamLeader, CS, SET_TEAM_LEADER)
+                    END_PFM_CREATE
+                    pfmSetTeamLeader->shipID = shipidNewOwner;
+                pfmSetTeamLeader->sideID = iSideNewOwner;
 
-			// mmf reset skill level on an empty game
-			// Note using current values in skilllevels.mdl which could change
-			// mmf revist
-			// This works (when they try and connect) but it does not let the clients know things were reset so it does not update their gui
-			// AFAIK there is no corresponding message we can send for this like there is above for LOCK_SIDES, etc
-			// mmf don't reset skill level if there is a server skill level setting for this server (KGJV added this feature keying off registry)
-			// mmf since there isn't an easy way to check for Min/MaxRank# entries in registry as we don't know the game number
-			//     assume if game is locked open we don't want to change the min and max rank
-			if (!(m_misdef.misparms.bLockGameOpen) && !m_misdef.misparms.bObjectModelCreated) {//#203 Turkey 6/11
-				m_misdef.misparms.iMinRank = -1;
-				m_misdef.misparms.iMaxRank = 1000;
-			}
+                if (fMissionOwner)
+                {
+                    BEGIN_PFM_CREATE(g.fm, pfmSetMissionOwner, CS, SET_MISSION_OWNER)
+                        END_PFM_CREATE
+                        pfmSetMissionOwner->shipID = shipidNewOwner;
+                    pfmSetMissionOwner->sideID = iSideNewOwner;
+                }
+            }
         }
-
-        // No one's left in this side
-        SetLeaderID(sideidOld, NA);
-      }
-    }
-
-    if (shipidNewOwner != NA) // somebody's getting promoted
-    {
-		if (shipidNewOwner > 0) {
-			//set command wing Imago 6/10
-			BEGIN_PFM_CREATE(g.fm, pfmSetWingID, CS, SET_WINGID)
-			END_PFM_CREATE
-			pfmSetWingID->wingID = 0;
-			pfmSetWingID->shipID = shipidNewOwner;
-			pfmSetWingID->bCommanded = true;
-			g.fm.SendMessages(GetGroupMission(), FM_GUARANTEED, FM_FLUSH);
-			GetLeader(iSideNewOwner)->GetIGCShip()->SetWingID(0);
-		}
-
-	// announce new leader
-      BEGIN_PFM_CREATE(g.fm, pfmSetTeamLeader, CS, SET_TEAM_LEADER)
-      END_PFM_CREATE
-      pfmSetTeamLeader->shipID = shipidNewOwner;
-      pfmSetTeamLeader->sideID = iSideNewOwner;
-
-      if (fMissionOwner)
-      {
-        BEGIN_PFM_CREATE(g.fm, pfmSetMissionOwner, CS, SET_MISSION_OWNER)
-        END_PFM_CREATE
-        pfmSetMissionOwner->shipID = shipidNewOwner;
-        pfmSetMissionOwner->sideID = iSideNewOwner;
-      }
-    }
   }
 
-
-
+  debugf("All sides remove player reach here.");
   g.fm.SendMessages(GetGroupMission(), FM_GUARANTEED, FM_FLUSH);
 
   Money payday;
