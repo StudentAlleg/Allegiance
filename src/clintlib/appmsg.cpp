@@ -2340,7 +2340,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
                     assert (memcmp(m_pCoreIGC->GetMissionParams(),
                                    &m_pMissionInfo->GetMissionParams(),
-                                   sizeof(m_pMissionInfo->GetMissionParams())) == 0); //Student note: assertion failing for spectator
+                                   sizeof(m_pMissionInfo->GetMissionParams())) == 0); //Student note: assertion failing for spectator. Which one is the right one?
 
                     m_pCoreIGC->SetMissionStage(STAGE_STARTED);
                     m_pClientEventSource->OnMissionStarted(m_pMissionInfo);
