@@ -10753,13 +10753,13 @@ class ThingSiteImpl : public ThingSite
 						//imago ALLY 7/23/09
 						if (psideModel->GetMission()->GetMissionParams()->bAllowAlliedViz) {
 							 //You always lose contact when a non-static, non-allied object switches sectors
-							if (pside != psideModel && !pside->AlliedSides(pside,psideModel)) {
+							if (pside != psideModel && !pside->AlliedSides(pside,psideModel) && psideModel->GetObjectID() == SIDE_TEAMSPECTATOR) {
                             	m_rgSideVisibility[pside->GetObjectID()].fVisible(false);
                             	HideObject(pside, pmodel);
 							}
 						} else {
 							 //You always lose contact when a non-static object switches sectors
-							if (pside != psideModel) {
+							if (pside != psideModel && psideModel->GetObjectID() != SIDE_TEAMSPECTATOR) {
                             	m_rgSideVisibility[pside->GetObjectID()].fVisible(false);
                             	HideObject(pside, pmodel);
 							}
@@ -10928,7 +10928,7 @@ class ThingSiteImpl : public ThingSite
                         /*if (seenBefore && m_bPredictable) {
                             //no need to change anything - wrong, need to hide He3
                         }*/
-                        if (pside == pmodel->GetSide()) {
+                        if (pside == pmodel->GetSide() || pside->GetObjectID() == SIDE_TEAMSPECTATOR) {
                             //Always see object on your own side (& call ShowObject() to export new stations, etc.)
                             if (!seenBefore) {
                                 sv.fVisible(true);
@@ -11170,31 +11170,41 @@ class ThingSiteImpl : public ThingSite
 		virtual bool  GetCurrentEye(IsideIGC* pside)
 		{
 			assert (pside != NULL);
+      if (pside->GetObjectID() == SIDE_TEAMSPECTATOR)
+      {
+          return false;
+      }
+      else
+      {
 			return m_bSideVisibility ? m_rgSideVisibility[pside->GetObjectID()].CurrentEyed() : false;
+      }
 		}
 
         virtual void    SetSideVisibility(IsideIGC* pside,
                                           bool      fVisible)
         {
             assert (pside);
-            if (m_bSideVisibility)
+            if (pside->GetObjectID() != SIDE_TEAMSPECTATOR)
             {
-                SideID  sid = pside->GetObjectID();
-                SideVisibility& sv = m_rgSideVisibility[sid];
+              if (m_bSideVisibility)
+              {
+                  SideID  sid = pside->GetObjectID();
+                  SideVisibility& sv = m_rgSideVisibility[sid];
 
-                if (fVisible != sv.fVisible())
-                {
-                    sv.fVisible(fVisible);
-                    if (fVisible)
-                        ShowObject(pside, m_pmodel);
-                    else
-                        HideObject(pside, m_pmodel);
-                }
-				sv.CurrentEyed(fVisible);  //Xynth #100 7/2010
+                  if (fVisible != sv.fVisible())
+                  {
+                      sv.fVisible(fVisible);
+                      if (fVisible)
+                          ShowObject(pside, m_pmodel);
+                      else
+                          HideObject(pside, m_pmodel);
+                  }
+              sv.CurrentEyed(fVisible);  //Xynth #100 7/2010
 
-                if (fVisible && m_pmodel->GetObjectType() == OT_station) { //Not usually going to happen
-                    pside->UpdateTerritory(); 
-                }
+                  if (fVisible && m_pmodel->GetObjectType() == OT_station) { //Not usually going to happen
+                      pside->UpdateTerritory(); 
+                  }
+              }
             }
         }
 
@@ -11456,7 +11466,8 @@ void FedSrvSiteBase::BuildStation(IasteroidIGC* pasteroid,
 
 	//Imago #120 #121 
 	const SideListIGC * plistSide0 = pmission->GetSides();
-	for (SideLinkIGC * plinkSide = plistSide0->first(); plinkSide; plinkSide = plinkSide->next()) {
+    KillAsteroidEvent(pasteroid, pmission->GetSide(SIDE_TEAMSPECTATOR), false);
+  for (SideLinkIGC * plinkSide = plistSide0->first(); plinkSide; plinkSide = plinkSide->next()) {
 		IsideIGC * potherside = plinkSide->data();
 		if (pside == potherside || pasteroid->GetAsteroidCurrentEye(potherside) || pasteroid->GetBuilderSeenSide(potherside->GetObjectID()) || pbseensides[potherside->GetObjectID()]) {
 			KillAsteroidEvent(pasteroid, potherside, false);

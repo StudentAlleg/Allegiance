@@ -5265,10 +5265,17 @@ void CFSMission::DeactivateSide(IsideIGC * pside)
    // KGJV #62
   //if (!m_misdef.misparms.bAllowEmptyTeams)
   //{
-      assert(pside->GetMission() == m_pMission);
-      debugf("DeactivateSide side=%d.\n", pside->GetObjectID());
-      pside->SetActiveF(false);
       SideID sideid = pside->GetObjectID();
+      assert(sideid != SIDE_TEAMSPECTATOR);
+      if (sideid == SIDE_TEAMSPECTATOR)
+      {
+        debugf("Attempting to deactivate Spectator, returning");
+        return;
+      }
+      assert(pside->GetMission() == m_pMission);
+      debugf("DeactivateSide side=%d.\n", sideid);
+      pside->SetActiveF(false);
+      
       m_misdef.rgfActive[sideid]  =
       m_misdef.rgfReady[sideid]   = false;
       pside->SetTimeEndured(std::max(0.0f, Time::Now() - m_misdef.misparms.timeStart));
