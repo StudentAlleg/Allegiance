@@ -2262,6 +2262,7 @@ public:
             }
 
             SetHideCursorTimer(s == ScreenIDCombat);
+            debugf("TrekWindowImpl->Screen debug 1");
 
             // destroy the old windows
 
@@ -2271,7 +2272,7 @@ public:
                 m_pscreen      = NULL;
                 SetCaption(NULL);
             }
-
+            debugf("TrekWindowImpl->Screen debug 2");
             if (s != ScreenIDCombat)
             {
                 if (GetViewMode() == vmOverride)
@@ -2287,7 +2288,7 @@ public:
 				m_pimageScreen = NULL;
                 m_viewmode = vmUI;
             }
-
+            debugf("TrekWindowImpl->Screen debug 3");
             m_ptrekInput->SetFocus(s != ScreenIDCombat);
             RestoreCursor();
 
@@ -2296,12 +2297,12 @@ public:
                 GetPopupContainer()->ClosePopup(NULL);
             m_pmessageBox = NULL;
             m_pmessageBoxLockdown = NULL;
-
+            debugf("TrekWindowImpl->Screen debug 3");
             // kill any capture
             m_pwrapImageTop->RemoveCapture();
 
             // create the new screen
-
+            debugf("TrekWindowImpl->Screen debug 4");
             switch (s) {
                 case ScreenIDCombat:
                 {
@@ -2311,7 +2312,7 @@ public:
                     {
                         IsideIGC*   pside = trekClient.GetShip()->GetSide();
                         assert (pside);
-                        assert (pside->GetObjectID() >= 0);
+                        assert (pside->GetObjectID() >= 0 || pside->GetObjectID() == SIDE_TEAMSPECTATOR);
                         m_pconsoleImage->SetDisplayMDL(pside->GetCivilization()->GetHUDName());
                     }
                     m_pwrapImageConsole->SetImage(m_pconsoleImage);
@@ -6528,6 +6529,12 @@ public:
         // Ignore the set display mode.
         //
 
+        if (trekClient.GetSideID() == SIDE_TEAMSPECTATOR && vm != vmCommand)
+        {
+            debugf("Side spectator attempting to change view to something other than vmCommand, instead, setting view to command");
+            vm = vmCombat;
+        }
+
         if (m_cm == cmExternalOverride)
             return;
 
@@ -9787,14 +9794,23 @@ public:
                     if (GetOverlayFlags() & c_omBanishablePanes)
                         TurnOffOverlayFlags(c_omBanishablePanes);
 
-                    if ((trekClient.GetViewCluster() == NULL) && !trekClient.flyingF())
+                    if ((trekClient.GetViewCluster() == NULL) && !trekClient.flyingF() && trekClient.GetSideID() != SIDE_TEAMSPECTATOR)
                     {
+                        
                         IstationIGC*    pstation = trekClient.GetShip()->GetStation();
                         assert (pstation);
 
                         IclusterIGC*    pcluster = pstation->GetCluster();
                         assert (pcluster);
                         trekClient.RequestViewCluster(pcluster);
+                        SetViewMode(vmCommand);
+                    }
+                    else if (trekClient.GetSideID() == SIDE_TEAMSPECTATOR && trekClient.GetViewCluster() == NULL)
+                    {
+                        debugf("Spectator first command view");
+                        ShipID ownerID = trekClient.MyMission()->MissionOwnerShipID();
+                        IclusterIGC* ownerCluster = trekClient.FindPlayer(ownerID)->GetShip()->GetCluster();
+                        trekClient.RequestViewCluster(ownerCluster);
                         SetViewMode(vmCommand);
                     }
                     else

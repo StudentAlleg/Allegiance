@@ -68,7 +68,7 @@ const char * CmapMakerIGC::smszPlanetName[c_NumberOfPlanetPosters] =
 	"nebplnt33bmp",
 	"nebplnt37bmp"
 } ;
-
+//Student TODO for paps add new backgrounds
 //
 // Map data helper class.
 //
@@ -352,7 +352,7 @@ VOID CmapMakerIGC::GenerateMission(Time now,
     //
     // First generate the sides.
     //
-    //this->GenerateSides(&MapData);
+    //this->GenerateSides(&MapData); //Student Note: Where are the sides generated?
 
     //
     // Next generate the sector layout.
