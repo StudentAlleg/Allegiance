@@ -470,28 +470,32 @@ public:
               case 0:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteamyellowbmp", true);
                   break;
-                  
+
               case 1:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteambluebmp", true);
                   break;
-                  
+
               case 2:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteampurplebmp", true);
                   break;
-                  
+
               case 3:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteamgreenbmp", true);
                   break;
-                  
+
               case 4:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteamredbmp", true);
                   break;
-                  
+
               case 5:
                   m_pimageIconPanel = GetModeler()->LoadImage("iconteamwhitebmp", true);
                   break;
+
+              default:
+                  m_pimageIconPanel = GetModeler()->LoadImage("iconteamwhitebmp", true);
+                  break;
               }
-              
+
               psurface->BitBlt(WinPoint(0,0), m_pimageIconPanel->GetSurface());
               
               IcivilizationIGC* pciv = pside ? pside->GetCivilization() : NULL;

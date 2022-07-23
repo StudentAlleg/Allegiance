@@ -5266,12 +5266,13 @@ void CFSMission::DeactivateSide(IsideIGC * pside)
   //if (!m_misdef.misparms.bAllowEmptyTeams)
   //{
       SideID sideid = pside->GetObjectID();
-      assert(sideid != SIDE_TEAMSPECTATOR);
+      
       if (sideid == SIDE_TEAMSPECTATOR)
       {
         debugf("Attempting to deactivate Spectator, returning");
         return;
       }
+      assert(sideid != SIDE_TEAMSPECTATOR);
       assert(pside->GetMission() == m_pMission);
       debugf("DeactivateSide side=%d.\n", sideid);
       pside->SetActiveF(false);
