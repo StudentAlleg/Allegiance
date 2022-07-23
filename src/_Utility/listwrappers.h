@@ -563,7 +563,7 @@ public:
 
     ~SortedList()
     {
-        m_list->GetChangedEvent()->RemoveSink(m_sinkDelegate);
+        m_list->GetChangedEvent()->RemoveSink(m_sinkDelegate); //Student Note: This throws access violations
     }
 
     virtual int           GetCount()

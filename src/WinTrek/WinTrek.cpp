@@ -3595,8 +3595,10 @@ public:
 
     void SetCluster(IclusterIGC*   pcluster)
     {
+
         if (pcluster)
         {
+            debugf("Setting cluster to sector %s.", pcluster->GetName());
             m_pCommandGeo->SetCluster(pcluster);
             m_pgeoScene->SetGeo(pcluster->GetClusterSite()->GetGroupScene());
             m_pwrapImagePostersInside->SetImage(pcluster->GetClusterSite()->GetPosterImage());
@@ -8030,7 +8032,19 @@ public:
         {
             Training::StartMission (0);
 
-            SetCluster(trekClient.GetShip()->GetCluster());
+            if (trekClient.GetSideID() == SIDE_TEAMSPECTATOR) //Student 7/22/2022 if we are spectator, default to Mission Leader's sector (as they will always have one)
+            {
+                debugf("Spectaor being set to Mission Leader.");
+                ShipID missionLeaderID = trekClient.MyMission()->MissionOwnerShipID();
+                PlayerLink* missionLeaderShip = trekClient.FindPlayerLink(missionLeaderID);
+                IclusterIGC* missionLeaderCluster = missionLeaderShip->data().GetShip()->GetCluster();
+                assert(missionLeaderCluster != NULL);
+                SetCluster(missionLeaderCluster);
+            }
+            else
+            {
+                SetCluster(trekClient.GetShip()->GetCluster());
+            }
             screen(ScreenIDCombat);
 
             IstationIGC*    pstation = trekClient.GetShip()->GetStation();
