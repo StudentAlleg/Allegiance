@@ -4082,8 +4082,15 @@ void WinTrekClient::RequestViewCluster(IclusterIGC* pcluster, ImodelIGC* pmodelT
     if (m_fm.IsConnected() && (trekClient.GetCluster() != pcluster))
     {
         if (pcluster == NULL)
+        {
+            debugf("Requesting to view Null Sector.\n");
             SetViewCluster(pcluster);
-
+        }
+            
+        else
+        {
+            debugf("Requesting to view sector %s.\n", pcluster->GetName());
+        }
         trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
         BEGIN_PFM_CREATE(trekClient.m_fm, pfmViewCluster, C, VIEW_CLUSTER)
         END_PFM_CREATE

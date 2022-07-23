@@ -1017,11 +1017,14 @@ public:
         if (!pcluster)
         {
             IstationIGC*    pstation = m_ship->GetStation();
-            assert (pstation);
+            //assert (pstation);
             if (pstation)
                 pcluster = pstation->GetCluster();
         }
 
+        if(!pcluster) {
+            pcluster = m_pCoreIGC->GetClusters()->first()->data();
+        }
         assert (pcluster);
         return pcluster;
     }
