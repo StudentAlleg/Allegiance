@@ -116,16 +116,24 @@ public:
 
   ShipStatus*   GetShipStatus(SideID    sid)
   {
+    if (sid == SIDE_TEAMSPECTATOR) //Student 7/23/2022 allowing lookup for spectators
+    {
+        sid = c_cSidesMax;
+    }
     assert (sid >= 0);
-    assert (sid < c_cSidesMax);
+    assert (sid < c_cSidesMax + 1);
 
     return &(m_rgShipStatus[sid]);
   }
 
   ShipStatus*   GetOldShipStatus(SideID    sid)
   {
+    if (sid == SIDE_TEAMSPECTATOR) //Student 7/23/2022 allowing lookup for spectators
+    {
+        sid = c_cSidesMax;
+    }
     assert (sid >= 0);
-    assert (sid < c_cSidesMax);
+    assert (sid < c_cSidesMax + 1);
 
     return &(m_rgOldShipStatus[sid]);
   }
@@ -212,8 +220,8 @@ protected:
 
 private:
   PlayerScoreObject     m_plrscore; 
-  ShipStatus            m_rgShipStatus[c_cSidesMax];
-  ShipStatus            m_rgOldShipStatus[c_cSidesMax];
+  ShipStatus            m_rgShipStatus[c_cSidesMax + 1];
+  ShipStatus            m_rgOldShipStatus[c_cSidesMax + 1];
   CFSMission *          m_pfsMission;
 
 

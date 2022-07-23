@@ -1064,6 +1064,7 @@ void CFSPlayer::SetSide(CFSMission * pfsMission, IsideIGC * pside)
       if (fLobbySide)
         g.fm.DeleteConnectionFromGroup(pfsMission->GetGroupRealSides(), GetConnection());
       else
+        debugf("Adding %s (ShipID %hi SideID %hi) to group Real Sides.\n", GetName(), GetShipID(), pside->GetObjectID());
         g.fm.AddConnectionToGroup(pfsMission->GetGroupRealSides(), GetConnection());
     }
   }

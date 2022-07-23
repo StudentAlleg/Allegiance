@@ -202,7 +202,7 @@ CFSMission::CFSMission(
   m_pMission->SetMissionID(s_iMissionID++);
   char szRealTeams[] = ": All real teams";
   char szBuff[sizeof(m_misdef.misparms.strGameName) + sizeof(szRealTeams)];
-  wsprintf(szBuff, "%s%s", m_misdef.misparms.strGameName, szRealTeams); //how do we get this information?
+  wsprintf(szBuff, "%s%s", m_misdef.misparms.strGameName, szRealTeams);
   m_pgrpSidesReal = g.fm.CreateGroup(szBuff);
 
   GetSystemTime(&m_stStartTime);
@@ -2000,7 +2000,9 @@ void CFSMission::StartCountdown(float fCountdownLength)
       const MissionParams*  pmp = m_pMission->GetMissionParams();
 
       float moneyStart = m_pMission->GetFloatConstant(c_fcidStartingMoney);
-
+      
+      SendMissionInfo(NULL, m_pMission->GetSide(SIDE_TEAMSPECTATOR)); //Student 7/23/2022 sending mission info to spectators
+      
       for (SideLinkIGC* l = m_pMission->GetSides()->first(); l; l = l->next())
       {
         IsideIGC * pside = l->data();
@@ -4052,6 +4054,9 @@ void CFSMission::QueueLobbyMissionInfo()
  */
 void CFSMission::SendMissionInfo(CFSPlayer * pfsPlayer, IsideIGC*   pside) //Student TODO revist here
 {
+    
+    debugf("Sending mission info to someone or all on %hi", pside->GetObjectID());
+    
     ImissionIGC * pMission = GetIGCMission();
 
     g.fm.SetDefaultRecipient(pfsPlayer ?

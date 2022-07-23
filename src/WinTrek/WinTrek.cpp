@@ -8032,14 +8032,14 @@ public:
         {
             Training::StartMission (0);
 
-            if (trekClient.GetSideID() == SIDE_TEAMSPECTATOR) //Student 7/22/2022 if we are spectator, default to Mission Leader's sector (as they will always have one)
+            if (trekClient.GetSideID() == SIDE_TEAMSPECTATOR) //Student 7/22/2022 if we are spectator, default to first sector
             {
-                debugf("Spectaor being set to Mission Leader.");
-                ShipID missionLeaderID = trekClient.MyMission()->MissionOwnerShipID();
-                PlayerLink* missionLeaderShip = trekClient.FindPlayerLink(missionLeaderID);
-                IclusterIGC* missionLeaderCluster = missionLeaderShip->data().GetShip()->GetCluster();
-                assert(missionLeaderCluster != NULL);
-                SetCluster(missionLeaderCluster);
+                debugf("Spectator being set to first sector.\n");
+                //ShipID missionLeaderID = trekClient.MyMission()->MissionOwnerShipID();
+                //PlayerLink* missionLeaderShip = trekClient.FindPlayerLink(missionLeaderID);
+                //IclusterIGC* missionLeaderCluster = missionLeaderShip->data().GetShip()->GetCluster();
+                //assert(missionLeaderCluster != NULL);
+                SetCluster(trekClient.m_pCoreIGC->GetClusters()->first()->data());
             }
             else
             {

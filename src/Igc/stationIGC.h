@@ -342,6 +342,7 @@ class       CstationIGC : public TmodelIGC<IstationIGC>
             IsideIGC*   side = GetSide();
 
             return (pModel->GetSide() == side) ||                               //Always see things on our side
+                   side->GetObjectID() == SIDE_TEAMSPECTATOR || //Student 7/23/2022 spectators can see everything   
                    pModel->SeenBySide(side) ||
                    InScannerRange(pModel);                                       //or we can see it ourselves
         }
