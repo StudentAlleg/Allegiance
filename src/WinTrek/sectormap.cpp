@@ -1539,7 +1539,7 @@ private:
                         // if we are in a station, change the view cluster
                         if (trekClient.GetShip()->GetCluster() == NULL)
                         {
-                            ZAssert(trekClient.GetShip()->GetStation() != NULL);
+                            ZAssert(trekClient.GetShip()->GetStation() != NULL || trekClient.GetSideID() == SIDE_TEAMSPECTATOR); //Student 7/23/2022 spectators don't have a station
                             trekClient.RequestViewCluster(pClusterFound);
                             GetWindow()->SetViewMode(TrekWindow::vmCommand);
                         }

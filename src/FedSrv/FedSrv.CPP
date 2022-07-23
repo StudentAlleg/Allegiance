@@ -10744,6 +10744,8 @@ class ThingSiteImpl : public ThingSite
                     IsideIGC*   psideModel = pmodel->GetSide();
 
                     assert (psideModel);
+                    
+                    
                     for (SideLinkIGC*   l = pmodel->GetMission()->GetSides()->first();
                          (l != NULL);
                          l = l->next())
@@ -10910,6 +10912,17 @@ class ThingSiteImpl : public ThingSite
             if (m_bSideVisibility)
             {
                 ClusterSite*    pcs = pcluster->GetClusterSite();
+                
+                IsideIGC* specSide = pcluster->GetMission()->GetSide(SIDE_TEAMSPECTATOR);
+                SideVisibility& specVis = m_rgSideVisibility[c_cSidesMax];
+                
+                if (!specVis.fVisible()) {
+                    specVis.fVisible(true);
+                    specVis.CurrentEyed(true);
+                    ShowObject(specSide, pmodel);
+                    debugf("Showing %s to spectator.\n", pmodel->GetName());
+                }
+                
 
                 for (SideLinkIGC*   l = pcluster->GetMission()->GetSides()->first();
                      (l != NULL);
@@ -11209,7 +11222,7 @@ class ThingSiteImpl : public ThingSite
         }
 
     private:
-        SideVisibility  m_rgSideVisibility[c_cSidesMax];
+        SideVisibility  m_rgSideVisibility[c_cSidesMax + 1];
         ImodelIGC*      m_pmodel;
         bool            m_bPredictable;
         bool            m_bSideVisibility;
