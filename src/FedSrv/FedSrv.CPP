@@ -6427,7 +6427,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 
     case FM_C_VIEW_CLUSTER:
     {
-        if (pfsPlayer->GetIGCShip()->GetStation())
+        if (pfsPlayer->GetIGCShip()->GetStation() || pfsPlayer->GetShipID() == SIDE_TEAMSPECTATOR) //Spectators don't have a station but can see things
         {
             CASTPFM(pfmViewCluster, C, VIEW_CLUSTER, pfm);
 
@@ -6457,8 +6457,17 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
                 g.fm.SendMessages(pfsPlayer->GetConnection(), FM_GUARANTEED, FM_FLUSH);
             }
             else
-                pcluster = NULL;
-
+            {
+              pcluster = NULL;
+            }
+            if (pcluster != NULL)
+            {
+                debugf("Seting player %s shipid: %hi on side %hi to cluster %s.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide(), pcluster->GetName());
+            }
+            else
+            {
+                debugf("Seting player %s shipid: %hi on side %hi to cluster NULL.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide());
+            }
             pfsPlayer->SetCluster(pcluster, true);
         }
     }
@@ -10923,7 +10932,7 @@ class ThingSiteImpl : public ThingSite
                 
                 if (!specVis.fVisible()) {
                     specVis.fVisible(true);
-                    specVis.CurrentEyed(true);
+                    //specVis.CurrentEyed(true);
                     ShowObject(specSide, pmodel);
                     debugf("Showing %s to spectator.\n", pmodel->GetName());
                 }
