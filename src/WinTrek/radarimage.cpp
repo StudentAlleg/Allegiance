@@ -1019,6 +1019,7 @@ public:
                                 }
                                 //Student 7/4/2022
                                 if (pship != pshipSource && //if ship is not me (we already know when we are ripcording)
+                                    pship->GetSide() == psideMine && //if player is on our team
                                     //pship->GetPilotType() >= c_ptPlayer && //if ship is a player
                                     pship->GetRipcordTimeLeft() >= 0 && //probably don't need this
                                     pship->fRipcordActive())

@@ -5040,7 +5040,7 @@ public:
 
     //Something of a misnomer since there are only two styles but this may change
 	//Andon: Changed to support up to 5 styles
-    void CycleStyleHUD()
+    void CycleStyleHUD() //Student TODO
     {
         int style = (int(m_pnumberStyleHUD->GetValue()) + 1) % 5;
         m_pnumberStyleHUD->SetValue(float(style));
