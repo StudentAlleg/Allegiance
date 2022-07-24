@@ -1310,7 +1310,6 @@ public:
                     offset.SetY(offset.Y() + y * 0.5f);
 
                     if (psurfaceIcon || data.m_bEye || (data.m_ripTime > 0)) { //if we are drawing things to the left of name, hull, shield, do the x and y offsets together
-                        //Student TODO: Fix x centering on ripTime
                         BlendMode previousBlendMode = pcontext->GetBlendMode(); //blend mode might already be this, but being explicit and allowing other things to exist
                         pcontext->SetBlendMode(BlendModeAdd);
                         

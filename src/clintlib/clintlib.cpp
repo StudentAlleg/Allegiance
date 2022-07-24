@@ -641,8 +641,8 @@ void    ChatInfo::ClearTarget(void)
 
 
 MissionInfo::MissionInfo(DWORD dwCookie) :
-    m_sideLobby(SIDE_TEAMLOBBY), //Student TODO spectator might need to be here
-    m_sideSpectator(SIDE_TEAMSPECTATOR)
+    m_sideLobby(SIDE_TEAMLOBBY), 
+    m_sideSpectator(SIDE_TEAMSPECTATOR) //Student 7/23/2022 Spectator
 {
     m_pfmMissionDef = new FMD_S_MISSIONDEF;
     memset(m_pfmMissionDef, 0, sizeof(FMD_S_MISSIONDEF));

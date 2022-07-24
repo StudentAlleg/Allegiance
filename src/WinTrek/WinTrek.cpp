@@ -374,8 +374,6 @@ class   CameraControl
             // Jiggle the camera orientation based on the amount of afterburner and any residual effects
             //
 
-            // Student TODO: reduce camera jiggle on afterburn (maybe make it adjustable? also potential accessibility issue)
-
             const double jiggleHalfLife = 0.25f;
             m_jiggle *= (float)pow(jiggleHalfLife, (double)dt);
 

@@ -1462,7 +1462,7 @@ IstationIGC * CFSMission::GetBase(IsideIGC * pside)
 CFSPlayer * CFSMission::GetLeader(SideID sid)
 {
   assert (NA != sid);
-  if (sid == SIDE_TEAMLOBBY || sid == SIDE_TEAMSPECTATOR) // lobby side never has a leader // Student TODO: Spectator shouldn't either but won't touch that atm
+  if (sid == SIDE_TEAMLOBBY || sid == SIDE_TEAMSPECTATOR) // lobby side never has a leader // Student 7/23/2022 Side has no leader
       return NULL;
   ShipID shipid = m_misdef.rgShipIDLeaders[sid];
   return NA == shipid ? NULL : CFSShip::GetShipFromID(shipid)->GetPlayer();

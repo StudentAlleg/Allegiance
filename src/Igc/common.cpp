@@ -3007,6 +3007,8 @@ void        PopulateCluster(ImissionIGC*            pmission,
         {
             IstationIGC*    pstation = psl->data();
             IsideIGC*       pside = pstation->GetSide();
+            
+            pstation->SetSideVisibility(pmission->GetSide(SIDE_TEAMSPECTATOR), true); //Student 7/23/2022 explicitly set the station as visible for spectators
 
             for (SideLinkIGC*   p = psides->first(); (p != NULL); p = p->next())
             {

@@ -2054,7 +2054,7 @@ class ThingSiteImpl : public ThingSitePrivate
             }
         }
 
-        void UpdateSideVisibility(ImodelIGC* pmodel, IclusterIGC* pcluster)
+        void UpdateSideVisibility(ImodelIGC* pmodel, IclusterIGC* pcluster) //Student TODDO
         {
 			//Xynth #100 7/2010
 			bool currentEye = false;
@@ -2213,7 +2213,7 @@ class ThingSiteImpl : public ThingSitePrivate
 
         }
 
-        bool GetSideVisibility(IsideIGC* side)
+        bool GetSideVisibility(IsideIGC* side) //Student TODO
         {
             assert (side);
 
@@ -2225,10 +2225,10 @@ class ThingSiteImpl : public ThingSitePrivate
                     return m_enemySideVisibility.fVisible();
             }
 
-            if (side->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
-            {
-                return true;
-            }
+            //if (side->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
+            //{
+            //    return true;
+            //}
 
             return m_sideVisibility.fVisible();
         }

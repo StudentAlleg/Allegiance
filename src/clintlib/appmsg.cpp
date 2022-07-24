@@ -2285,7 +2285,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
             if (sideID != SIDE_TEAMLOBBY)
             {
-                AddPlayerToSide(pPlayerInfo, sideID); //Student TODO: What does this do?
+                AddPlayerToSide(pPlayerInfo, sideID);
                 // pPlayerInfo->SetReady(bReady); Imago commented out so afk not reset
             }
 

@@ -6766,7 +6766,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       IsideIGC* pside = pfsPlayer->GetSide(); // player's side
       assert (pside);
       SideID    sideID = pside->GetObjectID();
-      if (sideID < 0 && sideID != SIDE_TEAMLOBBY && isModerator == false) //Student TODO spec here?
+      if (sideID < 0 && sideID != SIDE_TEAMLOBBY && sideID != SIDE_TEAMSPECTATOR && isModerator == false) //Student 7/23/2022 allow spectators as well
           break;
 
       CASTPFM(pfmQuitMission, CS, QUIT_MISSION, pfm);
@@ -10822,7 +10822,12 @@ class ThingSiteImpl : public ThingSite
 	                            //SetSideVisibility ... do it via a ugly forced upcast
 	                            ThingSiteImpl*  pts = (ThingSiteImpl*)(pwarpOther->GetThingSite());
 
-	                            SideVisibility& sv = pts->m_rgSideVisibility[sideID];
+                              SideID svside = sideID;
+                              if (svside == SIDE_TEAMSPECTATOR)
+                              {
+                                svside = c_cSidesMax;
+                              }
+	                            SideVisibility& sv = pts->m_rgSideVisibility[svside];
 	                            sv.fVisible(true);
 	                        }
 
@@ -11172,53 +11177,56 @@ class ThingSiteImpl : public ThingSite
         virtual bool    GetSideVisibility(IsideIGC* pside)
         {
             assert (pside != NULL);
-            if (pside->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
+            SideID sid = pside->GetObjectID();
+          
+            if (sid == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
             {
-                return true;
+                sid = (SideID) c_cSidesMax;
             }
-            return m_bSideVisibility ? m_rgSideVisibility[pside->GetObjectID()].fVisible() : true;
+            return m_bSideVisibility ? m_rgSideVisibility[sid].fVisible() : true;
         }
 
 		//Xynth #225 9/10 GetCurrentEye was not implemented for server side use
 		virtual bool  GetCurrentEye(IsideIGC* pside)
 		{
 			assert (pside != NULL);
-      if (pside->GetObjectID() == SIDE_TEAMSPECTATOR)
+      SideID sid = pside->GetObjectID();
+          
+      if (sid == SIDE_TEAMSPECTATOR) //Student 7/18/2022 Spectator
       {
-          return false;
+          sid = (SideID) c_cSidesMax;
       }
-      else
-      {
-			return m_bSideVisibility ? m_rgSideVisibility[pside->GetObjectID()].CurrentEyed() : false;
-      }
+			return m_bSideVisibility ? m_rgSideVisibility[sid].CurrentEyed() : false;
 		}
 
         virtual void    SetSideVisibility(IsideIGC* pside,
                                           bool      fVisible)
         {
             assert (pside);
-            if (pside->GetObjectID() != SIDE_TEAMSPECTATOR)
+            if (m_bSideVisibility)
             {
-              if (m_bSideVisibility)
-              {
-                  SideID  sid = pside->GetObjectID();
-                  SideVisibility& sv = m_rgSideVisibility[sid];
+                SideID  sid = pside->GetObjectID();
+                if (sid == SIDE_TEAMSPECTATOR)
+                {
+                    sid = SideID(c_cSidesMax);
+                }
+                SideVisibility& sv = m_rgSideVisibility[sid];
 
-                  if (fVisible != sv.fVisible())
-                  {
-                      sv.fVisible(fVisible);
-                      if (fVisible)
-                          ShowObject(pside, m_pmodel);
-                      else
-                          HideObject(pside, m_pmodel);
-                  }
-              sv.CurrentEyed(fVisible);  //Xynth #100 7/2010
+                if (fVisible != sv.fVisible())
+                {
+                    sv.fVisible(fVisible);
+                    if (fVisible)
+                        ShowObject(pside, m_pmodel);
+                    else
+                        HideObject(pside, m_pmodel);
+                }
+                sv.CurrentEyed(fVisible);  //Xynth #100 7/2010
 
-                  if (fVisible && m_pmodel->GetObjectType() == OT_station) { //Not usually going to happen
-                      pside->UpdateTerritory(); 
-                  }
-              }
+                if (fVisible && m_pmodel->GetObjectType() == OT_station) { //Not usually going to happen
+                    pside->UpdateTerritory(); 
+                }
             }
+            
         }
 
     private:

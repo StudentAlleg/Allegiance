@@ -3069,7 +3069,7 @@ void CmissionIGC::Initialize(Time now, IIgcSite* pIgcSite)
 
 
     m_sideTeamLobby = NULL;
-	m_sideTeamSpectator = NULL; //Student TODO
+	m_sideTeamSpectator = NULL; //Student 7/23/2022 Spectator
 }
 
 void    CmissionIGC::Terminate(void)
@@ -3647,12 +3647,12 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 			ZAssert(m_sideTeamLobby != NULL);
 			debugf("Created TeamLobby");
 		}
-		//Student TODO: implement the spectator side correctly
+		//Student 7/23/2022 Spectator, if we are creating a side, make spectator. Cannot make this when making team lobby, recursion errors/incomplete sides
 		if (!m_sideTeamSpectator && !(s->GetObjectID() == SIDE_TEAMLOBBY || s->GetObjectID() == SIDE_TEAMSPECTATOR))
 		{
 			debugf("Creating Team Spectator");
 			DataSideIGC sidedata;
-			strcpy(sidedata.name, "Team Spectator");
+			strcpy(sidedata.name, "Spectator(s)");
 			sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
 			sidedata.sideID = SIDE_TEAMSPECTATOR;
 			sidedata.gasAttributes.Initialize();
@@ -3797,7 +3797,7 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
 	
-	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO
+	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO (might not need to do anything here)
     {
         IcivilizationIGC*   pcivilization = GetCivilization(pmp->rgCivID[sid]);
         assert (pcivilization);

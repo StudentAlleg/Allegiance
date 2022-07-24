@@ -61,12 +61,12 @@ class CPigsThingSite : public ThingSite
 private:
 	IclusterIGC * currentCluster = nullptr;
 	ImodelIGC*   currentModel = nullptr;
-	SideVisibility              m_sideVisibility[c_cSidesMax];
+	SideVisibility              m_sideVisibility[c_cSidesMax + 1];
 
 public:     
 
 // Taken from trekigc's implementation.
-  bool GetSideVisibility(IsideIGC* side)                                   
+  bool GetSideVisibility(IsideIGC* side) //Student TODO                                   
   {    
 	  bool currentEye = false;
 
