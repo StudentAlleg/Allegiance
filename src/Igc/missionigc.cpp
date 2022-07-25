@@ -3144,12 +3144,14 @@ void     CmissionIGC::Update(Time now)
         {
             {
                 //Update the various sides
+				
                 for (SideLinkIGC*   l = m_sides.first();
                      (l != NULL);
                      l = l->next())
                 {
                     l->data()->Update(now);
                 }
+				m_sideTeamSpectator->Update(now);
             }
 
             m_damageTracks.Update(now);
@@ -3643,7 +3645,7 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 
 			m_sideTeamLobby = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
 			m_sideTeamLobby->SetActiveF(true);
-			DeleteSide(m_sideTeamLobby); // make sure it does not appear in the normal side list
+			//DeleteSide(m_sideTeamLobby); // make sure it does not appear in the normal side list
 			ZAssert(m_sideTeamLobby != NULL);
 			debugf("Created TeamLobby");
 		}
@@ -3668,7 +3670,7 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 
 			m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
 			m_sideTeamSpectator->SetActiveF(true);
-			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
+			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list //Student 7/24/2022 it is easier to deal with the things spectator should not be in than including it in things it should not. 
 			ZAssert(m_sideTeamSpectator != NULL);
 			debugf("Created Team Spectator");
 		}
@@ -3683,14 +3685,14 @@ void                        CmissionIGC::DeleteSide(IsideIGC* s)
 }
 IsideIGC*                   CmissionIGC::GetSide(SideID id) const
 {
-    if (id == SIDE_TEAMLOBBY)
+	if (id == SIDE_TEAMLOBBY)
 	{
 		return m_sideTeamLobby;
 	}
-    else if (id == SIDE_TEAMSPECTATOR)
-	{
-		return m_sideTeamSpectator;
-	}
+    //else if (id == SIDE_TEAMSPECTATOR)
+	//{
+	//	return m_sideTeamSpectator;
+	//}
     else
 	{
 		return (IsideIGC*)GetIbaseIGC((BaseListIGC*)&m_sides, id);
@@ -3831,16 +3833,24 @@ void                        CmissionIGC::UpdateSides(Time now,
 
     // if it looks like we need to delete a few sides to match the mission parameters, do so.
     if (sid > pmp->nTeams)
-    {
+    {	//Student 7/25/2022 since spectators are now in GetSides(), need to subtract 2 instead of 1
         for (SideID sid = GetSides()->n() - 1; sid >= pmp->nTeams; sid--)
         {
             IsideIGC* pside = GetSide(sid);
-            assert(pside->GetShips()->n() == 0); // side should be empty
-            pside->Terminate();
+			if (pside) //With spectators it is possible to get a NULL side 
+			{
+				assert(pside->GetShips()->n() == 0); // side should be empty
+				pside->Terminate();
+			} 
+			else 
+			{
+				debugf("SideID %hi does not have a side.", sid);
+			}
+            
         }
     }
 
-    assert (GetSides()->n() == pmp->nTeams);
+    assert (GetSides()->n() - 2 == pmp->nTeams);
 }
 // #ALLY
 void		CmissionIGC::UpdateAllies(const char Allies[c_cSidesMax])

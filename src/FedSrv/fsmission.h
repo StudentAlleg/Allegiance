@@ -279,7 +279,7 @@ public:
   IstationIGC *         GetBase(IsideIGC * pside);
   int                   GetCountSides()   
   {
-    assert(m_pMission->GetSides()->n() == m_misdef.misparms.nTeams);
+    assert(m_pMission->GetSides()->n() - 1 == m_misdef.misparms.nTeams);
     return m_misdef.misparms.nTeams;
   }
   void                  RecordGameResults();

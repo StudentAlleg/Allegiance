@@ -3676,6 +3676,35 @@ void SendShipUpdates(CFSMission * pfsMission)
     //Loop over sides and ships, queuing ship update messages as appropriate
     {
         ShipLinkIGC*  pshipsFirst = pfsMission->GetIGCMission()->GetShips()->first();
+        
+        IsideIGC* specSide = pfsMission->GetIGCMission()->GetSide(SIDE_TEAMSPECTATOR);
+        
+        for (ShipLinkIGC* pshiplink = pshipsFirst;
+            (pshiplink != NULL);
+            pshiplink = pshiplink->next())
+        {
+            IshipIGC* pship = pshiplink->data();
+            //Don't send ship status for people in the lobby
+            if (pship->GetSide()->GetObjectID() >= 0)
+            {
+                CFSShip* pfsShip = (CFSShip*)(pship->GetPrivateData());
+
+                ShipStatus* pss = pfsShip->GetShipStatus(SIDE_TEAMSPECTATOR);
+                ShipStatus* pssOld = pfsShip->GetOldShipStatus(SIDE_TEAMSPECTATOR);
+
+                if (*pss != *pssOld)
+                {
+                    BEGIN_PFM_CREATE(g.fm, pfmShipStatus, S, SHIP_STATUS)
+                        END_PFM_CREATE
+
+                        pfmShipStatus->shipID = pship->GetObjectID();
+                    pfmShipStatus->status = *pssOld = *pss;         //Also update the old status
+                }
+            }
+        }
+        
+        g.fm.SendMessages(CFSSide::FromIGC(specSide)->GetGroup(), FM_GUARANTEED, FM_FLUSH);
+
         for (SideLinkIGC*   psidelink = pfsMission->GetIGCMission()->GetSides()->first();
              (psidelink != NULL);
              psidelink = psidelink->next())

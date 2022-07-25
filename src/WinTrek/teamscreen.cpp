@@ -276,7 +276,7 @@ private:
 				//Imago 7/8/09 reordered draw order
 				psurface->BitBlt(WinPoint(0,0), m_pimageTab->GetSurface());
                 // draw the selected tab outline
-				if (pside->GetAllies()!=NA) // #ALLY
+				if (pside && pside->GetAllies()!=NA) // #ALLY //Student 7/25/2022 guard against pside being null
 					//psurface->FillRect(WinRect::Cast(m_pimageTab->GetBounds().GetRect()), AllianceColors[pside->GetAllies()]*0.75);
 					psurface->BitBlt(WinPoint(0,0), m_pimageTabEdges[pside->GetAllies()]->GetSurface());
                 

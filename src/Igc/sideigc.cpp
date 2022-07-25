@@ -80,8 +80,11 @@ void            CsideIGC::Terminate(void)
     }
 
     m_pMission->DeleteSide(this);
-
-    m_pCivilization->Release();
+    if (m_pCivilization)
+    {
+        m_pCivilization->Release();
+    }
+    
     m_pCivilization = NULL;
 
     Release();
