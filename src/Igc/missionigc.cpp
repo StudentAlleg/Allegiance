@@ -3706,7 +3706,7 @@ const SideListIGC*          CmissionIGC::GetSides(void) const
 	//look at enemy's scanner in pmodel's cluster and sets the entry in the ordered bool array to true if it has eye, 
 	//if you specify poptionalmodel, it has to have been seen by the side as well in order for bseensides[team] = true.
 	//why dont i just get the cluster's scannerlist where this is all happening? which way is "faster"...
-void						CmissionIGC::GetSeenSides(ImodelIGC * pmodel, bool (&bseensides)[c_cSidesMax], ImodelIGC * poptionalmodel)
+void						CmissionIGC::GetSeenSides(ImodelIGC * pmodel, bool (&bseensides)[c_cSidesMax + 1], ImodelIGC * poptionalmodel)
 {
 
 	for (ModelLinkIGC*  pml = pmodel->GetCluster()->GetModels()->first(); (pml != NULL); pml = pml->next()) {
@@ -3728,6 +3728,7 @@ void						CmissionIGC::GetSeenSides(ImodelIGC * pmodel, bool (&bseensides)[c_cSi
 			if (bseensides[psl->data()->GetObjectID()])
 				break;
 		}
+		bseensides[c_cSidesMax] = true;
 	}
 }
 

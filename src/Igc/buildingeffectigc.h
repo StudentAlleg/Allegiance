@@ -322,7 +322,7 @@ class CbuildingEffectIGC : public TmodelIGC<IbuildingEffectIGC>
                                                         "Finished building %s", m_pstationType->GetName());
 
 				//Imago #120 #121 8/10
-				bool bseenside[c_cSidesMax] = {false};
+				bool bseenside[c_cSidesMax + 1] = {false};
 				GetMyMission()->GetSeenSides(GetMyMission()->GetModel(m_pshipBuilder->GetObjectType(),m_pshipBuilder->GetObjectID()),bseenside,GetMyMission()->GetModel(m_pasteroid->GetObjectType(),m_pasteroid->GetObjectID()));
 								
                 //Quietly kill the ship (after nuking its parts to prevent treasure from being created)

@@ -77,7 +77,7 @@ class   CasteroidIGC : public TmodelIGC<IasteroidIGC>
 					{						
 						oreSeenBySide.Set(pside, m_asteroidDef.ore);						
 					}
-
+                    oreSeenBySide.Set(this->GetMission()->GetSide(SIDE_TEAMSPECTATOR), m_asteroidDef.ore);
 				}
 			}
 
@@ -297,6 +297,7 @@ class   CasteroidIGC : public TmodelIGC<IasteroidIGC>
 				{						
 					oreSeenBySide.Set(pside, m_asteroidDef.ore);						
 				}
+                oreSeenBySide.Set(this->GetMission()->GetSide(SIDE_TEAMSPECTATOR), m_asteroidDef.ore); //Spectators always see ores
 			}			
 			}
 
@@ -307,8 +308,22 @@ class   CasteroidIGC : public TmodelIGC<IasteroidIGC>
 		}
 
 		//Imago 8/10
-		void SetBuilderSeenSide(ObjectID oid) { m_builderseensides[oid] = true; }
-		bool GetBuilderSeenSide(ObjectID oid) { return m_builderseensides[oid]; }
+		void SetBuilderSeenSide(ObjectID oid) 
+            { 
+                if (oid == SIDE_TEAMSPECTATOR)
+                {
+                    oid = c_cSidesMax;
+                }
+                m_builderseensides[oid] = true;
+            }
+		bool GetBuilderSeenSide(ObjectID oid)
+        {
+            if (oid == SIDE_TEAMSPECTATOR)
+                {
+                    oid = c_cSidesMax;
+                }
+            return m_builderseensides[oid];
+        }
 		//
 		//Xynth #225 9/10
 		virtual void SetInhibitUpdate(bool inhib) {m_inhibitUpdate = inhib;}
@@ -320,7 +335,7 @@ class   CasteroidIGC : public TmodelIGC<IasteroidIGC>
 		float                       m_lastUpdateOre;  //Xynth #132 7/2010 ore last time update was sent out
         float                       m_fraction;
         TRef<IbuildingEffectIGC>    m_pbuildingEffect;
-		bool						m_builderseensides[c_cSidesMax]; //Imago #120 #121
+		bool						m_builderseensides[c_cSidesMax + 1]; //Imago #120 #121
 		bool                        m_inhibitUpdate; //Xynth #225 bookkeeping variables to prevent illegal or update		
 		Time					    m_inhibitCounter; //upon entering cluster		
 };

@@ -445,6 +445,7 @@ void    CprobeIGC::Update(Time now)
                     if (!m_bSeenByAll)
                     {
                         m_bSeenByAll = true;
+                        SetSideVisibility(m_pMission->GetSide(SIDE_TEAMSPECTATOR), true); //Student 7/25/2022 spectators see everything
                         for (SideLinkIGC*   psl = m_pMission->GetSides()->first();
                              (psl != NULL);
                              psl = psl->next())

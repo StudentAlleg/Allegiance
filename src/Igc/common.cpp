@@ -791,7 +791,7 @@ ImodelIGC*  FindTarget(IshipIGC*           pship,
 		}
     }
 
-    if (pship->GetPilotType() >= c_ptPlayer)   //non-players don't tp to probes or ships
+    if (pship->GetPilotType() >= c_ptPlayer)   //non-players don't tp to probes or ships //Student NOTE: should non-players be able to tp to probes?
     {
         HullAbilityBitMask  habm = (habmShip & c_habmCanLtRipcord)
                                    ? (c_habmIsRipcordTarget | c_habmIsLtRipcordTarget)

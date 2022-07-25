@@ -13821,7 +13821,7 @@ void     FedSrvSiteBase::CreateBuildingEffect(Time           now,
                                                      pasteroid->GetPosition());
 
     //Export the building effect to all sides that could see the asteroid - Imago changed to "see the builder", see below #120 #121
-	bool bseenside[c_cSidesMax] = {false};
+	bool bseenside[c_cSidesMax + 1] = {false};
 	ImodelIGC * pmodelBuilder = m_pfsMission->GetIGCMission()->GetModel(pshipBuilder->GetObjectType(),pshipBuilder->GetObjectID());
 	ImodelIGC * pmodelRoid = m_pfsMission->GetIGCMission()->GetModel(pasteroid->GetObjectType(),pasteroid->GetObjectID());
 	m_pfsMission->GetIGCMission()->GetSeenSides(pmodelBuilder,bseenside,pmodelRoid);

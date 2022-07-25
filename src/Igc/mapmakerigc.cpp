@@ -352,7 +352,7 @@ VOID CmapMakerIGC::GenerateMission(Time now,
     //
     // First generate the sides.
     //
-    //this->GenerateSides(&MapData); //Student Note: Where are the sides generated?
+    //this->GenerateSides(&MapData);
 
     //
     // Next generate the sector layout.
@@ -966,7 +966,7 @@ VOID CmapMakerIGC::PopulateClusters(CMapData* pMapData)
     }
 }
 
-VOID CmapMakerIGC::RevealHomeClusters(ImissionIGC * pMission)
+VOID CmapMakerIGC::RevealHomeClusters(ImissionIGC * pMission) //Student Note: Spectator should not be needed here
 {
 
 	    //
@@ -996,7 +996,7 @@ VOID CmapMakerIGC::RevealHomeClusters(ImissionIGC * pMission)
 	    }
 }
 
-VOID CmapMakerIGC::RevealMap(ImissionIGC * pMission)
+VOID CmapMakerIGC::RevealMap(ImissionIGC * pMission) //Student Note: Spectator should note be needed here (already sees everything)
 {
     //
     // Show every side every warp
@@ -1020,7 +1020,7 @@ VOID CmapMakerIGC::RevealMap(ImissionIGC * pMission)
 VOID CmapMakerIGC::RevealAlliedClusters(ImissionIGC * pMission)
 {
     //
-    // Show every ally everything about thier home
+    // Show every ally everything about their home
     //
 	    for (SideLinkIGC * psl = pMission->GetSides()->first();
 	        (psl != NULL);

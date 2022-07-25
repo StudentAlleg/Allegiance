@@ -18,7 +18,7 @@
 // CasteroidIGC
 HRESULT     CasteroidIGC::Initialize(ImissionIGC* pMission, Time now, const void* data, int dataSize)
 {
-	ZeroMemory(&m_builderseensides, sizeof(bool) * c_cSidesMax); //Imago 8/10
+	ZeroMemory(&m_builderseensides, sizeof(bool) * (c_cSidesMax + 1)); //Imago 8/10
     TmodelIGC<IasteroidIGC>::Initialize(pMission, now, data, dataSize);
 
     ZRetailAssert (data && (dataSize == sizeof(DataAsteroidIGC)));
@@ -61,6 +61,7 @@ HRESULT     CasteroidIGC::Initialize(ImissionIGC* pMission, Time now, const void
 				IsideIGC* pside = psl->data();									
 				oreSeenBySide.Set(pside, 0.0);									
 			}
+            oreSeenBySide.Set(this->GetMission()->GetSide(SIDE_TEAMSPECTATOR), 0.0); //Spectators always see ore
 
 			m_lastUpdateOre = 0.0;  //Xynth #132 7/2010 Should update first time this is mined
 			m_inhibitUpdate = false; //Xynth #225 9/10 		
