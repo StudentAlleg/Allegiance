@@ -335,13 +335,17 @@ public:
 				probeCount++;
 		}
 		//Imago 8/10
-		pcontext->DrawImage3D(m_pprobeIcon, trekClient.GetSide()->GetColor(), false, ptNext);
-		pcontext->DrawString(
+        if (trekClient->GetSideID() != SIDE_TEAMSPECTATOR) //Spectators do not have probes
+        {
+            pcontext->DrawImage3D(m_pprobeIcon, trekClient.GetSide()->GetColor(), false, ptNext);
+		    pcontext->DrawString(
                 pfont,
                 Color::White(),
                 ptNext + Point(m_pprobeIcon->GetSize().X() + 4, 0),
                 ZString(probeCount)
 				);
+        }
+		
 
 
     }

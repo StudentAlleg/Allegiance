@@ -1148,7 +1148,7 @@ public:
 			pfmMissionParams->missionparams.bAllowDefections = false;
 			pfmMissionParams->missionparams.iMaxImbalance = 0x7ffe;
 			PFM_DEALLOC(pfmMissionParams);
-			for (SideID i = 0; i < trekClient.MyMission()->GetSideList()->GetCount() ; i++) { 
+			for (SideID i = 0; i < trekClient.MyMission()->GetSideList()->GetCount() ; i++) { //Student TODO spec
 				trekClient.MyMission()->SetSideAllies(i,NA);
 				trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
 				BEGIN_PFM_CREATE(trekClient.m_fm, pfmChangeAlliance, C, CHANGE_ALLIANCE)
