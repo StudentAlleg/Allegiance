@@ -3799,8 +3799,11 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
 	
-	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO (might not need to do anything here)
+	for (sid = GetSides()->n() - 1; sid < pmp->nTeams; sid++) //Student 7/25/2022 spectators are in GetSides(), so must remove 1 from the amount
     {
+		if (sid < 0) { //possible on init to have no sides
+			sid = 0;
+		}
         IcivilizationIGC*   pcivilization = GetCivilization(pmp->rgCivID[sid]);
         assert (pcivilization);
 
@@ -3836,6 +3839,9 @@ void                        CmissionIGC::UpdateSides(Time now,
     {	//Student 7/25/2022 since spectators are now in GetSides(), need to subtract 2 instead of 1
         for (SideID sid = GetSides()->n() - 1; sid >= pmp->nTeams; sid--)
         {
+			if (sid < 0) { //possible on init to have no sides
+				sid = 0;
+			}
             IsideIGC* pside = GetSide(sid);
 			if (pside) //With spectators it is possible to get a NULL side 
 			{
@@ -3850,7 +3856,7 @@ void                        CmissionIGC::UpdateSides(Time now,
         }
     }
 
-    assert (GetSides()->n() - 2 == pmp->nTeams);
+    assert (GetSides()->n() - 1 == pmp->nTeams);
 }
 // #ALLY
 void		CmissionIGC::UpdateAllies(const char Allies[c_cSidesMax])
