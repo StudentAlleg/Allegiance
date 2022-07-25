@@ -3856,7 +3856,7 @@ void                        CmissionIGC::UpdateSides(Time now,
         }
     }
 
-    assert (GetSides()->n() - 1 == pmp->nTeams);
+    assert (GetSides()->n() - 1 == pmp->nTeams); //Student TODDO conditional for GetSides()->n() if specs
 }
 // #ALLY
 void		CmissionIGC::UpdateAllies(const char Allies[c_cSidesMax])
