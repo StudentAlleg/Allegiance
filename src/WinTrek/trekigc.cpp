@@ -2002,6 +2002,7 @@ class ThingSiteImpl : public ThingSitePrivate
 
             if (pcluster)
             {
+                debugf("Setting cluster %s for model %s (%hi)", pcluster->GetName(), pmodel->GetName(), pmodel->GetObjectID());
                 if ((ma & c_mtPredictable) || !m_bSideVisibility)
                 {
                     m_sideVisibility.fVisible(true);
@@ -2069,7 +2070,7 @@ class ThingSiteImpl : public ThingSitePrivate
                     //does the ship that saw the object last still see it
                     //(if such a ship exists)
                     if ( 
-						(trekClient.GetSide() == pmodel->GetSide()) || 
+						(trekClient.GetSide() == pmodel->GetSide()) ||
 						(trekClient.GetSide()->AlliedSides(pmodel->GetSide(),trekClient.GetSide()) && trekClient.MyMission()->GetMissionParams().bAllowAlliedViz) ||
 						(m_sideVisibility.pLastSpotter() && m_sideVisibility.pLastSpotter()->InScannerRange(pmodel) && trekClient.GetSide() == m_sideVisibility.pLastSpotter()->GetSide()) ||
 						(m_sideVisibility.pLastSpotter() && (trekClient.GetSide()->AlliedSides(m_sideVisibility.pLastSpotter()->GetSide(),trekClient.GetSide()) && trekClient.GetSide() != m_sideVisibility.pLastSpotter()->GetSide()) && m_sideVisibility.pLastSpotter()->InScannerRange(pmodel) && trekClient.MyMission()->GetMissionParams().bAllowAlliedViz)
@@ -2134,7 +2135,7 @@ class ThingSiteImpl : public ThingSitePrivate
                 //}
 
                     if (!trekClient.m_fm.IsConnected()) {
-                        if (pmodel->GetObjectType() == OT_ship) {
+                        if (pmodel->GetObjectType()) { //Student TODO Spectator possibly
                             IshipIGC* pShip = (IshipIGC*)pmodel;
                             if (!m_sideVisibility.CurrentEyed() && currentEye) {
                                 debugf(">>UpdateSideVis for %s\n", pmodel->GetName());

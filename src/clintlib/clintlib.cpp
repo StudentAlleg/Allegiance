@@ -1667,6 +1667,14 @@ void    BaseClient::SetPlayerInfo(PlayerInfo* p)
 
 void BaseClient::SetViewCluster(IclusterIGC* pcluster, const Vector*  pposition)
 {
+    if (pcluster)
+    {
+        debugf("BaseClient::SetViewCluster to %s.\n", pcluster->GetName());
+    }
+    else
+    {
+        debugf("BaseClient::SetViewCluster to NULL.\n");
+    }
     m_viewCluster = pcluster;
 }
 

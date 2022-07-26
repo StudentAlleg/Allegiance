@@ -119,12 +119,12 @@ class   CmodelIGC
 
         bool            SeenBySide(IsideIGC*   side) const
         {
-            if (side->GetObjectID() == SIDE_TEAMSPECTATOR)
-            {
-                return true;
-            }
-            if (!m_pThingSite)
-                return false;
+            //if (side->GetObjectID() == SIDE_TEAMSPECTATOR) //Student commented, handling SeenBySide differently
+            //{
+            //    return true;
+            //}
+            //if (!m_pThingSite)
+            //    return false;
             return m_pThingSite->GetSideVisibility(side);
         }
 		

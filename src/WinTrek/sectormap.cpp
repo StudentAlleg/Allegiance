@@ -335,7 +335,7 @@ public:
 				probeCount++;
 		}
 		//Imago 8/10
-        if (trekClient->GetSideID() != SIDE_TEAMSPECTATOR) //Spectators do not have probes
+        if (trekClient.GetSideID() != SIDE_TEAMSPECTATOR) //Spectators do not have probes
         {
             pcontext->DrawImage3D(m_pprobeIcon, trekClient.GetSide()->GetColor(), false, ptNext);
 		    pcontext->DrawString(
