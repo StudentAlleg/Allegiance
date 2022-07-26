@@ -3144,6 +3144,7 @@ void     CmissionIGC::Update(Time now)
         {
             {
                 //Update the various sides
+				m_sideTeamSpectator->Update(now);
                 for (SideLinkIGC*   l = m_sides.first();
                      (l != NULL);
                      l = l->next())

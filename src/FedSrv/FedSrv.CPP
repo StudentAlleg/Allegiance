@@ -3691,7 +3691,7 @@ void SendShipUpdates(CFSMission * pfsMission)
             {
                 IshipIGC*   pship = pshiplink->data();
                 //Don't send ship status for people in the lobby
-                if (pship->GetSide()->GetObjectID() >= 0)
+                if (pship->GetSide()->GetObjectID() >= 0 || pship->GetSide()->GetObjectID() == SIDE_TEAMSPECTATOR) //Student 7/26/2022 send ship updates to spectators
                 {
                     CFSShip*    pfsShip = (CFSShip*)(pship->GetPrivateData());
 
@@ -4051,7 +4051,11 @@ void SendShipUpdates(CFSMission * pfsMission)
                     {
                         //Fill in the stuff like the hull,
                         IshipIGC*   pshipSource = pshipPlayer->GetSourceShip();
-                        pshipSource->ExportFractions(&(pfmHeavy->fractions));
+                        if (pshipSource->GetSide()->GetObjectID() != SIDE_TEAMSPECTATOR) //Student Spectator 7/26/2022 specs don't have this value initialized
+                        {
+                            pshipSource->ExportFractions(&(pfmHeavy->fractions));
+                        }
+                        
                     }
 
                     ServerActiveTurretUpdate*   pActive = (ServerActiveTurretUpdate*)(pfmHeavy + 1);
@@ -6475,7 +6479,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 
     case FM_CS_SWAP_PART:
     {
-      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() < 0))
+      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == NA || pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == SIDE_TEAMLOBBY)) //Student 7/26/2022 for spectators
         break;
 
       TrapHackBoot (pfsPlayer->GetIGCShip()->GetParentShip() == NULL);
@@ -6520,7 +6524,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 
     case FM_CS_RELOAD:
     {
-      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() < 0))
+      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == NA || pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == SIDE_TEAMLOBBY))
         break;
 
       TrapHackBoot (pfsPlayer->GetIGCShip()->GetParentShip() == NULL);
@@ -7729,9 +7733,9 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 	}
 	break;
 
-    case FM_C_RIPCORD_REQUEST:
+    case FM_C_RIPCORD_REQUEST: //Student TODO may not need spectator specific code
     {
-      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() < 0) ||
+      if (!pfsMission || (pfsMission->GetStage() != STAGE_STARTED) || (pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == NA || pfsPlayer->GetIGCShip()->GetSide()->GetObjectID() == SIDE_TEAMLOBBY) ||
           pfsPlayer->GetIGCShip()->GetParentShip() ||
           (pfsPlayer->GetIGCShip()->GetCluster() == NULL) ||
           (pfsPlayer->GetIGCShip()->GetFlag() != NA) ||
