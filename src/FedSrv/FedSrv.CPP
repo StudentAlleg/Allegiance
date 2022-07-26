@@ -6427,7 +6427,7 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 
     case FM_C_VIEW_CLUSTER:
     {
-        if (pfsPlayer->GetIGCShip()->GetStation() || pfsPlayer->GetShipID() == SIDE_TEAMSPECTATOR) //Spectators don't have a station but can see things
+        if (pfsPlayer->GetIGCShip()->GetStation() || pfsPlayer->GetSide()->GetObjectID() == SIDE_TEAMSPECTATOR) //Spectators don't have a station but can see things
         {
             CASTPFM(pfmViewCluster, C, VIEW_CLUSTER, pfm);
 
@@ -6462,11 +6462,11 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
             }
             if (pcluster != NULL)
             {
-                debugf("Seting player %s shipid: %hi on side %hi to cluster %s.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide(), pcluster->GetName());
+                debugf("Seting player %s shipid: %hi on side %hi to cluster %s.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide()->GetObjectID(), pcluster->GetName());
             }
             else
             {
-                debugf("Seting player %s shipid: %hi on side %hi to cluster NULL.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide());
+                debugf("Seting player %s shipid: %hi on side %hi to cluster NULL.\n", pfsPlayer->GetName(), pfsPlayer->GetShipID(), pfsPlayer->GetSide()->GetObjectID());
             }
             pfsPlayer->SetCluster(pcluster, true);
         }

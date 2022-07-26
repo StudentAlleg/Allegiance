@@ -2386,7 +2386,7 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             IsideIGC*   pside = GetSide();
             assert (pside);
             assert (pside->GetObjectID() != SIDE_TEAMLOBBY);
-            assert(pside->GetObjectID() != SIDE_TEAMSPECTATOR);
+            //assert (pside->GetObjectID() != SIDE_TEAMSPECTATOR); //Student commented specators can have buckets
             {
                 //Hack copy side attributes over to lobby side and spectator side
                 m_pCoreIGC->GetSide(SIDE_TEAMLOBBY)->SetGlobalAttributeSet(pside->GetGlobalAttributeSet());
