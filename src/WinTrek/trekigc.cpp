@@ -2002,7 +2002,7 @@ class ThingSiteImpl : public ThingSitePrivate
 
             if (pcluster)
             {
-                debugf("Setting cluster %s for model %s (%hi)", pcluster->GetName(), pmodel->GetName(), pmodel->GetObjectID());
+                //debugf("Setting cluster %s for model %s (%hi)", pcluster->GetName(), pmodel->GetName(), pmodel->GetObjectID()); //Student for testing only, causes issues on shooting
                 if ((ma & c_mtPredictable) || !m_bSideVisibility)
                 {
                     m_sideVisibility.fVisible(true);
@@ -2070,7 +2070,7 @@ class ThingSiteImpl : public ThingSitePrivate
                     //does the ship that saw the object last still see it
                     //(if such a ship exists)
                     if ( 
-						(trekClient.GetSide() == pmodel->GetSide()) ||
+						(trekClient.GetSide() == pmodel->GetSide()) || trekClient.GetSideID() == SIDE_TEAMSPECTATOR || //Student 7/26/2022 spectators see all models
 						(trekClient.GetSide()->AlliedSides(pmodel->GetSide(),trekClient.GetSide()) && trekClient.MyMission()->GetMissionParams().bAllowAlliedViz) ||
 						(m_sideVisibility.pLastSpotter() && m_sideVisibility.pLastSpotter()->InScannerRange(pmodel) && trekClient.GetSide() == m_sideVisibility.pLastSpotter()->GetSide()) ||
 						(m_sideVisibility.pLastSpotter() && (trekClient.GetSide()->AlliedSides(m_sideVisibility.pLastSpotter()->GetSide(),trekClient.GetSide()) && trekClient.GetSide() != m_sideVisibility.pLastSpotter()->GetSide()) && m_sideVisibility.pLastSpotter()->InScannerRange(pmodel) && trekClient.MyMission()->GetMissionParams().bAllowAlliedViz)
@@ -2173,7 +2173,7 @@ class ThingSiteImpl : public ThingSitePrivate
             if (!trekClient.m_fm.IsConnected()) {
                 // Done with player side, now update visibilities for the enemy -- ignore allies for now
                 currentEye = false;
-                if ((pmodel->GetSide() != trekClient.GetSide()) ||
+                if ((pmodel->GetSide() != trekClient.GetSide() && trekClient.GetSideID() != SIDE_TEAMSPECTATOR) || //Spectators shouldn't update enemy vis
                     (m_enemySideVisibility.pLastSpotter() && m_enemySideVisibility.pLastSpotter()->InScannerRange(pmodel))) //&& trekClient.GetSide() != m_enemySideVisibility.pLastSpotter()->GetSide()) ||
                 {
                     currentEye = true;
@@ -2250,7 +2250,7 @@ class ThingSiteImpl : public ThingSitePrivate
                     m_sideVisibility.fVisible(fVisible);
                     m_sideVisibility.CurrentEyed(fVisible);
                 }
-                else if (!trekClient.m_fm.IsConnected())
+                else if (!trekClient.m_fm.IsConnected() && side->GetObjectID() != SIDE_TEAMSPECTATOR) //Spectators are never an enemy
                 {
                     m_enemySideVisibility.fVisible(fVisible);
                     m_enemySideVisibility.CurrentEyed(fVisible);

@@ -3596,7 +3596,7 @@ public:
 
         if (pcluster)
         {
-            debugf("Setting cluster to sector %s.", pcluster->GetName());
+            //debugf("Setting cluster to sector %s.", pcluster->GetName());
             m_pCommandGeo->SetCluster(pcluster);
             m_pgeoScene->SetGeo(pcluster->GetClusterSite()->GetGroupScene());
             m_pwrapImagePostersInside->SetImage(pcluster->GetClusterSite()->GetPosterImage());
