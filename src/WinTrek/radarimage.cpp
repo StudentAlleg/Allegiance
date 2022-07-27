@@ -989,26 +989,27 @@ public:
                                 // for that to happen, so for now I'm just commenting it out and
                                 // moving on.
                                 //Xynth #156 7/2010 Uncomment and add condition for only own team to see
-								if ((pship->GetPilotType () == c_ptMiner) && (pship->GetSide() == psideMine))
+                                //Student Spectator 7/26/2022 spectators also see
+								if ((pship->GetPilotType () == c_ptMiner) && (pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR)) //if is a miner and either on our team or we are spectating
                                 {
                                     fill = pship->GetOre () / capacity;
                                     if (fill > 1.0f)
                                         fill = 1.0f;
                                 }
 
-								//Xynth #47 7/2010
+								//Xynth #47 7/2010 //Student Spectator 7/26/2022 spectators also see
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
-									 (pship->GetSide() == psideMine))  //Xynth #175 7/2010 
-                                //Student 7/3/2022 show rip mask for all ships (previous included
-                                //&&(pship->GetPilotType() < c_ptPlayer)
+									 (pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR) &&
+                                     (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010 
+                                
 								{
 									maskBrackets |= c_maskRip; //Xynth #171 8/10
 								}
 
-                                //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip
+                                //Student 7/1/2022 if friendly is spotted, pass the information to drawBlip //Student Spectator 7/26/2022 spectators also see
                                 if (pship != pshipSource && //if ship is not me (we already know when we are eyed)
-                                    pship->GetPilotType() >= c_ptPlayer && //if ship is a player
-                                    pship->GetSide() == psideMine) //if player is on our team
+                                   (pship->GetPilotType() >= c_ptPlayer || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR ) && //if ship is a player or we are spectatting
+                                    pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR) //if player is on our team or we are spectating
                                 { 
                                     PlayerInfo* ppi = (PlayerInfo*)(pship->GetPrivateData());
                                     if (ppi) {
@@ -1017,11 +1018,12 @@ public:
                                     }
 
                                 }
-                                //Student 7/4/2022
+                                //Student 7/4/2022 //Student Spectator 7/26/2022 spectators also see
                                 if (pship != pshipSource && //if ship is not me (we already know when we are ripcording)
-                                    pship->GetPilotType() >= c_ptPlayer && //if ship is a player
+                                   (pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR) && //if ship is on our team or we are spectating
                                     pship->GetRipcordTimeLeft() >= 0 && //probably don't need this
                                     pship->fRipcordActive())
+                                    
                                 {
                                     
                                     ripTime = (int) pship->GetRipcordTimeLeft() + 1; //cast to int, we don't care about the decimal (for now)
