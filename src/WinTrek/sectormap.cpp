@@ -441,7 +441,7 @@ public:
                     }
                 }
                 {
-                    SectorID    sid = m_pClusterSel->GetObjectID();
+                    SectorID    sid = m_pClusterSel->GetObjectID(); //Student Spectator TODO - Specs are not being updated here
                     for (ShipLinkIGC*       psl = trekClient.m_pCoreIGC->GetShips()->first(); (psl != NULL); psl = psl->next())
                     {
                         PlayerInfo* ppi = (PlayerInfo*)(psl->data()->GetPrivateData());

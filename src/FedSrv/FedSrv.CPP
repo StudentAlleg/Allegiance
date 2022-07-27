@@ -13838,6 +13838,10 @@ void     FedSrvSiteBase::CreateBuildingEffect(Time           now,
 			ExportObj(pbe, OT_buildingEffect, NULL);
 			g.fm.SendMessages(CFSSide::FromIGC(psl->data())->GetGroup(), FM_GUARANTEED, FM_FLUSH);
 		}
+    IsideIGC* specSide = m_pfsMission->GetIGCMission()->GetSide(SIDE_TEAMSPECTATOR); //Explicitly show to spectators, they see everything.
+    pasteroid->SetBuilderSeenSide(specSide->GetObjectID());
+		ExportObj(pbe, OT_buildingEffect, NULL);
+		g.fm.SendMessages(CFSSide::FromIGC(specSide)->GetGroup(), FM_GUARANTEED, FM_FLUSH);
     }
 }
 
