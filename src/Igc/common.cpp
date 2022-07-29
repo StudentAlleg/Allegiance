@@ -2672,7 +2672,7 @@ void   PlayerScoreObject::CalculateScore(ImissionIGC*   pmission)
     float   kMax = m_dtPlayed / (15.0f * 60.0f);    //1.0 / 15 minutes
 
 
-    m_fScore = float(m_cWarpsSpotted)       * pmission->GetFloatConstant(c_fcidPointsWarp) + // 2 on PCore15
+    m_fScore = float(m_cWarpsSpotted)        * pmission->GetFloatConstant(c_fcidPointsWarp) + // 2 on PCore15
         float(m_cAsteroidsSpotted)           * pmission->GetFloatConstant(c_fcidPointsAsteroid) + // 1 on PCore15
         m_cTechsRecovered                    * pmission->GetFloatConstant(c_fcidPointsTech) +
         (m_cMinerKills * kMax)               * pmission->GetFloatConstant(c_fcidPointsMiner) / (m_cMinerKills + kMax) +
