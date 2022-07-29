@@ -999,7 +999,11 @@ public:
 
 								//Xynth #47 7/2010 //Student Spectator 7/26/2022 spectators also see
 								if (((pship->GetStateM() & droneRipMaskIGC) != 0) &&
+<<<<<<< HEAD
 									 (pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR) &&
+=======
+									 (pship->GetSide() == psideMine) && 
+>>>>>>> student-main
                                      (pship->GetPilotType() < c_ptPlayer))  //Xynth #175 7/2010 
                                 
 								{
@@ -1020,7 +1024,12 @@ public:
                                 }
                                 //Student 7/4/2022 //Student Spectator 7/26/2022 spectators also see
                                 if (pship != pshipSource && //if ship is not me (we already know when we are ripcording)
+<<<<<<< HEAD
                                    (pship->GetSide() == psideMine || psideMine->GetObjectID() == SIDE_TEAMSPECTATOR) && //if ship is on our team or we are spectating
+=======
+                                    pship->GetSide() == psideMine && //if player is on our team
+                                    //pship->GetPilotType() >= c_ptPlayer && //if ship is a player
+>>>>>>> student-main
                                     pship->GetRipcordTimeLeft() >= 0 && //probably don't need this
                                     pship->fRipcordActive())
                                     

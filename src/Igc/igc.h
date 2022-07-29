@@ -1253,7 +1253,7 @@ public:
         bLockLobby                      = false;
         bLockSides                      = false;
         bLockTeamSettings               = false;
-        bAllowDefections                = false;
+        bAllowDefections                = false; //Student TODO
         bStations                       = true ;
         bScoresCount                    = true;
         bSquadGame                      = false;
