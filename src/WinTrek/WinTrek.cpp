@@ -2891,7 +2891,7 @@ public:
         pnsGamePanes->AddMember(
             "StyleHUD",
             m_pwrapNumberStyleHUD = new WrapNumber(
-                m_pnumberStyleHUD = new ModifiableNumber(0)
+                m_pnumberStyleHUD = new ModifiableNumber(atof(LoadPreference("StyleHUD", "0.0")))
             )
         );
 
@@ -3074,8 +3074,9 @@ public:
         //
         // Command View
         //
+        m_pCommandGeo = new CommandGeo(c_fCommandGridRadius, 0.0f, 40); //Student, shipping without attempts to load image in grid GetModeler()->LoadSurface("toparrowbmp", true
 
-        m_pCommandVisibleGeo = new VisibleGeo(m_pCommandGeo = new CommandGeo(c_fCommandGridRadius, 0.0f, 40));
+        m_pCommandVisibleGeo = new VisibleGeo(m_pCommandGeo); 
         m_pCommandVisibleGeo->SetVisible(false);
 
         //
@@ -3278,8 +3279,8 @@ public:
             ToggleCenterHUD();
         if (!LoadPreference("TargetHUD", TRUE))
             ToggleTargetHUD();
-        if (LoadPreference("SoftwareHUD", FALSE))  //All we need with two styles
-            CycleStyleHUD();
+        //if (LoadPreference("SoftwareHUD", FALSE))  //All we need with two styles //Student 7/28/2022 loading preference elsewhere
+        //    CycleStyleHUD();
 		SetDeadzone(LoadPreference("DeadZone", 5)); //ToggleLargeDeadZone(); //Imago updated 7/8/09 // BT 8/17 - Small deadzone default.
 		SetRadarLOD(LoadPreference("RadarLOD", 0)); //Imago updated 7/8/09 #24 (Gamma, VirtualJoystick, RadarLOD, ShowGrid)
 		if (LoadPreference("ShowGrid", FALSE))
@@ -5040,15 +5041,52 @@ public:
 
     //Something of a misnomer since there are only two styles but this may change
 	//Andon: Changed to support up to 5 styles
-    void CycleStyleHUD() //Student TODO
+    void CycleStyleHUD() //Student 7/28/2022 Upgrade to save preference correctly
     {
+        float style = m_pnumberStyleHUD->GetValue();
+        
+        if (style < 5.0f)
+        {
+            style += 1.0f;
+        }
+        else
+        {
+            style = 0.0f;
+        }
+        m_pnumberStyleHUD->SetValue(style);
+        if (m_pitemStyleHUD != NULL)
+            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());
+        
+        if (style == 1.0f)
+        {
+            SavePreference("StyleHUD", "1.0");
+        } 
+        else if (style == 2.0f)
+        {
+            SavePreference("StyleHUD", "2.0");
+        }
+        else if (style == 3.0f)
+        {
+            SavePreference("StyleHUD", "3.0");
+        }
+        else if (style == 1.0f)
+        {
+            SavePreference("StyleHUD", "4.0");
+        }
+        else
+        {
+            SavePreference("StyleHUD", "5.0");
+        }
+        
+
+        /* Student 7/28/2022 was:
         int style = (int(m_pnumberStyleHUD->GetValue()) + 1) % 5;
         m_pnumberStyleHUD->SetValue(float(style));
 
-        SavePreference("SoftwareHUD", (DWORD)style);
+        SavePreference("StyleHUD", (DWORD)style);
 
         if (m_pitemStyleHUD != NULL)
-            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());
+            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());*/
     }
 
 	//Imago 7/8/09 7/13/09
