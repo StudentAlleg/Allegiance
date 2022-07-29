@@ -63,12 +63,7 @@ private:
     TRef<IclusterIGC> m_pcluster;
     float             m_zGrid;
     float             m_radius;
-<<<<<<< HEAD
-=======
-
-    
     //TRef<Surface>  m_top; //GetModeler()->LoadImage("toparrowbmp", true)->GetSurface();
->>>>>>> student-main
 
     void DrawShips(Context* pcontext);
     void DrawTop(Context* pcontext);
