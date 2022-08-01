@@ -5249,11 +5249,19 @@ void CFSMission::SetSideCiv(IsideIGC * pside, IcivilizationIGC * pciv)
 //*-------------------------------------------------------------------------
  void CFSMission::SetSideActive(SideID sideid, bool bActive)
 {
-	m_misdef.rgfActive[sideid] = bActive;
+	if (sideid == SIDE_TEAMSPECTATOR)
+      {
+        sideid = c_cSidesMax;
+      }
+  m_misdef.rgfActive[sideid] = bActive;
 }
  bool CFSMission::GetSideActive(SideID sideid)
  {
-	 return (bool)m_misdef.rgfActive[sideid];
+	 if (sideid == SIDE_TEAMSPECTATOR)
+      {
+        sideid = c_cSidesMax;
+      }
+   return (bool)m_misdef.rgfActive[sideid];
  }
 /*-------------------------------------------------------------------------
  * DeactivateSide
@@ -5272,14 +5280,19 @@ void CFSMission::DeactivateSide(IsideIGC * pside)
   //{
       SideID sideid = pside->GetObjectID();
       
-      if (sideid == SIDE_TEAMSPECTATOR)
+      if (sideid == SIDE_TEAMSPECTATOR && m_pMission->GetMissionParams()->bExperimental)
       {
-        debugf("Attempting to deactivate Spectator, returning");
+        debugf("Attempting to deactivate Spectator while in Experimental Mode, returning");
         return;
       }
-      assert(sideid != SIDE_TEAMSPECTATOR);
       assert(pside->GetMission() == m_pMission);
       debugf("DeactivateSide side=%d.\n", sideid);
+      
+      if (sideid == SIDE_TEAMSPECTATOR)
+      {
+        sideid = c_cSidesMax;
+      }
+
       pside->SetActiveF(false);
       
       m_misdef.rgfActive[sideid]  =

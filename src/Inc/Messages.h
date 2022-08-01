@@ -311,10 +311,10 @@ DEFINE_FEDMSG(S, MISSIONDEF, 38) // sent when a mission is created, and when it 
   ShipID    rgShipIDLeaders [c_cSidesMax];
   char      rgcPlayers      [c_cSidesMax];
   char      rgfAutoAccept   [c_cSidesMax];
-  char      rgfReady        [c_cSidesMax];
+  char      rgfReady        [c_cSidesMax + 1];
   char      rgfForceReady   [c_cSidesMax];
-  char      rgfActive       [c_cSidesMax];
-  char		rgfAllies		[c_cSidesMax]; // #ALLY - ally group - NA is no allies
+  char      rgfActive       [c_cSidesMax + 1];
+  char		rgfAllies		[c_cSidesMax + 1]; // #ALLY - ally group - NA is no allies
 END_FEDMSG
 
 DEFINE_FEDMSG(C, POSITIONREQ, 39) // client requests position on a side.

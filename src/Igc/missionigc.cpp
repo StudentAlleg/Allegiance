@@ -3672,7 +3672,7 @@ void                        CmissionIGC::AddSide(IsideIGC* s)
 			sidedata.allies = NA; // #ALLY
 
 			m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
-			m_sideTeamSpectator->SetActiveF(true);
+			m_sideTeamSpectator->SetActiveF(false);
 			DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
 			ZAssert(m_sideTeamSpectator != NULL);
 			debugf("Created Team Spectator");
@@ -3803,36 +3803,6 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   { 50.0f/255.0f, 140.0f/255.0f,  20.0f/255.0f}, //icky yellow
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
-	if (pmp->bExperimental && !m_sideTeamSpectator) //if this is an experimental game and we don't have a spectator team
-	{
-		debugf("Creating Team Spectator");
-		DataSideIGC sidedata;
-		strcpy(sidedata.name, "Spectator(s)");
-		sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
-		sidedata.sideID = SIDE_TEAMSPECTATOR;
-		sidedata.gasAttributes.Initialize();
-		sidedata.ttbmDevelopmentTechs.ClearAll();
-		sidedata.ttbmInitialTechs.ClearAll();
-		sidedata.color = Color(1.0f, 1.0f, 1.0f);
-		sidedata.conquest = 0;
-		sidedata.territory = 0;
-		sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
-			= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
-		sidedata.squadID = NA;
-		sidedata.allies = NA; // #ALLY
-
-		m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
-		m_sideTeamSpectator->SetActiveF(true);
-		DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
-		ZAssert(m_sideTeamSpectator != NULL);
-		debugf("Created Team Spectator");
-	}
-	else if (!pmp->bExperimental && m_sideTeamSpectator) 
-	{
-		m_sideTeamSpectator->Terminate();
-		m_sideTeamSpectator->Release();
-		m_sideTeamSpectator = NULL;
-	}
 	
 	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO (might not need to do anything here)
     {
@@ -3865,6 +3835,17 @@ void                        CmissionIGC::UpdateSides(Time now,
 
         o->Release();
     }
+
+	if (pmp->bExperimental && !m_sideTeamSpectator->GetActiveF()) //if this is an experimental game and we don't have a spectator team
+	{
+		m_sideTeamSpectator->SetActiveF(true);
+		printf("Experimental, activating spectator.\n");
+	}
+	else if (!pmp->bExperimental && m_sideTeamSpectator->GetActiveF())
+	{
+		m_sideTeamSpectator->SetActiveF(false);
+		printf("Not Experimental, deactivating spectator.\n");
+	}
 
     // if it looks like we need to delete a few sides to match the mission parameters, do so.
     if (sid > pmp->nTeams)

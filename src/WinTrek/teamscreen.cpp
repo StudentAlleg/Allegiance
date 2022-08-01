@@ -306,16 +306,19 @@ private:
 #endif
             // if this team is empty...
             if (m_pMission->SideNumPlayers(pitem->GetSideID()) == 0 && 
-                pitem->GetSideID() != SIDE_TEAMLOBBY &&
-                pitem->GetSideID() != SIDE_TEAMSPECTATOR) //Student 7/19/2022 Spectators cannot be destroyed.
+                pitem->GetSideID() != SIDE_TEAMLOBBY) //Student 7/19/2022 Spectators cannot be destroyed.
             {
                 // draw "available" or "destroyed"
                 ZString strDescription;
                 
                 if (m_pMission->SideAvailablePositions(pitem->GetSideID()) > 0
-                    && m_pMission->SideActive(pitem->GetSideID()))
+                    && m_pMission->SideActive(pitem->GetSideID()) && pitem->GetSideID() != SIDE_TEAMSPECTATOR)
                 {
                     strDescription = "available";
+                }
+                else if (pitem->GetSideID() == SIDE_TEAMSPECTATOR && !m_pMission->SideActive(pitem->GetSideID()))
+                {
+                    strDescription = "disabled";
                 }
                 else
                 {
@@ -1643,7 +1646,7 @@ public:
         }
         
         m_pcomboWing->SetHidden(m_sideCurrent != trekClient.GetSideID() 
-            || m_sideCurrent == SIDE_TEAMLOBBY);
+            || m_sideCurrent == SIDE_TEAMLOBBY || m_sideCurrent == SIDE_TEAMSPECTATOR);
 
 		m_pbuttonDiscord->SetHidden(m_sideCurrent != trekClient.GetSideID());
 
