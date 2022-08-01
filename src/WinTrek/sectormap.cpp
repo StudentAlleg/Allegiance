@@ -442,18 +442,24 @@ public:
                 }
                 {
                     SectorID    sid = m_pClusterSel->GetObjectID(); //Student Spectator TODO - Specs are not being updated here
+                    //debugf("Starting draw ships\n");
                     for (ShipLinkIGC*       psl = trekClient.m_pCoreIGC->GetShips()->first(); (psl != NULL); psl = psl->next())
                     {
                         PlayerInfo* ppi = (PlayerInfo*)(psl->data()->GetPrivateData());
+                        
+
+                        
                         if (ppi &&
-                            ppi->StatusIsCurrent() &&
+                            (ppi->StatusIsCurrent() &&
                             (ppi->LastSeenState() == c_ssFlying) &&
-                            (ppi->LastSeenSector() == sid))
+                            (ppi->LastSeenSector() == sid)))
                         {
+                            debugf("Ship %s id (hi) passed status check.\n", ppi->GetShip()->GetName(), ppi->GetShip()->GetObjectID());
                             HullID          hid = ppi->LastSeenShipType();
                             IhullTypeIGC*   pht = trekClient.m_pCoreIGC->GetHullType(hid);
                             if (pht)
                             {
+                                debugf("Proper hull type, adding to icon\n");
                                 IsideIGC*   pside = psl->data()->GetSide();
 
                                 AddIcon(pht->GetIcon(), pside, hid,

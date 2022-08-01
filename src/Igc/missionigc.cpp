@@ -3046,29 +3046,29 @@ CmissionIGC::~CmissionIGC(void)
                     delete m_pStatic;
                     delete pcl;
                     break;
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }
 
 void CmissionIGC::Initialize(Time now, IIgcSite* pIgcSite)
 {
-    debugf("Mission Initialize id=%d this=%x now=%d\n", GetMissionID(), this, now.clock());
-    m_pIgcSite = pIgcSite;
-    m_lastUpdate = now;
+	debugf("Mission Initialize id=%d this=%x now=%d\n", GetMissionID(), this, now.clock());
+	m_pIgcSite = pIgcSite;
+	m_lastUpdate = now;
 
-    m_damageTracks.Initialize(now);
+	m_damageTracks.Initialize(now);
 
-    //preload the convex hulls used for the various asteroids
-    ZVerify(HitTest::Load("bgrnd50"));
-    ZVerify(HitTest::Load("bgrnd51"));
-    ZVerify(HitTest::Load("bgrnd52"));
-    ZVerify(HitTest::Load("bgrnd53"));
-    ZVerify(HitTest::Load("bgrnd03"));
+	//preload the convex hulls used for the various asteroids
+	ZVerify(HitTest::Load("bgrnd50"));
+	ZVerify(HitTest::Load("bgrnd51"));
+	ZVerify(HitTest::Load("bgrnd52"));
+	ZVerify(HitTest::Load("bgrnd53"));
+	ZVerify(HitTest::Load("bgrnd03"));
 
 
-    m_sideTeamLobby = NULL;
+	m_sideTeamLobby = NULL;
 	m_sideTeamSpectator = NULL; //Student 7/23/2022 Spectator
 }
 
@@ -3078,37 +3078,37 @@ void    CmissionIGC::Terminate(void)
 	if (GetIgcSite() == nullptr)
 		return;
 
-    debugf("Terminating mission id=%d, this=%x igccount=%x\n", GetMissionID(), this, GetIgcSite()->GetCount());
-  
-    m_pIgcSite->TerminateMissionEvent(this);
+	debugf("Terminating mission id=%d, this=%x igccount=%x\n", GetMissionID(), this, GetIgcSite()->GetCount());
 
-    {
-        //Ships are not terminated ... they are mearly moved to the NULL mission
-        //So do it before nuking the clusters since that would nuke the ships in the
-        //cluster.
-        ShipLinkIGC*  l;
-        debugf("moving %x ships to NULL mission\n",m_ships.n());
-        while ((l = m_ships.first()) != NULL)
-        {
-            l->data()->SetMission(NULL);
-        }
-    }
-    {
-        ClusterLinkIGC*  l;
-        debugf("nuking %x clusters\n",m_clusters.n());
-        while ((l = m_clusters.first()) != NULL)
-        {
-            l->data()->Terminate();
-        }
-    }
-    {
-        SideLinkIGC*  l;
-        debugf("nuking %x sides\n",m_sides.n());
-        while ((l = m_sides.first()) != NULL)
-        {
-            l->data()->Terminate();
-        }
-    }
+	m_pIgcSite->TerminateMissionEvent(this);
+
+	{
+		//Ships are not terminated ... they are mearly moved to the NULL mission
+		//So do it before nuking the clusters since that would nuke the ships in the
+		//cluster.
+		ShipLinkIGC* l;
+		debugf("moving %x ships to NULL mission\n", m_ships.n());
+		while ((l = m_ships.first()) != NULL)
+		{
+			l->data()->SetMission(NULL);
+		}
+	}
+	{
+		ClusterLinkIGC* l;
+		debugf("nuking %x clusters\n", m_clusters.n());
+		while ((l = m_clusters.first()) != NULL)
+		{
+			l->data()->Terminate();
+		}
+	}
+	{
+		SideLinkIGC* l;
+		debugf("nuking %x sides\n", m_sides.n());
+		while ((l = m_sides.first()) != NULL)
+		{
+			l->data()->Terminate();
+		}
+	}
 
 	if (m_sideTeamSpectator)
 	{
@@ -3117,34 +3117,38 @@ void    CmissionIGC::Terminate(void)
 		m_sideTeamSpectator = NULL;
 	}
 
-    if (m_sideTeamLobby)
-    {
-        m_sideTeamLobby->Terminate();
-        m_sideTeamLobby->Release();
-        m_sideTeamLobby = NULL;
-    };
+	if (m_sideTeamLobby)
+	{
+		m_sideTeamLobby->Terminate();
+		m_sideTeamLobby->Release();
+		m_sideTeamLobby = NULL;
+	};
 
-    assert (m_clusters.n() == 0);
-    assert (m_warps.n() == 0);
-    assert (m_stations.n() == 0);
-    assert (m_asteroids.n() == 0);
-    assert (m_treasures.n() == 0);
-    assert (m_ships.n() == 0);
-    assert (m_sides.n() == 0);
+	assert(m_clusters.n() == 0);
+	assert(m_warps.n() == 0);
+	assert(m_stations.n() == 0);
+	assert(m_asteroids.n() == 0);
+	assert(m_treasures.n() == 0);
+	assert(m_ships.n() == 0);
+	assert(m_sides.n() == 0);
 }
 
 void     CmissionIGC::Update(Time now)
 {
-    assert (now >= m_lastUpdate);
+	assert(now >= m_lastUpdate);
 
-    if (now != m_lastUpdate)
-    {
-        if ((m_stageMission == STAGE_STARTED) ||
-            (m_stageMission == STAGE_STARTING))
-        {
-            {
-                //Update the various sides
-				m_sideTeamSpectator->Update(now);
+	if (now != m_lastUpdate)
+	{
+		if ((m_stageMission == STAGE_STARTED) ||
+			(m_stageMission == STAGE_STARTING))
+		{
+			{
+				//Update the various sides
+				if (m_sideTeamSpectator)
+				{
+					m_sideTeamSpectator->Update(now);
+				}
+				
                 for (SideLinkIGC*   l = m_sides.first();
                      (l != NULL);
                      l = l->next())
@@ -3710,12 +3714,13 @@ const SideListIGC*          CmissionIGC::GetSides(void) const
 void						CmissionIGC::GetSeenSides(ImodelIGC * pmodel, bool (&bseensides)[c_cSidesMax + 1], ImodelIGC * poptionalmodel)
 {
 
+	
 	for (ModelLinkIGC*  pml = pmodel->GetCluster()->GetModels()->first(); (pml != NULL); pml = pml->next()) {
 		ImodelIGC*  pmodelother = pml->data();
 		if ((pmodelother->GetObjectType() != OT_ship && pmodelother->GetObjectType() != OT_station  && pmodelother->GetObjectType() != OT_probe) || pmodel->GetObjectID() == pmodelother->GetObjectID())
 			continue;
 		for (SideLinkIGC* psl = GetSides()->first(); (psl != NULL); psl = psl->next()) {
-			if (pmodelother->GetSide()->GetObjectID() != psl->data()->GetObjectID() || psl->data()->GetObjectID() == pmodel->GetSide()->GetObjectID())
+			if (pmodelother->GetSide()->GetObjectID() != psl->data()->GetObjectID() || psl->data()->GetObjectID() == pmodel->GetSide()->GetObjectID())  //if pmodelother is not on this side or if the side is pmodel's side, continue
 				continue;
 			if (pmodelother->GetObjectType() == OT_ship)
 				if (((IshipIGC*)pmodelother)->InScannerRange(pmodel) && (!poptionalmodel || (poptionalmodel && poptionalmodel->SeenBySide(psl->data()))))
@@ -3729,7 +3734,7 @@ void						CmissionIGC::GetSeenSides(ImodelIGC * pmodel, bool (&bseensides)[c_cSi
 			if (bseensides[psl->data()->GetObjectID()])
 				break;
 		}
-		bseensides[c_cSidesMax] = true;
+		bseensides[c_cSidesMax] = false;
 	}
 }
 
@@ -3798,6 +3803,36 @@ void                        CmissionIGC::UpdateSides(Time now,
                                   { 50.0f/255.0f, 140.0f/255.0f,  20.0f/255.0f}, //icky yellow
                                   {255.0f/255.0f, 145.0f/255.0f, 145.0f/255.0f}, //icky orange
                                   { 50.0f/255.0f, 200.0f/255.0f, 125.0f/255.0f}};//icky magenta
+	if (pmp->bExperimental && !m_sideTeamSpectator) //if this is an experimental game and we don't have a spectator team
+	{
+		debugf("Creating Team Spectator");
+		DataSideIGC sidedata;
+		strcpy(sidedata.name, "Spectator(s)");
+		sidedata.civilizationID = GetCivilizations()->first()->data()->GetObjectID();
+		sidedata.sideID = SIDE_TEAMSPECTATOR;
+		sidedata.gasAttributes.Initialize();
+		sidedata.ttbmDevelopmentTechs.ClearAll();
+		sidedata.ttbmInitialTechs.ClearAll();
+		sidedata.color = Color(1.0f, 1.0f, 1.0f);
+		sidedata.conquest = 0;
+		sidedata.territory = 0;
+		sidedata.nKills = sidedata.nEjections = sidedata.nDeaths = sidedata.nBaseKills
+			= sidedata.nBaseCaptures = sidedata.nFlags = sidedata.nArtifacts = 0;
+		sidedata.squadID = NA;
+		sidedata.allies = NA; // #ALLY
+
+		m_sideTeamSpectator = (IsideIGC*)CreateObject(Time::Now(), OT_side, &sidedata, sizeof(sidedata));
+		m_sideTeamSpectator->SetActiveF(true);
+		DeleteSide(m_sideTeamSpectator); // make sure it does not appear in the normal side list
+		ZAssert(m_sideTeamSpectator != NULL);
+		debugf("Created Team Spectator");
+	}
+	else if (!pmp->bExperimental && m_sideTeamSpectator) 
+	{
+		m_sideTeamSpectator->Terminate();
+		m_sideTeamSpectator->Release();
+		m_sideTeamSpectator = NULL;
+	}
 	
 	for (sid = GetSides()->n(); sid < pmp->nTeams; sid++) //Student TODO (might not need to do anything here)
     {

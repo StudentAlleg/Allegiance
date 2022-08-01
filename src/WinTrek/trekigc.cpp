@@ -2193,6 +2193,7 @@ class ThingSiteImpl : public ThingSitePrivate
                         }
                     }
                 }
+
                 m_enemySideVisibility.CurrentEyed(currentEye);
                 currentEye = currentEye || (m_enemySideVisibility.fVisible() && (pmodel->GetAttributes() & c_mtPredictable));
                 m_enemySideVisibility.fVisible(currentEye);
@@ -2205,7 +2206,15 @@ class ThingSiteImpl : public ThingSitePrivate
                         PlayerInfo* ppi = (PlayerInfo*)(pShip->GetPrivateData());
                         if (ppi) {
                             ShipStatus ss = ppi->GetShipStatus();
-                            ss.SetDetected(currentEye); // For UI eye
+                            if (m_enemySideVisibility.pLastSpotter()->GetSide()->GetObjectID() == SIDE_TEAMSPECTATOR) //spectators never give eye
+                            {
+                                ss.SetDetected(false);
+                            }
+                            else
+                            {
+                                debugf("Self Detection: %i.\n", currentEye);
+                                ss.SetDetected(currentEye); // For UI eye
+                            }
                             ppi->SetShipStatus(ss);
                         }
                     }

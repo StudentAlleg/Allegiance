@@ -574,7 +574,7 @@ public:
                     { 
                     if (sideID == SIDE_TEAMLOBBY) 
                     { 
-                        return "Not on a team.";
+                        return "Not on a team";
                     }
                     else if (sideID == SIDE_TEAMSPECTATOR)
                     {

@@ -279,7 +279,7 @@ void CFSShip::ShipStatusSpotted(IsideIGC* pside)
             pss->SetSectorID(sectorID);
             pss->SetParentID(GetShipID());
 
-			if (mySide != pside && !mySide->AlliedSides(mySide, pside)) //#ALLY -was != (Imago fixed 7/8/09)
+			if (mySide != pside && !mySide->AlliedSides(mySide, pside) && mySideID != SIDE_TEAMSPECTATOR) //#ALLY -was != (Imago fixed 7/8/09)
                 pfsship->GetShipStatus(mySideID)->SetDetected(true);
         }
     }
@@ -287,6 +287,10 @@ void CFSShip::ShipStatusSpotted(IsideIGC* pside)
 void          CFSShip::ShipStatusHidden(IsideIGC* pside)
 {
     SideID  sideID = pside->GetObjectID();
+    if (sideID == SIDE_TEAMSPECTATOR)
+    {
+      sideID = c_cSidesMax;
+    }
     m_rgShipStatus[sideID].SetUnknown();
 
     IsideIGC*   mySide = GetSide();
@@ -307,6 +311,7 @@ void          CFSShip::ShipStatusHidden(IsideIGC* pside)
                     ShipStatus* pss = GetShipStatus(psl->data()->GetObjectID());
                     if (!pss->GetUnknown())
                     {
+                        debugf("%s is detected!\n", this->GetName());
                         detectedF = true;
                         break;
                     }
