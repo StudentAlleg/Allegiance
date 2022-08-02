@@ -375,9 +375,12 @@ class   CameraControl
             //
             // Jiggle the camera orientation based on the amount of afterburner and any residual effects
             //
+<<<<<<< HEAD
             
             // Student 6/27/2022 - camera jiggle is reduced/amplified by user choice in the escape/graphics menu
 
+=======
+>>>>>>> parent of 15645cf0 (minor grammar changes)
             const double jiggleHalfLife = 0.25f;
             m_jiggle *= (float)pow(jiggleHalfLife, (double)dt);
 
@@ -3736,7 +3739,7 @@ public:
 	void contextBanPlayer()
 	{
 		char szMessageParam[CB_ZTS];
-		lstrcpy(szMessageParam, "You have been banned from this game by an administrator.");
+		lstrcpy(szMessageParam, "You have been banned from this game an administrator.");
 		trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
 		BEGIN_PFM_CREATE(trekClient.m_fm, pfmQuitSide, CS, QUIT_MISSION)
 			FM_VAR_PARM(szMessageParam, CB_ZTS)
