@@ -2978,8 +2978,11 @@ public:
 			}
 		}
 
-        GetEngine()->SetAA(uint32_t(LoadPreference("UseAliasing", uint32_t(0)))); // Student 8/11/2022 load anti-aliasing (not working)
-        debugf("Setting AA to %ui.", g_DX9Settings.m_dwAA);
+        // display load preferences
+        GetEngine()->SetAA(uint32_t(LoadPreference("UseAntialiasing", uint32_t(0)))); // Student 8/11/2022 load anti-aliasing preference
+
+        GetEngine()->SetVSync(bool(LoadPreference("UseVSync", bool(false)))); // Student 8/12/2022 load VSync preferebce
+
 
         //
         // initialize the sound engine (for the intro music if nothingB else)
@@ -5682,7 +5685,7 @@ public:
 
     ZString GetTransparentObjectsMenuString()
     {
-        return ThingGeo::GetTransparentObjects() ? "TransparentObjects On " : "TransparentObjects Off ";
+        return ThingGeo::GetTransparentObjects() ? "Transparent Objects On " : "Transparent Objects Off ";
     }
 
     ZString GetLensFlareMenuString()
