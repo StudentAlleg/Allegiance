@@ -2978,8 +2978,11 @@ public:
 			}
 		}
 
+        GetEngine()->SetAA(uint32_t(LoadPreference("UseAliasing", uint32_t(0)))); // Student 8/11/2022 load anti-aliasing (not working)
+        debugf("Setting AA to %ui.", g_DX9Settings.m_dwAA);
+
         //
-        // initialize the sound engine (for the intro music if nothing else)
+        // initialize the sound engine (for the intro music if nothingB else)
         //
 
         DWORD dwSoundInitStartTime = timeGetTime();
@@ -3036,6 +3039,7 @@ public:
         }
 
         m_bShowJoystickIndicator = (LoadPreference("ShowJoystickIndicator", 1) != 0);
+
 
         GetInputEngine()->GetMouse()->SetAccel(m_iMouseAccel);
 
@@ -4588,6 +4592,16 @@ public:
 
         return pmenu;
     }
+    
+    //Student 8/11/2022 explicitly handle changing Anti-Aliasing 
+    void ToggleAA()
+    {
+        GetEngine()->SetAA(g_DX9Settings.m_dwAA + 1);
+        SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA); //Student TODO: This is never used, make a toggle and loadpreference
+        if (m_pitemAA != NULL) {
+            m_pitemAA->SetString(GetAAString());
+        }
+    }
 
     void ToggleDebris()
     {
@@ -6126,11 +6140,7 @@ public:
 				break;
 
 			case idmAA:
-				GetEngine()->SetAA(g_DX9Settings.m_dwAA + 1);
-				SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA);
-				if (m_pitemAA != NULL) {
-					m_pitemAA->SetString(GetAAString());
-				}
+                ToggleAA(); //Student 8/11/2022 moved to function ToggleAA()
 				break;
 			case idmMip:
 				GetEngine()->SetAutoGenMipMaps(!g_DX9Settings.m_bAutoGenMipmaps);
