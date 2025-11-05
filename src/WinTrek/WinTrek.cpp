@@ -1463,7 +1463,8 @@ public:
     bool      OnActivateApp(bool bActive) override {
         bool result = EngineWindow::OnActivateApp(bActive);
         //Imago 1/20 added below if.  makes no sense but it fixes a controls loss when alt+tabbing bug
-        if (bActive)
+        //Student 6/25/2023 - check if m_ptrekInput is null
+        if (bActive && m_ptrekInput)
             m_ptrekInput->SetFocus(false);
         //end imago
         UpdateMouseEnabled();
@@ -4600,7 +4601,7 @@ public:
     void ToggleAA()
     {
         GetEngine()->SetAA(g_DX9Settings.m_dwAA + 1);
-        SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA); //Student TODO: This is never used, make a toggle and loadpreference
+        SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA);
         if (m_pitemAA != NULL) {
             m_pitemAA->SetString(GetAAString());
         }
