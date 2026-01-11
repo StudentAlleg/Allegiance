@@ -1252,7 +1252,7 @@ public:
         bLockLobby                      = false;
         bLockSides                      = false;
         bLockTeamSettings               = false;
-        bAllowDefections                = false;
+        bAllowDefections                = true;
         bStations                       = true ;
         bScoresCount                    = true;
         bSquadGame                      = false;

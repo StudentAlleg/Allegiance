@@ -373,6 +373,9 @@ class   CameraControl
             //
             // Jiggle the camera orientation based on the amount of afterburner and any residual effects
             //
+
+            // Student TODO: reduce camera jiggle on afterburn (maybe make it adjustable? also potential accessibility issue)
+
             const double jiggleHalfLife = 0.25f;
             m_jiggle *= (float)pow(jiggleHalfLife, (double)dt);
 
@@ -1178,6 +1181,13 @@ public:
 	TRef<ModifiableNumber>		m_pnumberChatLines;
 	TRef<WrapNumber>			m_pwrapNumberChatLines;
 
+    TRef<ModifiableNumber>        m_pchatSize;
+    TRef<WrapNumber>              m_pwrapChatSize;
+
+    TRef<ModifiableNumber>        m_pchatWidth;
+    TRef<WrapNumber>              m_pwrapChatWidth;
+
+
     //
     // exports
     //
@@ -1375,6 +1385,8 @@ public:
     TRef<IMenuItem>            m_pitemFilterLobbyChats;
 	TRef<IMenuItem>			   m_pitemIncreaseChatLines;	// #294 - Turkey
 	TRef<IMenuItem>			   m_pitemReduceChatLines;		// #294 - Turkey
+    TRef<IMenuItem>            m_pitemCycleChatSize;
+    TRef<IMenuItem>            m_pitemReduceChatFontSize;
     TRef<IMenuItem>            m_pitemSoundQuality;
     TRef<IMenuItem>            m_pitemToggleSoundHardware;
     TRef<IMenuItem>            m_pitemToggleDSound8Usage;
@@ -1460,7 +1472,8 @@ public:
     bool      OnActivateApp(bool bActive) override {
         bool result = EngineWindow::OnActivateApp(bActive);
         //Imago 1/20 added below if.  makes no sense but it fixes a controls loss when alt+tabbing bug
-        if (bActive)
+        //Student 6/25/2023 - check if m_ptrekInput is null
+        if (bActive && m_ptrekInput)
             m_ptrekInput->SetFocus(false);
         //end imago
         UpdateMouseEnabled();
@@ -2888,13 +2901,18 @@ public:
         pnsGamePanes->AddMember(
             "StyleHUD",
             m_pwrapNumberStyleHUD = new WrapNumber(
-                m_pnumberStyleHUD = new ModifiableNumber(0)
+                m_pnumberStyleHUD = new ModifiableNumber(atof(LoadPreference("StyleHUD", "0.0")))
             )
         );
 
 		// #294 - Turkey 
 		m_pnumberChatLinesDesired = new ModifiableNumber(0);
 		pnsGamePanes->AddMember("NumChatLines", m_pwrapNumberChatLines = new WrapNumber(m_pnumberChatLines = new ModifiableNumber(0)));
+       
+        pnsGamePanes->AddMember("ChatFontSize", m_pwrapChatSize = new WrapNumber(m_pchatSize = new ModifiableNumber(LoadPreference("ChatFontSize", 2))));
+
+        //Student 12/30/25 unmodified chat width, only used for display chat width
+        pnsGamePanes->AddMember("ChatWidth", m_pwrapChatWidth = new WrapNumber(m_pchatWidth = new ModifiableNumber((float) LoadPreference("ChatWidth", 355))));
 
         pnsGamePanes->AddMember("Flash", m_pnumberFlash = new ModifiableNumber(0));
         pnsGamePanes->AddMember("TeamPaneCollapsed", m_pnumberTeamPaneCollapsed = new ModifiableNumber(0));
@@ -2975,8 +2993,14 @@ public:
 			}
 		}
 
+        // display load preferences
+        GetEngine()->SetAA(uint32_t(LoadPreference("UseAntialiasing", uint32_t(0)))); // Student 8/11/2022 load anti-aliasing preference
+
+        GetEngine()->SetVSync(bool(LoadPreference("UseVSync", bool(false)))); // Student 8/12/2022 load VSync preferebce
+
+
         //
-        // initialize the sound engine (for the intro music if nothing else)
+        // initialize the sound engine (for the intro music if nothingB else)
         //
 
         DWORD dwSoundInitStartTime = timeGetTime();
@@ -3034,6 +3058,7 @@ public:
 
         m_bShowJoystickIndicator = (LoadPreference("ShowJoystickIndicator", 1) != 0);
 
+
         GetInputEngine()->GetMouse()->SetAccel(m_iMouseAccel);
 
 // BUILD_DX9
@@ -3071,8 +3096,9 @@ public:
         //
         // Command View
         //
+        m_pCommandGeo = new CommandGeo(c_fCommandGridRadius, 0.0f, 40); //Student, shipping without attempts to load image in grid GetModeler()->LoadSurface("toparrowbmp", true
 
-        m_pCommandVisibleGeo = new VisibleGeo(m_pCommandGeo = new CommandGeo(c_fCommandGridRadius, 0.0f, 40));
+        m_pCommandVisibleGeo = new VisibleGeo(m_pCommandGeo); 
         m_pCommandVisibleGeo->SetVisible(false);
 
         //
@@ -3275,8 +3301,8 @@ public:
             ToggleCenterHUD();
         if (!LoadPreference("TargetHUD", TRUE))
             ToggleTargetHUD();
-        if (LoadPreference("SoftwareHUD", FALSE))  //All we need with two styles
-            CycleStyleHUD();
+        //if (LoadPreference("SoftwareHUD", FALSE))  //All we need with two styles //Student 7/28/2022 loading preference elsewhere
+        //    CycleStyleHUD();
 		SetDeadzone(LoadPreference("DeadZone", 5)); //ToggleLargeDeadZone(); //Imago updated 7/8/09 // BT 8/17 - Small deadzone default.
 		SetRadarLOD(LoadPreference("RadarLOD", 0)); //Imago updated 7/8/09 #24 (Gamma, VirtualJoystick, RadarLOD, ShowGrid)
 		if (LoadPreference("ShowGrid", FALSE))
@@ -3288,7 +3314,9 @@ public:
 		ToggleFilterLobbyChats(LoadPreference("FilterLobbyChats", 0)); //TheBored 25-JUN-07: Mute lobby chat patch // mmf 04/08 default this to 0
 
 		// #294 - Turkey
-		SetChatLines(LoadPreference("ChatLines", 10));
+		SetChatLines(LoadPreference("ChatLines", 7));
+
+        SetChatFontSize(LoadPreference("ChatSize", 2));
 
 		/* pkk May 6th: Disabled bandwidth patch
 		ToggleBandwidth(LoadPreference("Bandwidth",32)); // w0dk4 June 2007: Bandwith Patch - Increase default to max Imago 8/10*/
@@ -3722,7 +3750,7 @@ public:
 	void contextBanPlayer()
 	{
 		char szMessageParam[CB_ZTS];
-		lstrcpy(szMessageParam, "You have been banned from this game an administrator.");
+		lstrcpy(szMessageParam, "You have been banned from this game by an administrator.");
 		trekClient.SetMessageType(BaseClient::c_mtGuaranteed);
 		BEGIN_PFM_CREATE(trekClient.m_fm, pfmQuitSide, CS, QUIT_MISSION)
 			FM_VAR_PARM(szMessageParam, CB_ZTS)
@@ -3930,6 +3958,7 @@ public:
 	#define idmIncreaseChatLines		 638 // #294 - Turkey
 	#define idmReduceChatLines			 639 // #294 - Turkey
 	#define idmCycleTimestamp			 640 // #294 - Turkey
+    #define idmCycleChatSize      642 //Student - Add adjustable chat size
 
     #define idmResetSound           701
     #define idmSoundQuality         702
@@ -4499,7 +4528,7 @@ public:
 				break;
 
             case idmGameOptions:
-                m_pitemMuteFilter		           = pmenu->AddMenuItem(idmMuteFilterOptions,					"Mute/Filter",						'M', m_psubmenuEventSink); //TheBored 30-JUL-07: Filter Unknown Chat patch
+                m_pitemMuteFilter		           = pmenu->AddMenuItem(idmMuteFilterOptions,					"Chat/Mute/Filter",						'M', m_psubmenuEventSink); //TheBored 30-JUL-07: Filter Unknown Chat patch
                 m_pitemToggleStickyChase           = pmenu->AddMenuItem(idmToggleStickyChase,           GetStickyChaseMenuString (),        'K');
                 m_pitemToggleLinearControls        = pmenu->AddMenuItem(idmToggleLinearControls,        GetLinearControlsMenuString(),      'L');
                 m_pitemToggleLargeDeadZone         = pmenu->AddMenuItem(idmToggleLargeDeadZone,         GetDeadzoneMenuString(),       'Z'); //imago updated 7/8/09
@@ -4548,7 +4577,13 @@ public:
 				// #294 - Turkey
 				m_pitemIncreaseChatLines		   = pmenu->AddMenuItem(idmIncreaseChatLines,			GetIncreaseChatLinesMenuString(),	'I');
 				m_pitemReduceChatLines			   = pmenu->AddMenuItem(idmReduceChatLines,				GetReduceChatLinesMenuString(),		'R');
-				break;
+			
+                pmenu->AddMenuItem(0, "Changing chat text size might require");
+                pmenu->AddMenuItem(0, "Changing the number of chat lines");
+
+                m_pitemCycleChatSize               = pmenu->AddMenuItem(idmCycleChatSize,               GetChangeChatSizeMenuString(),      'Z');
+
+                break;
 			//End TB 30-JUL-07
 			//imago 6/30/09: new graphics options dx9, removed vsync 7/10
 			case idmDeviceOptions:
@@ -4583,6 +4618,16 @@ public:
         }
 
         return pmenu;
+    }
+    
+    //Student 8/11/2022 explicitly handle changing Anti-Aliasing 
+    void ToggleAA()
+    {
+        GetEngine()->SetAA(g_DX9Settings.m_dwAA + 1);
+        SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA);
+        if (m_pitemAA != NULL) {
+            m_pitemAA->SetString(GetAAString());
+        }
     }
 
     void ToggleDebris()
@@ -4793,6 +4838,23 @@ public:
 
 
 	// end #294
+
+
+    void CycleChatSize()
+    {
+        SetChatFontSize(m_pchatSize->GetValue() + 1);
+        m_pitemCycleChatSize->SetString(GetChangeChatSizeMenuString());
+
+        if (m_pchatListPane)
+        {
+            if (GetViewMode() <= vmOverride)
+            {
+                m_pchatListPane->SetChatTextSize(m_pchatSize->GetValue());
+            }
+                 
+        }
+        SavePreference("ChatSize", (DWORD)m_pchatSize->GetValue());
+    }
 
 
 	//End TB 25-JUN-07
@@ -5037,15 +5099,52 @@ public:
 
     //Something of a misnomer since there are only two styles but this may change
 	//Andon: Changed to support up to 5 styles
-    void CycleStyleHUD()
+    void CycleStyleHUD() //Student 7/28/2022 Upgrade to save preference correctly
     {
+        float style = m_pnumberStyleHUD->GetValue();
+        
+        if (style < 5.0f)
+        {
+            style += 1.0f;
+        }
+        else
+        {
+            style = 0.0f;
+        }
+        m_pnumberStyleHUD->SetValue(style);
+        if (m_pitemStyleHUD != NULL)
+            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());
+        
+        if (style == 1.0f)
+        {
+            SavePreference("StyleHUD", "1.0");
+        } 
+        else if (style == 2.0f)
+        {
+            SavePreference("StyleHUD", "2.0");
+        }
+        else if (style == 3.0f)
+        {
+            SavePreference("StyleHUD", "3.0");
+        }
+        else if (style == 1.0f)
+        {
+            SavePreference("StyleHUD", "4.0");
+        }
+        else
+        {
+            SavePreference("StyleHUD", "5.0");
+        }
+        
+
+        /* Student 7/28/2022 was:
         int style = (int(m_pnumberStyleHUD->GetValue()) + 1) % 5;
         m_pnumberStyleHUD->SetValue(float(style));
 
-        SavePreference("SoftwareHUD", (DWORD)style);
+        SavePreference("StyleHUD", (DWORD)style);
 
         if (m_pitemStyleHUD != NULL)
-            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());
+            m_pitemStyleHUD->SetString(GetStyleHUDMenuString());*/
     }
 
 	//Imago 7/8/09 7/13/09
@@ -5182,6 +5281,18 @@ public:
 		return bInRange;
 	}
 
+    void SetChatFontSize(DWORD value)
+    {
+        if (value < 1) {
+            m_pchatSize->SetValue(3.0f);
+            return;
+        }
+        if (value > 3) {
+            m_pchatSize->SetValue(1.0f);
+            return;
+        }
+        m_pchatSize->SetValue(int(value));
+    }
 
     void ToggleFlipY()
     {
@@ -5600,6 +5711,25 @@ public:
 		return "Reduce To " + ZString((int)m_pnumberChatLinesDesired->GetValue() - 1) + " Chat Lines";
 	}
 
+    ZString GetChangeChatSizeMenuString()
+    {
+        if (m_pchatSize->GetValue() == 1.0f)
+        {
+            return "Chat Size: Small";
+        }
+        else if (m_pchatSize->GetValue() == 2.0f)
+        {
+            return "Chat Size: Large";
+        }
+        else if (m_pchatSize->GetValue() == 3.0f)
+        {
+            return "Set Chat: Size Huge";
+        }
+                
+        return "Invalid Chat size";
+
+    }
+
     ZString GetLinearControlsMenuString()
     {
         return (m_bLinearControls) ? "Linear Joystick Control Response" : "Quadratic Joystick Control Response";
@@ -5627,7 +5757,7 @@ public:
 
     ZString GetTransparentObjectsMenuString()
     {
-        return ThingGeo::GetTransparentObjects() ? "TransparentObjects On " : "TransparentObjects Off ";
+        return ThingGeo::GetTransparentObjects() ? "Transparent Objects On " : "Transparent Objects Off ";
     }
 
     ZString GetLensFlareMenuString()
@@ -6085,11 +6215,7 @@ public:
 				break;
 
 			case idmAA:
-				GetEngine()->SetAA(g_DX9Settings.m_dwAA + 1);
-				SavePreference("UseAntialiasing", g_DX9Settings.m_dwAA);
-				if (m_pitemAA != NULL) {
-					m_pitemAA->SetString(GetAAString());
-				}
+                ToggleAA(); //Student 8/11/2022 moved to function ToggleAA()
 				break;
 			case idmMip:
 				GetEngine()->SetAutoGenMipMaps(!g_DX9Settings.m_bAutoGenMipmaps);
@@ -6143,6 +6269,10 @@ public:
 			case idmReduceChatLines:
 				ReduceChatLines();
 				break;
+
+            case idmCycleChatSize:
+                CycleChatSize();
+                break;
 
             case idmToggleLinearControls:
                 ToggleLinearControls ();
@@ -11227,3 +11357,4 @@ void WinTrekClient::ForwardLeaderBoardMessage(FEDMESSAGE * pLeaderBoardMessage)
 {
     ::ForwardLeaderBoardMessage(pLeaderBoardMessage);
 }
+

@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -182,6 +183,7 @@
     </None>
     <None Include="LaunchWithoutYellowCom.bat" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AllegianceInterop\AllegianceInterop.vcxproj">
@@ -191,13 +193,19 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)\..\..\lib\steam\steam_api.dll . /s /d /y
+    <PostBuildEvent>dir $(ProjectDir)\..\..\lib\steam\steam_api.dll
+
+xcopy $(ProjectDir)\..\..\lib\steam\steam_api.dll . /s /d /y
+
+dir $(ProjectDir)..\..\Inc\steam_appid.txt
 xcopy $(ProjectDir)..\..\Inc\steam_appid.txt . /s /d /y
 
-REM echo $(ProjectDir)..\..\..\objsv141_xp\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll
-REM dir $(ProjectDir)..\..\..\objsv141_xp\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll
+REM echo $(ProjectDir)..\..\..\objsv143\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll
+REM dir $(ProjectDir)..\..\..\objsv143\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll
 
-xcopy $(ProjectDir)..\..\..\objsv141_xp\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll . /s /d /y
-REM xcopy $(ProjectDir)..\Strategies\bin\$(ConfigurationName)\Strategies.* . /s /d /y</PostBuildEvent>
+xcopy $(ProjectDir)..\..\..\objsv143\$(ConfigurationName)\AllegianceInterop\AllegianceInterop.dll . /s /d /y
+REM xcopy $(ProjectDir)..\Strategies\bin\$(ConfigurationName)\Strategies.* . /s /d /y
+
+dir</PostBuildEvent>
   </PropertyGroup>
 </Project>

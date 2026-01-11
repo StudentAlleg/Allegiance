@@ -138,6 +138,12 @@ DamageResult    CstationIGC::ReceiveDamage(DamageTypeID            type,
     float   dtmArmor = GetMyMission()->GetDamageConstant(type, m_myStationType.GetArmorDefenseType());
     assert (dtmArmor >= 0.0f);
 
+    //Student 8/3/2022 applying experience modifier (kb) earlier to apply to repairs
+    if (launcher && launcher->GetObjectType() == OT_ship)
+    {
+        amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier();
+    }
+
     if (amount < 0.0f)
     {
         m_hullFraction -= amount * dtmArmor / maxArmor;
@@ -152,12 +158,12 @@ DamageResult    CstationIGC::ReceiveDamage(DamageTypeID            type,
     {
         float   dtmShield = GetMyMission()->GetDamageConstant(type, m_myStationType.GetShieldDefenseType());
 
-        if (dtmShield != 0.0f)
+        if (dtmShield != 0.0f && m_myStationType.GetMaxShieldHitPoints() != 0.0f) //Student 8/4/2022 explicitly not allow shield damage if maxsdhieldhitpoints == 0
         {
             dr = c_drShieldDamage;
 
-            if (launcher && (launcher->GetObjectType() == OT_ship))
-                amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier();
+            //if (launcher && (launcher->GetObjectType() == OT_ship))
+            //    amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier(); //Student 8/3/2022 applying experience modifier (kb) earlier to apply to repairs
 
             IIgcSite*   pigc = GetMyMission()->GetIgcSite();
             pigc->DamageStationEvent(this, launcher, type, amount);
@@ -596,7 +602,8 @@ DefenseTypeID        MyStationType::GetArmorDefenseType(void) const
 }
 
 HitPoints            MyStationType::GetMaxShieldHitPoints(void) const
-{
+{ 
+    if (m_pstation->GetSide() == NULL) return 0; //Student Note 11/8/2025 if side is null, this object is being destroyed. Because this is now being checked in set shield fraction it caused a NPE
     return m_pStationData->maxShieldHitPoints * m_pstation->GetSide()->GetGlobalAttributeSet().GetAttribute(c_gaMaxShieldStation);
 }
 

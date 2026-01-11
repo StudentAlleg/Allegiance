@@ -1218,6 +1218,7 @@ DamageResult CshipIGC::ReceiveDamage(DamageTypeID            type,
 {
     IsideIGC*   pside = GetSide();
 
+    //if launcher exists and is friendly, friendly fire is off, and damage is > 0 (not repairing), do no damage.
     if (launcher &&
         (!GetMyMission()->GetMissionParams()->bAllowFriendlyFire) &&
 		((pside == launcher->GetSide()) || IsideIGC::AlliedSides(pside,launcher->GetSide())) && // #ALLY - Imago fixed 7/8/09
@@ -1233,6 +1234,13 @@ DamageResult CshipIGC::ReceiveDamage(DamageTypeID            type,
     assert (dtmArmor >= 0.0f);
 
     float leakage;
+
+    //Student 8/3/2022 applying experience modifier (kb) earlier to apply to repairs
+    if (launcher && launcher->GetObjectType() == OT_ship)
+    {
+        amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier();
+    }
+            
     if (amount < 0.0f)
     {
         //Repair the target's hull
@@ -1246,12 +1254,13 @@ DamageResult CshipIGC::ReceiveDamage(DamageTypeID            type,
         leakage = 0.0f;
         dr = c_drNoDamage;
 
+        //if launcher is repairing a friendly ship, add that the launcher's repair stat
 		if (launcher->GetObjectType() == OT_ship && (pside == launcher->GetSide() || IsideIGC::AlliedSides(pside, launcher->GetSide())))
 		{
 			IshipIGC * pIship = ((IshipIGC*)launcher);
             float   repairFraction = -amount * dtmArmor / maxHP;
             if (GetBaseHullType() && (GetBaseHullType()->GetCapabilities() & c_habmThreatToStation))
-                repairFraction *= 2.0f; //double points for nanning a bomber/htt
+                repairFraction *= 2.0f; //double points for nanning a bomber/htt 
 			pIship->AddRepair(repairFraction);
 			pIship->SetAchievementMask(c_achmNewRepair);
 		}
@@ -1262,13 +1271,14 @@ DamageResult CshipIGC::ReceiveDamage(DamageTypeID            type,
 
         if (launcher)
         {
-            if (launcher->GetObjectType() == OT_ship)
-                amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier();
+            //if (launcher->GetObjectType() == OT_ship)
+            //    amount *= ((IshipIGC*)launcher)->GetExperienceMultiplier(); //Student 8/3/2022 applying experience modifier (kb) earlier to apply to repairs
 
             if (m_damageTrack && (launcher->GetMission() == GetMyMission()))
                 m_damageTrack->ApplyDamage(timeCollision, launcher, amount);
         }
 
+        //Student Note: here is where shields take damage and where we would implement (maybe) shields not giving leakage (probably for a special shield or something)
         if (m_mountedOthers[ET_Shield])
         {
             Vector  deltaP = position2 - position1;
