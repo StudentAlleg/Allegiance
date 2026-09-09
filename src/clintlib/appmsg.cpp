@@ -1774,8 +1774,9 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
 			CASTPFM(pfmAD, CS, HIGHLIGHT_CLUSTER, pfm);
 			IclusterIGC*    pcluster = m_pCoreIGC->GetCluster(pfmAD->clusterID);
-			pcluster->SetHighlight(pfmAD->highlight);
-			if (pfmAD->highlight) PlaySoundEffect(newCommandMsgSound); //play sound on activate
+			//The server only forwards this to the marking side, so it is always our own mark
+			pcluster->SetHighlight(GetSideID(), pfmAD->highlight);
+			if (pfmAD->highlight != c_chNone) PlaySoundEffect(newCommandMsgSound); //play sound on activate
 		}
 		break;
 

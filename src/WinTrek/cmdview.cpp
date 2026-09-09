@@ -281,21 +281,17 @@ void CommandGeo::DrawTop(Context* pcontext)
     pcontext->DrawString(pfont, s_colorNeutral, offset, topString);
 }
 
-// A ship that is running away routes only through friendly space; if that yields
-// nothing, the route through hostile space is still what it would have to fly, and
-// is still worth drawing.
+// The route to draw is the route the ship will fly, so this is the same search the AI
+// runs (FindRouteList): keep out of sectors the side has marked dangerous, prefer
+// friendly space if the ship is running away, and give up each of those in turn rather
+// than draw nothing.
 static PathList* FindPathFrom(IclusterIGC*  pclusterOrigin,
                               const Vector& positionOrigin,
                               IsideIGC*     pside,
                               ImodelIGC*    ptarget,
                               bool          bCoward)
 {
-    PathList* ppath = FindPathList(pclusterOrigin, positionOrigin, pside, ptarget, bCoward);
-
-    if ((ppath == NULL) && bCoward)
-        ppath = FindPathList(pclusterOrigin, positionOrigin, pside, ptarget, false);
-
-    return ppath;
+    return FindRouteList(pclusterOrigin, positionOrigin, pside, ptarget, bCoward);
 }
 
 // The route to draw for a ship.

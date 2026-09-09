@@ -7666,7 +7666,7 @@ namespace AllegianceInterop
 		FMD_CS_HIGHLIGHT_CLUSTER(
 
                         SectorID clusterID,
-                        bool highlight
+                        ClusterHighlight highlight
             ) 
 		{
             SimpleClient sc;
@@ -7691,10 +7691,10 @@ namespace AllegianceInterop
 			}
 		}
 
-        property bool highlight
+        property ClusterHighlight highlight
 		{
 		public:
-			bool get()
+			ClusterHighlight get()
 			{
 				return m_Instance->highlight; 
 			}

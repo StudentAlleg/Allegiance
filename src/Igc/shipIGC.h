@@ -804,6 +804,14 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
             }
         }
 
+        virtual void                 ReplanRoute(void)
+        {
+            //The committed warp is left alone here: the next Execute sets it to whatever
+            //the fresh search picks, and SetWaypointWarp only tells the clients when that
+            //turns out to be a different aleph.
+            m_gotoplan.ReplanRoute();
+        }
+
         virtual void                 ExecuteTurretMove(Time          timeStart,
                                                       Time          timeStop,
                                                       Orientation*  pOrientation);

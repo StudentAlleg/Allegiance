@@ -7393,8 +7393,53 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 	case FM_CS_HIGHLIGHT_CLUSTER:
 	{
 		CASTPFM(pfmHC, CS, HIGHLIGHT_CLUSTER, pfm);
-		
-		g.fm.ForwardMessage(CFSSide::FromIGC(pfsPlayer->GetSide())->GetGroup(),pfmHC, FM_GUARANTEED);
+
+		IsideIGC* pside = pfsPlayer->GetSide();
+		TrapHackBoot(pside);
+		TrapHackBoot(pfmHC->highlight < c_chMax);
+		TrapHackBoot(pfsMission->GetLeader(pside->GetObjectID()) == pfsPlayer);
+
+		//The server needs the mark too: a sector marked dangerous is routed around by the
+		//side's drones, and their orders are pathed here.
+		IclusterIGC* pcluster = pfsMission->GetIGCMission()->GetCluster(pfmHC->clusterID);
+		TrapHackBoot(pcluster);
+		pcluster->SetHighlight(pside->GetObjectID(), pfmHC->highlight);
+
+		//Xynth #208 What a drone says when the mark pushes it off the route it was flying.
+		//Swap this for whichever line fits best - the names are in src/Igc/sounds.h.
+		const SoundID soRerouted = droneEnemyOnScopeSound;
+
+		//A mark changes the map under ships that are already on their way, and the search
+		//that chose their route only runs when a plan is set or its target moves sector.
+		//So ask the side's drones to choose again, and let the ones that actually end up
+		//somewhere different say so - a drone whose route was never through here picks the
+		//same aleph again and stays quiet.
+		for (ShipLinkIGC* psl = pside->GetShips()->first(); (psl != NULL); psl = psl->next())
+		{
+			IshipIGC* pshipDrone = psl->data();
+
+			if (pshipDrone->GetPilotType() >= c_ptPlayer)
+				continue;               //Players route themselves
+
+			ImodelIGC* pmodelPlan = pshipDrone->GetCommandTarget(c_cmdPlan);
+			IwarpIGC*  pwarpFlying = pshipDrone->GetWaypointWarp();
+
+			//No committed aleph means it is not partway along a route between sectors:
+			//nothing has been decided yet for a fresh search to disagree with.
+			if (!pmodelPlan || !pwarpFlying || !pshipDrone->GetCluster())
+				continue;
+
+			if (FindRoute(pshipDrone, pmodelPlan, pshipDrone->GetPilotType() < c_ptCarrier) == pwarpFlying)
+				continue;               //Same first aleph: the route it is flying still stands
+
+			pshipDrone->ReplanRoute();
+
+			if (pfmHC->highlight == c_chDanger)
+				pfsMission->GetSite()->SendChat(pshipDrone, CHAT_TEAM, pside->GetObjectID(),
+												soRerouted, "Rerouting around the marked sector.");
+		}
+
+		g.fm.ForwardMessage(CFSSide::FromIGC(pside)->GetGroup(),pfmHC, FM_GUARANTEED);
 	}
 	break;
 
