@@ -1049,7 +1049,7 @@ END_FEDMSG
 
 DEFINE_FEDMSG(CS, HIGHLIGHT_CLUSTER, 199)  //Xynth #208 Notify clients of sector highlight
     SectorID            clusterID;	
-	bool				highlight;	
+	ClusterHighlight	highlight;	
 END_FEDMSG
 
 

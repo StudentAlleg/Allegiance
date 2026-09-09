@@ -507,6 +507,15 @@ const WingID            c_widMax = 10;
 const SideID c_cSidesMax = 6;
 const int c_cAlliancesMax = c_cSidesMax/2; // #ALLY max alliances possible (distinct groups of allied teams)
 
+//Xynth #208 A team's manual mark on a sector, cycled by ctrl-right clicking the minimap.
+//Ordered so a cycle is (state + 1) % c_chMax.
+typedef unsigned char   ClusterHighlight;
+const ClusterHighlight  c_chNone      = 0;      //Unmarked
+const ClusterHighlight  c_chImportant = 1;      //Flashes cyan and alerts the team
+const ClusterHighlight  c_chDanger    = 2;      //Flashes red, and the team's pathing treats it as hostile
+const ClusterHighlight  c_chMax       = 3;
+
+
 extern const char*      c_pszWingName[c_widMax];
 
 const DevelopmentID     c_didTeamMoney = 1;
@@ -3264,6 +3273,9 @@ class IshipIGC : public IscannerIGC
         virtual IwarpIGC*            GetWaypointWarp(void) const = 0;
         virtual void                 SetWaypointWarp(IwarpIGC* pwarp) = 0;
 
+        //Drop the committed leg and let the ship choose a route again on its next move.
+        virtual void                 ReplanRoute(void) = 0;
+
         virtual void                 PreplotShipMove(Time          timeStop) = 0;
         virtual void                 PlotShipMove(Time          timeStop) = 0;
         virtual void                 ExecuteShipMove(Time          timeStop) = 0;
@@ -4140,8 +4152,8 @@ class IclusterIGC : public IbaseIGC
         virtual float            GetPendingTreasures(void) const = 0;
         virtual void             SetPendingTreasures(float  fpt) = 0;
         virtual float            GetCost(void) const = 0;
-		virtual void			 SetHighlight(bool hl) = 0; //Xynth #208
-		virtual bool			 GetHighlight(void) const = 0;
+		virtual void			 SetHighlight(SideID sid, ClusterHighlight ch) = 0; //Xynth #208
+		virtual ClusterHighlight GetHighlight(SideID sid) const = 0;
 };
 
 class IasteroidIGC : public IdamageIGC
@@ -4562,8 +4574,8 @@ float    turnToFace(const Vector&       deltaTarget,
                     ControlData*        controls,
                     float               skill = 1.0f);
 
-IwarpIGC* FindPath(ImodelIGC* pOrigin, ImodelIGC* pTarget, bool bCowardly);
-IwarpIGC*   FindPath(IshipIGC* pShip, ImodelIGC* pTarget, bool bCowardly);
+IwarpIGC* FindPath(ImodelIGC* pOrigin, ImodelIGC* pTarget, bool bCowardly, bool bAvoidDanger = true);
+IwarpIGC*   FindPath(IshipIGC* pShip, ImodelIGC* pTarget, bool bCowardly, bool bAvoidDanger = true);
 
 struct Path
 {
@@ -4576,7 +4588,7 @@ typedef Slist_utl<Path> PathList;
 typedef Slink_utl<Path> PathLink;
 
 
-PathList* FindPathList(ImodelIGC* pmodelOrigin, ImodelIGC* pmodelTarget, bool bCowardly);
+PathList* FindPathList(ImodelIGC* pmodelOrigin, ImodelIGC* pmodelTarget, bool bCowardly, bool bAvoidDanger = true);
 
 //As above, but with the origin supplied explicitly. Needed on the client, where a ship
 //outside the sector being viewed has no cluster of its own (the server only sends ship
@@ -4585,7 +4597,18 @@ PathList* FindPathList(IclusterIGC*  pclusterOrigin,
                        const Vector& positionOrigin,
                        IsideIGC*     pside,
                        ImodelIGC*    pmodelTarget,
-                       bool          bCowardly);
+                       bool          bCowardly,
+                       bool          bAvoidDanger = true);
+
+//The route a ship will actually fly. Staying in friendly space and keeping out of sectors
+//the side marked dangerous are both preferences, dropped in that order when no route obeys
+//them. Route drawing calls this too, so the line drawn is the line flown.
+PathList* FindRouteList(IclusterIGC*  pclusterOrigin,
+                        const Vector& positionOrigin,
+                        IsideIGC*     pside,
+                        ImodelIGC*    pmodelTarget,
+                        bool          bCowardly);
+IwarpIGC* FindRoute(IshipIGC* pship, ImodelIGC* pmodelTarget, bool bCowardly);
 
 const char* GetModelType(ImodelIGC* pmodel);
 const char* GetModelName(ImodelIGC* pmodel);
@@ -5367,6 +5390,16 @@ class   GotoPlan
 
             m_pvOldCluster = m_pship->GetCluster();
             m_pvOldClusterTarget = pmodelTarget->GetCluster();
+        }
+
+        //Throw away the leg being flown, keeping the target, so the next Execute searches
+        //for a route again. The search is only run when a plan is set or the target
+        //changes sector, which is what makes a ship in flight keep to a route the map has
+        //since made a bad one - a sector marked dangerous under it, say.
+        void    ReplanRoute(void)
+        {
+            m_wpWarp.Reset();
+            m_maskWaypoints &= ~c_wpWarp;
         }
 
         int     GetMaskWaypoints(void) const

@@ -354,6 +354,14 @@ bool  FindableModel(ImodelIGC*          m,
 
 static bool IsFriendlyCluster(IclusterIGC*  pcluster, IsideIGC* pside)
 {
+    //A sector the team has marked as dangerous is never friendly, whatever is
+    //in it. Routing keeps out of one by its own rule (IsBlockedCluster) rather than this
+    //one, which cowardice alone would not be strict enough to enforce; what this covers is
+    //everything else that asks whether a sector is somewhere the side is willing to be -
+    //picking a ripcord destination, or a target to run to.
+    if (pcluster->GetHighlight(pside->GetObjectID()) == c_chDanger)
+        return false;
+
     /*StationLinkIGC* psl = pcluster->GetStations()->first();
     if (psl == NULL)
         return false;                   //No stations == unfriendly
@@ -438,6 +446,14 @@ static bool IsFriendlyCluster(IclusterIGC*  pcluster, IsideIGC* pside)
     // yp end
 
     return rc;
+}
+
+//A sector the side has marked dangerous is not routed through. Unlike
+//cowardice this is a deliberate instruction, so it holds even for a route that friendly
+//space cannot provide - it is only given up when there is no other way through at all.
+static bool IsBlockedCluster(IclusterIGC* pcluster, IsideIGC* pside, bool bAvoidDanger)
+{
+    return bAvoidDanger && (pcluster->GetHighlight(pside->GetObjectID()) == c_chDanger);
 }
 
 struct  ClusterPosition
@@ -882,11 +898,61 @@ ImodelIGC*  FindTarget(IshipIGC*           pship,
     return pmodelTarget;
 }
 
+PathList* FindRouteList(
+    IclusterIGC*  pclusterOrigin,
+    const Vector& positionOrigin,
+    IsideIGC*     pside,
+    ImodelIGC*    pmodelTarget,
+    bool          bCowardly)
+{
+    //Drop the preferences one at a time: friendly space first, then the danger mark, so a
+    //marked sector is only crossed when there is no route at all that avoids it.
+    if (bCowardly)
+    {
+        PathList* ppath = FindPathList(pclusterOrigin, positionOrigin, pside, pmodelTarget, true, true);
+        if (ppath)
+            return ppath;
+    }
+
+    PathList* ppath = FindPathList(pclusterOrigin, positionOrigin, pside, pmodelTarget, false, true);
+    if (ppath)
+        return ppath;
+
+    return FindPathList(pclusterOrigin, positionOrigin, pside, pmodelTarget, false, false);
+}
+
+IwarpIGC* FindRoute(IshipIGC* pship, ImodelIGC* pmodelTarget, bool bCowardly)
+{
+    assert(pship);
+    assert(pmodelTarget);
+
+    IclusterIGC* pclusterOrigin = pship->GetCluster();
+    if (!pclusterOrigin)
+        return NULL;
+
+    //Matches FindPath(IshipIGC*, ...): a target the ship cannot see is no target at all.
+    if (!pmodelTarget->GetMission()->GetIgcSite()->GetCluster(pship, pmodelTarget))
+        return NULL;
+
+    PathList* ppath = FindRouteList(pclusterOrigin,
+                                    pship->GetPosition(),
+                                    pship->GetSide(),
+                                    pmodelTarget,
+                                    bCowardly);
+    if (!ppath)
+        return NULL;
+
+    IwarpIGC* pwarpFirst = ppath->first()->data().pwarpStart;
+    delete ppath;
+    return pwarpFirst;
+}
+
 IwarpIGC* FindPath(ImodelIGC* pOrigin,
     ImodelIGC* pTarget,
-    bool       bCowardly)
+    bool       bCowardly,
+    bool       bAvoidDanger)
 {
-    PathList* path = FindPathList(pOrigin, pTarget, bCowardly);
+    PathList* path = FindPathList(pOrigin, pTarget, bCowardly, bAvoidDanger);
     if (!path) {
         return NULL;
     }
@@ -905,7 +971,8 @@ IwarpIGC* FindPath(ImodelIGC* pOrigin,
 /// <returns></returns>
 IwarpIGC* FindPath(IshipIGC*  pShip,
                    ImodelIGC* pTarget,
-                   bool       bCowardly)
+                   bool       bCowardly,
+                   bool       bAvoidDanger)
 {
     assert(pShip);
     assert(pTarget);
@@ -914,7 +981,7 @@ IwarpIGC* FindPath(IshipIGC*  pShip,
     {
         return NULL;
     }
-    return FindPath((ImodelIGC*)pShip, pTarget, bCowardly);
+    return FindPath((ImodelIGC*)pShip, pTarget, bCowardly, bAvoidDanger);
 }
 
 /// <summary>
@@ -927,7 +994,8 @@ IwarpIGC* FindPath(IshipIGC*  pShip,
 PathList* FindPathList(
     ImodelIGC* pmodelOrigin,
     ImodelIGC* pmodelTarget,
-    bool         bCowardly)
+    bool         bCowardly,
+    bool         bAvoidDanger)
 {
     assert(pmodelOrigin);
     assert(pmodelTarget);
@@ -943,7 +1011,8 @@ PathList* FindPathList(
                         pmodelOrigin->GetPosition(),
                         pmodelOrigin->GetSide(),
                         pmodelTarget,
-                        bCowardly);
+                        bCowardly,
+                        bAvoidDanger);
 }
 
 //Insert into the frontier keeping it ordered by accumulated distance, so the search
@@ -975,7 +1044,8 @@ PathList* FindPathList(
     const Vector& positionOrigin,
     IsideIGC*     pside,
     ImodelIGC*    pmodelTarget,
-    bool          bCowardly)
+    bool          bCowardly,
+    bool          bAvoidDanger)
 {
     assert(pclusterCurrent);
     assert(pmodelTarget);
@@ -1014,9 +1084,12 @@ PathList* FindPathList(
             {
                 assert(pwarp->GetDestination());
                 IclusterIGC* pclusterDestination = pwarp->GetDestination()->GetCluster();
-                if ((!bCowardly) ||
-                    (pclusterTarget == pclusterDestination) ||
-                    IsFriendlyCluster(pclusterDestination, pside))
+
+                //The target's own cluster is always allowed in: being sent somewhere is
+                //an instruction to arrive there, and neither restriction is about that.
+                if ((pclusterTarget == pclusterDestination) ||
+                    (!IsBlockedCluster(pclusterDestination, pside, bAvoidDanger) &&
+                     ((!bCowardly) || IsFriendlyCluster(pclusterDestination, pside))))
                 {
                     PathLink* pl = new PathLink;
                     assert(pl);
@@ -1108,9 +1181,9 @@ PathList* FindPathList(
             {
                 IclusterIGC* pclusterDestination = pwarpNext->GetDestination()->GetCluster();
 
-                if ((!bCowardly) ||
-                    (pclusterDestination == pclusterTarget) ||
-                    IsFriendlyCluster(pclusterDestination, pside))
+                if ((pclusterDestination == pclusterTarget) ||
+                    (!IsBlockedCluster(pclusterDestination, pside, bAvoidDanger) &&
+                     ((!bCowardly) || IsFriendlyCluster(pclusterDestination, pside))))
                 {
                     if (explored.find(pwarpNext) == NULL)
                     {
@@ -2040,9 +2113,7 @@ bool    GotoPlan::SetControls(float  dt, bool bDodge, ControlData*  pcontrols, i
                     m_pvOldClusterTarget = pclusterTarget;
 
                     bool        bCoward = (m_pship->GetPilotType() < c_ptCarrier);
-                    IwarpIGC*   pwarp = FindPath(m_pship, m_wpTarget.m_pmodelTarget, bCoward);
-                    if (bCoward && (pwarp == NULL))
-                        pwarp = FindPath(m_pship, m_wpTarget.m_pmodelTarget, false);
+                    IwarpIGC*   pwarp = FindRoute(m_pship, m_wpTarget.m_pmodelTarget, bCoward);
 
                     if (pwarp)
                     {
