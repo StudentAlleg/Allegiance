@@ -4797,6 +4797,74 @@ static DWORD WINAPI LogonThread(LPVOID threadData)
 
 
 
+//Does the route pship is flying pass through pclusterMarked?
+//
+//The first leg is already committed - the ship picked one aleph when the plan was set and
+//flies it to the end (GetWaypointWarp) - and the rest of the trip is whatever the search
+//returns from where that aleph comes out, which is exactly what GotoPlan will ask for when
+//it arrives. So looking at the first hop alone is not enough: a sector three hops along is
+//still a sector this ship is on its way to.
+static bool RouteCrossesCluster(IshipIGC* pship, ImodelIGC* pmodelPlan, IclusterIGC* pclusterMarked)
+{
+    IwarpIGC*    pwarpExit = pship->GetWaypointWarp()->GetDestination();
+    IclusterIGC* pclusterNext = pwarpExit->GetCluster();
+
+    if (pclusterNext == pclusterMarked)
+        return true;
+
+    IclusterIGC* pclusterTarget = pship->GetMission()->GetIgcSite()->GetCluster(pship, pmodelPlan);
+
+    //Where it is going is not somewhere it can be routed around, and once it is there the
+    //rest of the trip takes no more alephs.
+    if ((pclusterTarget == NULL) || (pclusterTarget == pclusterMarked) || (pclusterNext == pclusterTarget))
+        return false;
+
+    PathList* ppath = FindRouteList(pclusterNext,
+                                    pwarpExit->GetPosition(),
+                                    pship->GetSide(),
+                                    pmodelPlan,
+                                    pship->GetPilotType() < c_ptCarrier);
+    if (!ppath)
+        return false;
+
+    bool bCrosses = false;
+    for (PathLink* pl = ppath->first(); (pl != NULL) && !bCrosses; pl = pl->next())
+        bCrosses = (pl->data().pwarp->GetDestination()->GetCluster() == pclusterMarked);
+
+    delete ppath;
+    return bCrosses;
+}
+
+//Tell every drone of pside whose route runs through pclusterMarked to choose a new one,
+//and say so on team chat when bAnnounce. Players route themselves and are left alone.
+static void ReplanRoutesThrough(IsideIGC* pside, IclusterIGC* pclusterMarked, bool bAnnounce)
+{
+    for (ShipLinkIGC* psl = pside->GetShips()->first(); (psl != NULL); psl = psl->next())
+    {
+        IshipIGC* pshipDrone = psl->data();
+
+        if (pshipDrone->GetPilotType() >= c_ptPlayer)
+            continue;
+
+        ImodelIGC* pmodelPlan = pshipDrone->GetCommandTarget(c_cmdPlan);
+
+        //No committed aleph means it is not partway along a route between sectors: there
+        //is no decision here for the mark to overturn.
+        if (!pmodelPlan || !pshipDrone->GetWaypointWarp() || !pshipDrone->GetCluster())
+            continue;
+
+        if (!RouteCrossesCluster(pshipDrone, pmodelPlan, pclusterMarked))
+            continue;
+
+        pshipDrone->ReplanRoute();
+
+        if (bAnnounce)
+            pshipDrone->GetMission()->GetIgcSite()->SendChat(pshipDrone, CHAT_TEAM, pside->GetObjectID(),
+                                                             droneEnemyOnScopeSound,
+                                                             "Rerouting around the marked sector.");
+    }
+}
+
 /*-------------------------------------------------------------------------
  * OnAppMessage
  *-------------------------------------------------------------------------
@@ -7403,41 +7471,30 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
 		//side's drones, and their orders are pathed here.
 		IclusterIGC* pcluster = pfsMission->GetIGCMission()->GetCluster(pfmHC->clusterID);
 		TrapHackBoot(pcluster);
-		pcluster->SetHighlight(pside->GetObjectID(), pfmHC->highlight);
 
-		//Xynth #208 What a drone says when the mark pushes it off the route it was flying.
-		//Swap this for whichever line fits best - the names are in src/Igc/sounds.h.
-		const SoundID soRerouted = droneEnemyOnScopeSound;
+		const SideID           sid = pside->GetObjectID();
+		const ClusterHighlight highlightOld = pcluster->GetHighlight(sid);
 
 		//A mark changes the map under ships that are already on their way, and the search
 		//that chose their route only runs when a plan is set or its target moves sector.
-		//So ask the side's drones to choose again, and let the ones that actually end up
-		//somewhere different say so - a drone whose route was never through here picks the
-		//same aleph again and stays quiet.
-		for (ShipLinkIGC* psl = pside->GetShips()->first(); (psl != NULL); psl = psl->next())
-		{
-			IshipIGC* pshipDrone = psl->data();
+		//So the ships whose route runs through this sector are found here and told to
+		//choose again.
+		//
+		//This has to happen before the mark is applied: afterwards the search keeps out of
+		//the sector, so a route that used to go through it can no longer be recognised.
+		//Replanning early is safe - ReplanRoute only throws the flown leg away, and the
+		//search that replaces it does not run until the next Execute, by which time the
+		//mark is set.
+		if ((pfmHC->highlight == c_chDanger) && (highlightOld != c_chDanger))
+			ReplanRoutesThrough(pside, pcluster, true);
 
-			if (pshipDrone->GetPilotType() >= c_ptPlayer)
-				continue;               //Players route themselves
+		pcluster->SetHighlight(sid, pfmHC->highlight);
 
-			ImodelIGC* pmodelPlan = pshipDrone->GetCommandTarget(c_cmdPlan);
-			IwarpIGC*  pwarpFlying = pshipDrone->GetWaypointWarp();
-
-			//No committed aleph means it is not partway along a route between sectors:
-			//nothing has been decided yet for a fresh search to disagree with.
-			if (!pmodelPlan || !pwarpFlying || !pshipDrone->GetCluster())
-				continue;
-
-			if (FindRoute(pshipDrone, pmodelPlan, pshipDrone->GetPilotType() < c_ptCarrier) == pwarpFlying)
-				continue;               //Same first aleph: the route it is flying still stands
-
-			pshipDrone->ReplanRoute();
-
-			if (pfmHC->highlight == c_chDanger)
-				pfsMission->GetSite()->SendChat(pshipDrone, CHAT_TEAM, pside->GetObjectID(),
-												soRerouted, "Rerouting around the marked sector.");
-		}
+		//Clearing a mark opens the sector back up, and the routes that gain by it are the
+		//ones that now want to go through it - which is the search after the mark is gone.
+		//No one is told: nothing was pushed off anything, the shorter way is simply back.
+		if ((highlightOld == c_chDanger) && (pfmHC->highlight != c_chDanger))
+			ReplanRoutesThrough(pside, pcluster, false);
 
 		g.fm.ForwardMessage(CFSSide::FromIGC(pside)->GetGroup(),pfmHC, FM_GUARANTEED);
 	}

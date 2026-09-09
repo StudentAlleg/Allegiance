@@ -354,7 +354,7 @@ bool  FindableModel(ImodelIGC*          m,
 
 static bool IsFriendlyCluster(IclusterIGC*  pcluster, IsideIGC* pside)
 {
-    //Xynth #208 A sector the team has marked as dangerous is never friendly, whatever is
+    //A sector the team has marked as dangerous is never friendly, whatever is
     //in it. Routing keeps out of one by its own rule (IsBlockedCluster) rather than this
     //one, which cowardice alone would not be strict enough to enforce; what this covers is
     //everything else that asks whether a sector is somewhere the side is willing to be -
@@ -448,7 +448,7 @@ static bool IsFriendlyCluster(IclusterIGC*  pcluster, IsideIGC* pside)
     return rc;
 }
 
-//Xynth #208 A sector the side has marked dangerous is not routed through. Unlike
+//A sector the side has marked dangerous is not routed through. Unlike
 //cowardice this is a deliberate instruction, so it holds even for a route that friendly
 //space cannot provide - it is only given up when there is no other way through at all.
 static bool IsBlockedCluster(IclusterIGC* pcluster, IsideIGC* pside, bool bAvoidDanger)
@@ -905,11 +905,8 @@ PathList* FindRouteList(
     ImodelIGC*    pmodelTarget,
     bool          bCowardly)
 {
-    //Keeping out of a marked sector and staying in friendly space are both preferences,
-    //and they are dropped one at a time rather than together. A ship running away tries
-    //friendly space first; failing that it will cross hostile space, which it does all
-    //the time; and only when there is no route at all that avoids the marked sector does
-    //it go through one - which is what "unless there is no other path" means.
+    //Drop the preferences one at a time: friendly space first, then the danger mark, so a
+    //marked sector is only crossed when there is no route at all that avoids it.
     if (bCowardly)
     {
         PathList* ppath = FindPathList(pclusterOrigin, positionOrigin, pside, pmodelTarget, true, true);

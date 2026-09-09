@@ -4600,12 +4600,9 @@ PathList* FindPathList(IclusterIGC*  pclusterOrigin,
                        bool          bCowardly,
                        bool          bAvoidDanger = true);
 
-//The route a ship will actually fly, which is the best of three searches rather than one.
-//Both restrictions - staying in friendly space, and keeping out of sectors the side has
-//marked dangerous - are preferences: a route that exists only through what they exclude
-//still beats not going at all, which is what the caller asked for. They are given up in
-//that order, because the danger mark is the deliberate one and cowardice is only a habit.
-//Callers that draw a ship's route use this too, so the line drawn is the one flown.
+//The route a ship will actually fly. Staying in friendly space and keeping out of sectors
+//the side marked dangerous are both preferences, dropped in that order when no route obeys
+//them. Route drawing calls this too, so the line drawn is the line flown.
 PathList* FindRouteList(IclusterIGC*  pclusterOrigin,
                         const Vector& positionOrigin,
                         IsideIGC*     pside,

@@ -1046,7 +1046,8 @@ public:
             {
                 Point    xy = Point::Cast(GetClusterPoint(pCluster));
 
-                // draw the sector outline Xynth #208 Draw in flashing Cyan if marked important, //Student red if marked dangerous
+                // Draw the sector outline. A marked sector flashes instead: cyan if it is
+                // marked important, red if it is marked dangerous.
 				ClusterHighlight highlight = pCluster->GetHighlight(trekClient.GetSideID());
 
 				if ((highlight != c_chNone) && !m_bFlashFrame)
