@@ -2556,6 +2556,22 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
     private:
         bool    bShouldUseRipcord(IclusterIGC*  pcluster);
 
+        //Where in pcluster a ripcord should try to put the pilot down. NULL when there is
+        //nothing to aim at, in which case any teleport in the sector will do. bAimAtDock
+        //says whether a sector with nothing selected in it should aim at a dockable base -
+        //true for the sector actually asked for, false for one being searched beyond it.
+        const Vector*   GetRipcordGoalPosition(IclusterIGC*  pcluster,
+                                               ImodelIGC*    pmodelGoal,
+                                               bool          bAimAtDock);
+
+        //Whether pcluster is a sector the ship would pass through on its way to pmodelGoal,
+        //which is what makes that goal worth aiming at when ripping into pcluster.
+        bool            IsClusterOnRouteTo(IclusterIGC*  pcluster,
+                                           ImodelIGC*    pmodelGoal);
+
+        //The position of a station in pcluster this hull could dock at, or NULL if none.
+        const Vector*   GetDockPosition(IclusterIGC*  pcluster);
+
         void                WarpShip(Time           timeUpdate,
                                      float          deltaT,
                                      Vector*        position,

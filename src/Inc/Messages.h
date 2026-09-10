@@ -979,8 +979,12 @@ END_FEDMSG
 DEFINE_FEDMSG(S, RIPCORD_DENIED, 186)
 END_FEDMSG
 
+//A ship has stopped ripcording. Sent when the rip lands as well as when it is called off:
+//either way the client has to let go of the ripcord model, or the command view keeps
+//drawing that ship's route from a teleport it has already arrived at or given up on.
 DEFINE_FEDMSG(S, RIPCORD_ABORTED, 187)
     ShipID        shipidRipcord;
+    bool          bLanded;        //true if the rip completed, false if it was called off
 END_FEDMSG
 
 DEFINE_FEDMSG(S, WARP_BOMB, 188)

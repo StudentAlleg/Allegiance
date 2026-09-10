@@ -948,13 +948,17 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             }
             else
             {
-                //Someone else is ripcording ... just set the model cause we
-                //really don't care
+                //Someone else is ripcording.
                 IshipIGC*   pship = m_pCoreIGC->GetShip(pfmRipcordActivate->shipidRipcord);
 
-                //We need a valid model that will stick around at least as long as the
-                //ship. Hmmm ... lets see.
-                pship->SetRipcordModel(pship);
+                //Use the real target where we know it: the command view draws this ship's
+                //route from the teleport it is heading for, and cannot do that if all it has
+                //is the ship itself. A model we have never been told about (an enemy's
+                //teleport we have not scouted) leaves us with the old stand-in, which is
+                //enough to say "ripcording" and nothing more.
+                ImodelIGC*  pmodelRipcord = m_pCoreIGC->GetModel(pfmRipcordActivate->otRipcord,
+                                                                 pfmRipcordActivate->oidRipcord);
+                pship->SetRipcordModel(pmodelRipcord ? pmodelRipcord : (ImodelIGC*)pship);
 
                 // set up the ripcord effect
                 pship->ResetRipcordTimeLeft ();
@@ -980,7 +984,8 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             assert (pship);
             pship->SetRipcordModel(NULL);
 
-            if (pship == m_ship->GetSourceShip())
+            //A rip that landed is not an abort - the pilot got where they were going.
+            if (!pfmRipcordAborted->bLanded && (pship == m_ship->GetSourceShip()))
                 PlayNotificationSound(salRipcordAbortedSound, pship);
 
             // clear the ripcord effect
@@ -1151,7 +1156,13 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                         pfmSSU->shipupdate.time = ClientTimeFromServerTime(pfmSSU->shipupdate.time);
                         ship->ProcessShipUpdate(pfmSSU->shipupdate);
 
-                        ship->SetRipcordModel(pfmSSU->bIsRipcording ? ship : NULL); //Just has to be a valid pointer
+                        //Only the fact, not the target, so do not throw away a real ripcord
+                        //model FM_S_RIPCORD_ACTIVATE has already given us - the command view
+                        //needs the teleport itself to draw the route from.
+                        if (!pfmSSU->bIsRipcording)
+                            ship->SetRipcordModel(NULL);
+                        else if (ship->GetRipcordModel() == NULL)
+                            ship->SetRipcordModel(ship);    //Just has to be a valid pointer
 
                         {
                             //The standing order first: this is the slot the command view draws
