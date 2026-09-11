@@ -526,11 +526,13 @@ void CFSShip::SetCluster(IclusterIGC * pcluster, bool   bViewOnly)
             m_pShip->ExportShipUpdate(&(pfmSSU->shipupdate));
 
             {
-                //Send both slots. c_cmdCurrent is what the ship is doing right now; the client
-                //uses it to tell who is shooting at whom. c_cmdAccepted is the standing order,
-                //and is what the command view draws a route for - and, because it is the only
-                //slot whose changes are broadcast to the side as ORDER_CHANGE, the only one a
-                //client can hold a buoy consumer reference for and expect to be told to let go.
+                //Send all three slots the client reads. c_cmdCurrent is what the ship is doing
+                //right now; the client uses it to tell who is shooting at whom. c_cmdAccepted
+                //is the standing order, and c_cmdPlan is what the ship is actually flying,
+                //which is what the command view draws a route for. Those two are the slots
+                //whose changes are broadcast to the side as ORDER_CHANGE, so they are the ones
+                //a client can hold a buoy consumer reference for and expect to be told to let
+                //go; c_cmdCurrent is not, which is why the client drops a buoy named there.
                 ImodelIGC*  pmodelCurrent = m_pShip->GetCommandTarget(c_cmdCurrent);
                 pfmSSU->otTarget  = pmodelCurrent ? pmodelCurrent->GetObjectType() : NA;
                 pfmSSU->oidTarget = pmodelCurrent ? pmodelCurrent->GetObjectID()   : NA;
@@ -539,6 +541,12 @@ void CFSShip::SetCluster(IclusterIGC * pcluster, bool   bViewOnly)
                 pfmSSU->otAccepted  = pmodelAccepted ? pmodelAccepted->GetObjectType() : NA;
                 pfmSSU->oidAccepted = pmodelAccepted ? pmodelAccepted->GetObjectID()   : NA;
                 pfmSSU->cidAccepted = m_pShip->GetCommandID(c_cmdAccepted);
+
+                //And the plan, which is the slot the ship is actually flying.
+                ImodelIGC*  pmodelPlan = m_pShip->GetCommandTarget(c_cmdPlan);
+                pfmSSU->otPlan  = pmodelPlan ? pmodelPlan->GetObjectType() : NA;
+                pfmSSU->oidPlan = pmodelPlan ? pmodelPlan->GetObjectID()   : NA;
+                pfmSSU->cidPlan = m_pShip->GetCommandID(c_cmdPlan);
 
                 IwarpIGC*   pwarpWaypoint = m_pShip->GetWaypointWarp();
                 pfmSSU->oidWaypointWarp = pwarpWaypoint ? pwarpWaypoint->GetObjectID() : NA;
@@ -847,9 +855,9 @@ void CFSPlayer::SetCluster(IclusterIGC* pcluster, bool bViewOnly)
                     pshipExist->ExportShipUpdate(&(pfmSSU->shipupdate));
 
                     {
-                        //Both slots, as above. A player entering the sector has missed every
-                        //ORDER_CHANGE issued before they arrived, so this is their only chance
-                        //to learn what the ships already here have been ordered to do.
+                        //All three slots, as above. A player entering or re-viewing the sector
+                        //has missed every ORDER_CHANGE issued before they arrived, so this is
+                        //their only chance to learn what the ships already here are doing.
                         ImodelIGC*  pmodelCurrent = pshipExist->GetCommandTarget(c_cmdCurrent);
                         pfmSSU->otTarget  = pmodelCurrent ? pmodelCurrent->GetObjectType() : NA;
                         pfmSSU->oidTarget = pmodelCurrent ? pmodelCurrent->GetObjectID()   : NA;
@@ -858,6 +866,12 @@ void CFSPlayer::SetCluster(IclusterIGC* pcluster, bool bViewOnly)
                         pfmSSU->otAccepted  = pmodelAccepted ? pmodelAccepted->GetObjectType() : NA;
                         pfmSSU->oidAccepted = pmodelAccepted ? pmodelAccepted->GetObjectID()   : NA;
                         pfmSSU->cidAccepted = pshipExist->GetCommandID(c_cmdAccepted);
+
+                        //And the plan, which is the slot the ship is actually flying.
+                        ImodelIGC*  pmodelPlan = pshipExist->GetCommandTarget(c_cmdPlan);
+                        pfmSSU->otPlan  = pmodelPlan ? pmodelPlan->GetObjectType() : NA;
+                        pfmSSU->oidPlan = pmodelPlan ? pmodelPlan->GetObjectID()   : NA;
+                        pfmSSU->cidPlan = pshipExist->GetCommandID(c_cmdPlan);
 
                         IwarpIGC*   pwarpWaypoint = pshipExist->GetWaypointWarp();
                         pfmSSU->oidWaypointWarp = pwarpWaypoint ? pwarpWaypoint->GetObjectID() : NA;

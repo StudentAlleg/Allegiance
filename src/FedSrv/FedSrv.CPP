@@ -13868,7 +13868,7 @@ void FedSrvSiteBase::ClusterUpdateEvent(IclusterIGC* c)
 void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC* ptarget, CommandID cid)
 {
     // forward the command change to everyone on the side.
-    IclusterIGC*    pcluster;
+    IclusterIGC*    pcluster = NULL;
 
     if ((i == c_cmdAccepted) ||
         (i == c_cmdPlan) ||
@@ -13880,6 +13880,22 @@ void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC*
             )
         )
     {
+        //A client cannot be told an order naming an object it does not have - the lookup
+        //fails, the order lands as NULL, and nothing ever restates it, so the ship keeps the
+        //route it had before. A drone only ever commits to a target one of our own ships can
+        //already see (CshipIGC::CanSee), but that includes what a single ship has in scanner
+        //range, which can be ahead of what the side has been shown: a miner arriving in a
+        //sector picks a rock its own scanner found before the spotting pass reveals it.
+        //Revealing it here is what that pass would do a moment later anyway, and it marks the
+        //object seen, so the later pass then does nothing.
+        IsideIGC*   psideShip = pship->GetSide();
+        if (ptarget && psideShip && !ptarget->SeenBySide(psideShip))
+        {
+            ObjectType  otTarget = ptarget->GetObjectType();
+            if ((otTarget == OT_asteroid) || (otTarget == OT_station) || (otTarget == OT_warp))
+                ptarget->SetSideVisibility(psideShip, true);
+        }
+
         // If target is a buoy, export it to clients first
         if (ptarget && (ptarget->GetObjectType() == OT_buoy))
         {
@@ -13909,9 +13925,12 @@ void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC*
         }
 
         bool fCurrentTarget = (i == c_cmdCurrent);
-        g.fm.SendMessages(fCurrentTarget
-            ? GetGroupSectorFlying(pcluster)
-            : CFSSide::FromIGC(pship->GetSide())->GetGroup(),
+        CFSSide*    pfsSide = CFSSide::FromIGC(pship->GetSide());
+        CFMRecipient*   precipient = fCurrentTarget
+            ? (CFMRecipient*)GetGroupSectorFlying(pcluster)
+            : (CFMRecipient*)(pfsSide ? pfsSide->GetGroup() : NULL);
+
+        g.fm.SendMessages(precipient,
             fCurrentTarget ? FM_NOT_GUARANTEED : FM_GUARANTEED, FM_FLUSH);
     }
 }

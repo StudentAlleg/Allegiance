@@ -1165,13 +1165,19 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                             ship->SetRipcordModel(ship);    //Just has to be a valid pointer
 
                         {
-                            //The standing order first: this is the slot the command view draws
-                            //a route for, and the one the server keeps in sync from here on via
-                            //ORDER_CHANGE. If it names a buoy, the consumer reference taken here
-                            //is released by the matching ORDER_CHANGE when the order is cleared,
-                            //which is what lets the waypoint disappear.
+                            //The standing order first: the server keeps this slot in sync from
+                            //here on via ORDER_CHANGE. If it names a buoy, the consumer
+                            //reference taken here is released by the matching ORDER_CHANGE when
+                            //the order is cleared, which is what lets the waypoint disappear.
                             ImodelIGC*  pmodelAccepted = m_pCoreIGC->GetModel(pfmSSU->otAccepted, pfmSSU->oidAccepted);
                             ship->SetCommand(c_cmdAccepted, pmodelAccepted, pfmSSU->cidAccepted);
+
+                            //The plan: what the ship is actually flying, which the command
+                            //view draws. Safe to hold a buoy named here - c_cmdPlan changes
+                            //are broadcast as ORDER_CHANGE just as c_cmdAccepted's are, so
+                            //the consumer reference taken here gets released again.
+                            ImodelIGC*  pmodelPlan = m_pCoreIGC->GetModel(pfmSSU->otPlan, pfmSSU->oidPlan);
+                            ship->SetCommand(c_cmdPlan, pmodelPlan, pfmSSU->cidPlan);
 
                             //c_cmdCurrent is a snapshot: the server does not broadcast changes to
                             //it for a drone, so nothing would ever tell us to let go of a buoy

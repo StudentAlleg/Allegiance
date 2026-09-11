@@ -383,8 +383,19 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
         if (bAllied)
         {
             bool        bCoward = (pship->GetPilotType() < c_ptCarrier);
-            // Get target and validate
-            ImodelIGC* ptarget = pship->GetCommandTarget(c_cmdAccepted);
+
+            // Get target and validate.
+            //
+            // What a ship flies is c_cmdPlan - CshipIGC::ResetWaypoint builds m_gotoplan
+            // from that slot - and it is not always the standing order. A miner that fills
+            // up keeps "mine that rock" as its accepted order while its plan diverts it to a
+            // base to unload, so drawing c_cmdAccepted drew a line to the rock while the ship
+            // flew to the base. Fall back to the standing order for a ship with no plan of
+            // its own, which is any player not on autopilot.
+            ImodelIGC* ptarget = pship->GetCommandTarget(c_cmdPlan);
+            if (!ptarget)
+                ptarget = pship->GetCommandTarget(c_cmdAccepted);
+
             if (!ptarget)
             {
                 pshipLink = pshipLink->next();

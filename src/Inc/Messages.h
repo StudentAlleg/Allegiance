@@ -590,6 +590,14 @@ DEFINE_FEDMSG(S, SINGLE_SHIP_UPDATE, 78)
   ObjectType                otAccepted;     //c_cmdAccepted
   ObjectID                  oidAccepted;
   CommandID                 cidAccepted;
+  //The plan is the slot the ship actually flies, and it is not always the standing order -
+  //a full miner is sent to a base to unload while still holding "mine that rock" as its
+  //accepted order. Its changes are broadcast as ORDER_CHANGE like c_cmdAccepted, but a
+  //client entering or re-viewing a sector has missed all of those, so it has to come in
+  //here too or the route drawn for every ship already present is the wrong one.
+  ObjectType                otPlan;         //c_cmdPlan
+  ObjectID                  oidPlan;
+  CommandID                 cidPlan;
   ObjectID                  oidWaypointWarp;  //Warp this ship has committed to leaving by, NA for none
   ServerSingleShipUpdate    shipupdate;
   bool                      bIsRipcording;
