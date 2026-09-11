@@ -783,10 +783,19 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
                     pmodelOld->Release();
                 }
 
-                //Student todo make sure c_cmdPlan is being sent to client on miner update
-                if ((i == c_cmdAccepted || i == c_cmdCurrent || i == c_cmdPlan) && 
+                //Announce what the slot actually holds now, not the target this call was
+                //given. ResetWaypoint above can have replaced it already: a layer told to
+                //build at an aleph gets its plan rewritten to a freshly made buoy by a
+                //nested SetCommand, and that nested call has already announced the buoy by
+                //the time we get here. Announcing the aleph again would tell the client a
+                //plan the ship no longer has - and the client, running the same
+                //ResetWaypoint on it, would mint a buoy of its own that nothing on the wire
+                //will ever take away. That is a waypoint left floating in the sector.
+                if ((i == c_cmdAccepted || i == c_cmdCurrent || i == c_cmdPlan) &&
                     (cidOld != cid || pmodelOld != target))
-                    GetMyMission()->GetIgcSite()->CommandChangedEvent(i, this, target, cid);
+                    GetMyMission()->GetIgcSite()->CommandChangedEvent(i, this,
+                                                                      m_commandTargets[i],
+                                                                      m_commandIDs[i]);
             }
         }
 
@@ -1870,7 +1879,8 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
             if (m_pmodelRipcord && (m_pmodelRipcord->GetObjectType() == OT_ship))
                 ((IshipIGC*)(ImodelIGC*)m_pmodelRipcord)->AdjustRipcordDebt(m_ripcordCost);
         }
-        virtual ImodelIGC*          FindRipcordModel(IclusterIGC*   pcluster);
+        virtual ImodelIGC*          FindRipcordModel(IclusterIGC*   pcluster,
+                                                     const Vector*  ppositionGoal = NULL);
 
         virtual float               GetRipcordDebt(void) const
         {
@@ -2568,6 +2578,10 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
         //which is what makes that goal worth aiming at when ripping into pcluster.
         bool            IsClusterOnRouteTo(IclusterIGC*  pcluster,
                                            ImodelIGC*    pmodelGoal);
+
+        //Which of the pilot's targets - the selection or the standing order - a ripcord into
+        //pcluster should aim at. NULL if neither is anything to aim at.
+        ImodelIGC*      PickRipcordGoal(IclusterIGC*  pcluster);
 
         //The position of a station in pcluster this hull could dock at, or NULL if none.
         const Vector*   GetDockPosition(IclusterIGC*  pcluster);

@@ -3400,7 +3400,12 @@ class IshipIGC : public IscannerIGC
 
         virtual ImodelIGC*          GetRipcordModel(void) const = 0;
         virtual void                SetRipcordModel(ImodelIGC*  pmodel) = 0;
-        virtual ImodelIGC*          FindRipcordModel(IclusterIGC*   pcluster) = 0;
+        //ppositionGoal, when given, is where in pcluster the pilot is trying to end up, and
+        //overrides anything this ship's own command slots suggest. A player's waypoint is a
+        //buoy their client minted and never handed over, so the server's copy of the ship has
+        //no idea it exists: the client passes the point along with the ripcord request instead.
+        virtual ImodelIGC*          FindRipcordModel(IclusterIGC*   pcluster,
+                                                     const Vector*  ppositionGoal = NULL) = 0;
 
         virtual float               GetRipcordDebt(void) const = 0;
         virtual void                AdjustRipcordDebt(float delta) = 0;

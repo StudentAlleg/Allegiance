@@ -975,6 +975,15 @@ END_FEDMSG
 
 DEFINE_FEDMSG(C, RIPCORD_REQUEST, 184)
     SectorID    sidRipcord;
+
+    //Where in that sector the pilot is trying to end up, so the rip can pick the teleport
+    //that leaves them the least left to fly. The client has to say, because the thing it is
+    //flying to is often a waypoint it minted itself - a buoy the server has never been given,
+    //whose ID means nothing here - and then the ship's command slots look empty from the
+    //server's side. bHasGoal is false when the pilot asked for the sector as a whole, which
+    //is the server's own to answer (it aims at a base they could dock at).
+    bool        bHasGoal;
+    Vector      positionGoal;
 END_FEDMSG
 
 DEFINE_FEDMSG(S, RIPCORD_ACTIVATE, 185)

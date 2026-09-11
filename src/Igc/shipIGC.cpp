@@ -3742,6 +3742,37 @@ const Vector*   CshipIGC::GetDockPosition(IclusterIGC*   pcluster)
     return pstation ? &(pstation->GetPosition()) : NULL;
 }
 
+ImodelIGC*  CshipIGC::PickRipcordGoal(IclusterIGC*   pcluster)
+{
+    IsideIGC*   pside = GetSide();
+    IIgcSite*   pigc = GetMyMission()->GetIgcSite();
+
+    ImodelIGC*  pmodelBest = NULL;
+
+    //Selection first, then the standing order, so that a specifically selected target still
+    //wins when both are in the sector being ripped to.
+    ImodelIGC*  pcandidates[2] = { m_commandTargets[c_cmdCurrent], m_commandTargets[c_cmdAccepted] };
+
+    for (int i = 0; i < 2; i++)
+    {
+        ImodelIGC*  pmodel = pcandidates[i];
+
+        if ((pmodel == NULL) || !pmodel->SeenBySide(pside))
+            continue;
+
+        //Anything in the sector being ripped to settles it outright.
+        if (pigc->GetCluster(this, pmodel) == pcluster)
+            return pmodel;
+
+        //Otherwise remember the first one we saw, for the "is this sector on the way there"
+        //test the caller makes.
+        if (pmodelBest == NULL)
+            pmodelBest = pmodel;
+    }
+
+    return pmodelBest;
+}
+
 bool    CshipIGC::IsClusterOnRouteTo(IclusterIGC*   pcluster,
                                     ImodelIGC*     pmodelGoal)
 {
@@ -3824,7 +3855,8 @@ const Vector*   CshipIGC::GetRipcordGoalPosition(IclusterIGC*   pcluster,
     return ppositionDock ? ppositionDock : &(Vector::GetZero());
 }
 
-ImodelIGC*    CshipIGC::FindRipcordModel(IclusterIGC*   pcluster)
+ImodelIGC*    CshipIGC::FindRipcordModel(IclusterIGC*   pcluster,
+                                         const Vector*  ppositionGoal)
 {
     IsideIGC*       pside = GetSide();
 
@@ -3881,17 +3913,26 @@ ImodelIGC*    CshipIGC::FindRipcordModel(IclusterIGC*   pcluster)
 		}
     }
 
-	ImodelIGC*      pmodelGoal = m_commandTargets[c_cmdCurrent];
-    if (!pmodelGoal)
-        pmodelGoal = m_commandTargets[c_cmdAccepted];
-
-    if (pmodelGoal && !pmodelGoal->SeenBySide(pside))
-        pmodelGoal = NULL;
+	//The pilot has two notions of where they are going and they are often both set and in
+	//different sectors: c_cmdCurrent is whatever they have selected, c_cmdAccepted is the
+	//order they are actually flying - a waypoint they dropped, say. Prefer whichever is in
+	//the sector being ripped to. A rock selected there is the thing they want to arrive next
+	//to, and so is a waypoint dropped there; a selection left behind in the sector they are
+	//leaving is neither, and taking it would throw away the waypoint that is the whole
+	//reason for the rip.
+	ImodelIGC*      pmodelGoal = PickRipcordGoal(pcluster);
 
     //The point in the destination sector the pilot is actually trying to reach. Every
     //teleport in the sector is measured against it, so a side that builds more than one
     //gets something for them: the pilot arrives at whichever leaves the least left to fly.
-    const Vector*   positionGoal = GetRipcordGoalPosition(pcluster, pmodelGoal, true);
+    //
+    //A point handed to us settles it: a player flying to a waypoint is the case the command
+    //slots cannot answer, because that waypoint is a buoy their own client made and the
+    //ID it named in its order change matches nothing here, so c_cmdAccepted reads as empty
+    //and the rip would aim at the dockable base instead of where the pilot is going.
+    const Vector*   positionGoal = ppositionGoal
+                                   ? ppositionGoal
+                                   : GetRipcordGoalPosition(pcluster, pmodelGoal, true);
 
     //Search adjacent clusters for an appropriate target
     WarpListIGC     warps;

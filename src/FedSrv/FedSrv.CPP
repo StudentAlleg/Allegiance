@@ -7849,7 +7849,9 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       }
 
       CASTPFM(pfmRipcord, C, RIPCORD_REQUEST, pfm);
-      RequestRipcord(pfsPlayer->GetIGCShip(), pfsMission->GetIGCMission()->GetCluster(pfmRipcord->sidRipcord));
+      RequestRipcord(pfsPlayer->GetIGCShip(),
+                     pfsMission->GetIGCMission()->GetCluster(pfmRipcord->sidRipcord),
+                     pfmRipcord->bHasGoal ? &(pfmRipcord->positionGoal) : NULL);
     }
     break;
 
@@ -13488,6 +13490,11 @@ static void SendRipcordEnded(IshipIGC* pship, bool bLanded)
 
 void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
 {
+    RequestRipcord(pship, pcluster, NULL);
+}
+
+void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster, const Vector* ppositionGoal)
+{
     IclusterIGC*    pclusterShip = pship->GetCluster();
 
     CFSShip*    pfsShip = (CFSShip *)pship->GetPrivateData();
@@ -13510,7 +13517,7 @@ void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
     {
         assert (pclusterShip);
 
-        ImodelIGC*    pmodelNew = pship->FindRipcordModel(pcluster);
+        ImodelIGC*    pmodelNew = pship->FindRipcordModel(pcluster, ppositionGoal);
         if (pmodelNew)
         {
             ImodelIGC*  pmodelOld = pship->GetRipcordModel();
