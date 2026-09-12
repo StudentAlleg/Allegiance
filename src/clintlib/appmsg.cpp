@@ -926,6 +926,13 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
    	                assert (pclusterRipcord); 
                 }
 
+                //Nothing new. We are told a rip has started once for our own side and again
+                //for everyone flying in the sector we are leaving, and we are in both groups,
+                //so the same activation arrives twice: without this the pilot reads
+                //"Ripcording to X" twice for one keypress.
+                if (pmodelRipcord == pshipSource->GetRipcordModel())
+                    break;
+
                 const char*     name = pclusterRipcord->GetName();
 
                 char    bfr[100];
@@ -937,11 +944,8 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
                 PostText(true, bfr);
 
-                if (pmodelRipcord != pshipSource->GetRipcordModel())
-                {
-                    pshipSource->SetRipcordModel(pmodelRipcord);
-                    pshipSource->ResetRipcordTimeLeft();
-                }
+                pshipSource->SetRipcordModel(pmodelRipcord);
+                pshipSource->ResetRipcordTimeLeft();
 
                 // set up the ripcord effect
                 pshipSource->GetThingSite ()->SetTimeUntilRipcord (pshipSource->GetRipcordTimeLeft ());
@@ -958,7 +962,16 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                 //enough to say "ripcording" and nothing more.
                 ImodelIGC*  pmodelRipcord = m_pCoreIGC->GetModel(pfmRipcordActivate->otRipcord,
                                                                  pfmRipcordActivate->oidRipcord);
-                pship->SetRipcordModel(pmodelRipcord ? pmodelRipcord : (ImodelIGC*)pship);
+                if (pmodelRipcord == NULL)
+                    pmodelRipcord = pship;
+
+                //The same activation reaches us once as a member of the ship's side and again
+                //as somebody flying in its sector. Restarting the countdown on the second copy
+                //would show the ship taking longer to arrive than it does.
+                if (pmodelRipcord == pship->GetRipcordModel())
+                    break;
+
+                pship->SetRipcordModel(pmodelRipcord);
 
                 // set up the ripcord effect
                 pship->ResetRipcordTimeLeft ();
@@ -982,6 +995,13 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             CASTPFM(pfmRipcordAborted, S, RIPCORD_ABORTED, pfm);
             IshipIGC*   pship = m_pCoreIGC->GetShip(pfmRipcordAborted->shipidRipcord);
             assert (pship);
+
+            //Sent to the ship's side and to its sector both, and we can be in both. The
+            //second copy has nothing left to end, and acting on it would play the abort
+            //sound a second time.
+            if (pship->GetRipcordModel() == NULL)
+                break;
+
             pship->SetRipcordModel(NULL);
 
             //A rip that landed is not an abort - the pilot got where they were going.
@@ -1156,13 +1176,24 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                         pfmSSU->shipupdate.time = ClientTimeFromServerTime(pfmSSU->shipupdate.time);
                         ship->ProcessShipUpdate(pfmSSU->shipupdate);
 
-                        //Only the fact, not the target, so do not throw away a real ripcord
-                        //model FM_S_RIPCORD_ACTIVATE has already given us - the command view
-                        //needs the teleport itself to draw the route from.
+                        //The teleport itself where the server could name it: this is the only
+                        //word a client arriving after the rip started ever gets, and the
+                        //command view has to have the model to draw the route from. Failing
+                        //that, the ship stands in for it, which says "ripcording" and no more.
                         if (!pfmSSU->bIsRipcording)
                             ship->SetRipcordModel(NULL);
-                        else if (ship->GetRipcordModel() == NULL)
-                            ship->SetRipcordModel(ship);    //Just has to be a valid pointer
+                        else
+                        {
+                            ImodelIGC*  pmodelRipcord = m_pCoreIGC->GetModel(pfmSSU->otRipcord,
+                                                                             pfmSSU->oidRipcord);
+                            if (pmodelRipcord == NULL)
+                                pmodelRipcord = ship;
+
+                            //Do not trade a known teleport for the stand-in: an activation we
+                            //have already had is better than a snapshot that could not name it.
+                            if ((pmodelRipcord != ship) || (ship->GetRipcordModel() == NULL))
+                                ship->SetRipcordModel(pmodelRipcord);
+                        }
 
                         {
                             //The standing order first: the server keeps this slot in sync from

@@ -601,6 +601,11 @@ DEFINE_FEDMSG(S, SINGLE_SHIP_UPDATE, 78)
   ObjectID                  oidWaypointWarp;  //Warp this ship has committed to leaving by, NA for none
   ServerSingleShipUpdate    shipupdate;
   bool                      bIsRipcording;
+  //And what it is ripcording to. RIPCORD_ACTIVATE is sent once, when the rip starts, so a
+  //client that arrives after that has only ever been told the fact; without the target it
+  //cannot draw the route the ship will fly out of the teleport it is heading for.
+  ObjectType                otRipcord;      //NA when not ripcording, or when we cannot name it
+  ObjectID                  oidRipcord;
 END_FEDMSG
 
 //A ship has committed to a warp out of its cluster, or given one up. The AI picks

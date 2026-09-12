@@ -3780,7 +3780,11 @@ bool    CshipIGC::IsClusterOnRouteTo(IclusterIGC*   pcluster,
     if (pclusterShip == NULL)
         return false;
 
-    PathList*   ppath = FindRouteList(pclusterShip, GetPosition(), GetSide(), pmodelGoal, false);
+    //Cowardly the same way the route line is: CommandGeo::DrawSelectedPaths asks for a
+    //route with this same test (src/WinTrek/cmdview.cpp), so asking differently here would
+    //let the rip pick a teleport off a route the ship would never fly.
+    PathList*   ppath = FindRouteList(pclusterShip, GetPosition(), GetSide(), pmodelGoal,
+                                      IsCowardlyRoute());
     if (ppath == NULL)
         return false;      //Nowhere to go, or the goal is in the sector we are already in
 
@@ -3829,7 +3833,7 @@ const Vector*   CshipIGC::GetRipcordGoalPosition(IclusterIGC*   pcluster,
             //something selected in would otherwise aim at the aleph leading back to it, and
             //pick the teleport furthest from where the pilot actually wants to be.
             PathList*   ppath = FindRouteList(pcluster, Vector::GetZero(), GetSide(),
-                                              pmodelGoal, false);
+                                              pmodelGoal, IsCowardlyRoute());
             if (ppath)
             {
                 //The warp outlives the path list; only the list itself is ours to free.
@@ -3944,8 +3948,13 @@ ImodelIGC*    CshipIGC::FindRipcordModel(IclusterIGC*   pcluster,
     {
         assert (pcluster);
 
+	//A carrier or probe the pilot picked out is a rip target in its own right - but only
+	//where it is. The sector being searched moves outward from the one asked for, and the
+	//pilot can also have something selected in a sector that has nothing to do with this
+	//rip; taking it either way would send them somewhere they never asked to go and skip
+	//every teleport in the sector they did ask for.
 	ImodelIGC*  pmodelRipcord = NULL;
-	if (pmodelGoal) //TheRock 13-12-2009 Allow ripcording to a probe or ship when a teleport is in the same sector.
+	if (pmodelGoal && (pigc->GetCluster(this, pmodelGoal) == pcluster)) //TheRock 13-12-2009 Allow ripcording to a probe or ship when a teleport is in the same sector.
 	{
 		if (pmodelGoal->GetObjectType() == OT_probe)
 		{

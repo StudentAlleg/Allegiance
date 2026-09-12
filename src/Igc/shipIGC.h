@@ -2586,6 +2586,15 @@ class       CshipIGC : public TmodelIGC<IshipIGC>
         //The position of a station in pcluster this hull could dock at, or NULL if none.
         const Vector*   GetDockPosition(IclusterIGC*  pcluster);
 
+        //Whether this ship's routes keep to friendly space. Anything smaller than a capital
+        //ship runs away; the command view tests the pilot type the same way when it draws
+        //the route, and the two have to agree or the rip aims at a sector off the line the
+        //pilot is shown.
+        bool            IsCowardlyRoute(void) const
+        {
+            return m_pilotType < c_ptCarrier;
+        }
+
         void                WarpShip(Time           timeUpdate,
                                      float          deltaT,
                                      Vector*        position,
