@@ -7849,7 +7849,9 @@ HRESULT FedSrvSiteBase::OnAppMessage(FedMessaging * pthis, CFMConnection & cnxnF
       }
 
       CASTPFM(pfmRipcord, C, RIPCORD_REQUEST, pfm);
-      RequestRipcord(pfsPlayer->GetIGCShip(), pfsMission->GetIGCMission()->GetCluster(pfmRipcord->sidRipcord));
+      RequestRipcord(pfsPlayer->GetIGCShip(),
+                     pfsMission->GetIGCMission()->GetCluster(pfmRipcord->sidRipcord),
+                     pfmRipcord->bHasGoal ? &(pfmRipcord->positionGoal) : NULL);
     }
     break;
 
@@ -13441,7 +13443,57 @@ void * FedSrvSiteBase::GetDroneFromShip(IshipIGC * pship) // return value is rea
   return pfsShip->IsPlayer() ? NULL : (void *) pfsShip->GetDrone()->GetDrone();
 }
 
+//Tell a set of clients that pship is now ripcording to pmodel, aiming at pcluster.
+static void SendRipcordActivated(IshipIGC*      pship,
+                                 ImodelIGC*     pmodel,
+                                 IclusterIGC*   pcluster,
+                                 CFMRecipient*  precipient)
+{
+    if (precipient == NULL)
+        return;
+
+    BEGIN_PFM_CREATE(g.fm, pfmRA, S, RIPCORD_ACTIVATE)
+    END_PFM_CREATE
+    pfmRA->shipidRipcord = pship->GetObjectID();
+
+    pfmRA->otRipcord = pmodel->GetObjectType();
+    pfmRA->oidRipcord = pmodel->GetObjectID();
+    pfmRA->sidRipcord = pcluster->GetObjectID();
+
+    g.fm.SendMessages(precipient, FM_GUARANTEED, FM_FLUSH);
+}
+
+//Tell everyone who was told about the rip that it is over, either way it ended. The side
+//group is the one that matters: it reaches the ship's own side wherever they are, which is
+//who draws its route. bLanded keeps the "ripcord aborted" sound for an actual abort.
+static void SendRipcordEnded(IshipIGC* pship, bool bLanded)
+{
+    IclusterIGC*    pcluster = pship->GetCluster();
+    CFSSide*        pfsSide  = CFSSide::FromIGC(pship->GetSide());
+
+    for (int i = 0; i < 2; i++)
+    {
+        CFMRecipient*   precipient = (i == 0)
+                                     ? (CFMRecipient*)(pfsSide ? pfsSide->GetGroup() : NULL)
+                                     : (CFMRecipient*)(pcluster ? GetGroupSectorFlying(pcluster) : NULL);
+        if (precipient == NULL)
+            continue;
+
+        BEGIN_PFM_CREATE(g.fm, pfmRipcordAborted, S, RIPCORD_ABORTED)
+        END_PFM_CREATE
+        pfmRipcordAborted->shipidRipcord = pship->GetObjectID();
+        pfmRipcordAborted->bLanded = bLanded;
+
+        g.fm.SendMessages(precipient, FM_GUARANTEED, FM_FLUSH);
+    }
+}
+
 void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
+{
+    RequestRipcord(pship, pcluster, NULL);
+}
+
+void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster, const Vector* ppositionGoal)
 {
     IclusterIGC*    pclusterShip = pship->GetCluster();
 
@@ -13457,10 +13509,7 @@ void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
 
             pship->SetRipcordModel(NULL);
 			pship->SetStateBits(droneRipMaskIGC, 0);  //Xynth #188 7/2010
-            BEGIN_PFM_CREATE(g.fm, pfmRipcordAborted, S, RIPCORD_ABORTED)
-            END_PFM_CREATE
-            pfmRipcordAborted->shipidRipcord = pship->GetObjectID();
-            g.fm.SendMessages(GetGroupSectorFlying(pclusterShip), FM_GUARANTEED, FM_FLUSH);
+            SendRipcordEnded(pship, false);
         }
     }
     else if ((pmodelRipcord == NULL) ||
@@ -13468,7 +13517,7 @@ void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
     {
         assert (pclusterShip);
 
-        ImodelIGC*    pmodelNew = pship->FindRipcordModel(pcluster);
+        ImodelIGC*    pmodelNew = pship->FindRipcordModel(pcluster, ppositionGoal);
         if (pmodelNew)
         {
             ImodelIGC*  pmodelOld = pship->GetRipcordModel();
@@ -13478,19 +13527,22 @@ void FedSrvSiteBase::RequestRipcord(IshipIGC* pship, IclusterIGC* pcluster)
                 pship->ResetRipcordTimeLeft();
             }
 
-            if ((pmodelNew != pmodelOld) && pfsShip->IsPlayer())
+            if (pmodelNew != pmodelOld)
             {
-                BEGIN_PFM_CREATE(g.fm, pfmRA, S, RIPCORD_ACTIVATE)
-                END_PFM_CREATE
-                pfmRA->shipidRipcord = pship->GetObjectID();
+                //The side always has to be told, and told which model: the command view draws
+                //a ripcording ship's route from the teleport it is heading for, so a client
+                //that only knows "it is ripcording" draws the flight the pilot has already
+                //given up on. Drones were never announced at all, which is why an auto-
+                //teleporting miner's line came off the aleph it was flying to.
+                CFSSide*    pfsSide = CFSSide::FromIGC(pship->GetSide());
+                SendRipcordActivated(pship, pmodelNew, pcluster,
+                                     pfsSide ? pfsSide->GetGroup() : NULL);
 
-                pfmRA->otRipcord = pmodelNew->GetObjectType();
-                pfmRA->oidRipcord = pmodelNew->GetObjectID();
-                pfmRA->sidRipcord = pcluster->GetObjectID();
-
-                g.fm.SendMessages((pmodelOld == NULL)
-                                  ? (CFMRecipient*)(GetGroupSectorFlying(pclusterShip))
-                                  : (CFMRecipient*)(pfsShip->GetPlayer()->GetConnection()), FM_GUARANTEED, FM_FLUSH);
+                //And, as before, everyone in the sector sees a player's rip start, so that
+                //the ripcord effect plays for them too.
+                if (pfsShip->IsPlayer() && (pmodelOld == NULL))
+                    SendRipcordActivated(pship, pmodelNew, pcluster,
+                                         GetGroupSectorFlying(pclusterShip));
             }
         }
         else if (pfsShip->IsPlayer())
@@ -13552,11 +13604,7 @@ bool FedSrvSiteBase::ContinueRipcord(IshipIGC* pship, ImodelIGC* pmodel)
     if (!rc)
     {
 		pship->SetStateBits(droneRipMaskIGC, 0);  //Xynth #188 7/2010
-        BEGIN_PFM_CREATE(g.fm, pfmRipcordAborted, S, RIPCORD_ABORTED)
-        END_PFM_CREATE
-        pfmRipcordAborted->shipidRipcord = pship->GetObjectID();
-        g.fm.SendMessages(GetGroupSectorFlying(pship->GetCluster()), FM_GUARANTEED, FM_FLUSH);
-
+        SendRipcordEnded(pship, false);
     }
 
     return rc;
@@ -13579,10 +13627,7 @@ bool FedSrvSiteBase::UseRipcord(IshipIGC* pship, ImodelIGC* pmodel)
             {
 				pship->SetStateBits(droneRipMaskIGC, 0); //Xynth #188 7/2010
                 //No energy for ripcord
-                BEGIN_PFM_CREATE(g.fm, pfmRipcordAborted, S, RIPCORD_ABORTED)
-                END_PFM_CREATE
-                pfmRipcordAborted->shipidRipcord = pship->GetObjectID();
-                g.fm.SendMessages(GetGroupSectorFlying(pship->GetCluster()), FM_GUARANTEED, FM_FLUSH);
+                SendRipcordEnded(pship, false);
 
                 return true;
             }
@@ -13625,6 +13670,12 @@ bool FedSrvSiteBase::UseRipcord(IshipIGC* pship, ImodelIGC* pmodel)
 
     CFSShip* pfsShip = (CFSShip*)pship->GetPrivateData();
     pfsShip->ShipStatusSpotted(pship->GetSide());
+
+    //The rip landed. CshipIGC::Update drops the ripcord model as soon as we return, but only
+    //here - the ship update that goes out with the cluster change is built while it is still
+    //set, so without this the client would be left holding a teleport the ship has already
+    //arrived at, and would draw its route from there for the rest of the game.
+    SendRipcordEnded(pship, true);
 
     return true;
 }
@@ -13824,7 +13875,7 @@ void FedSrvSiteBase::ClusterUpdateEvent(IclusterIGC* c)
 void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC* ptarget, CommandID cid)
 {
     // forward the command change to everyone on the side.
-    IclusterIGC*    pcluster;
+    IclusterIGC*    pcluster = NULL;
 
     if ((i == c_cmdAccepted) ||
         (i == c_cmdPlan) ||
@@ -13836,6 +13887,22 @@ void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC*
             )
         )
     {
+        //A client cannot be told an order naming an object it does not have - the lookup
+        //fails, the order lands as NULL, and nothing ever restates it, so the ship keeps the
+        //route it had before. A drone only ever commits to a target one of our own ships can
+        //already see (CshipIGC::CanSee), but that includes what a single ship has in scanner
+        //range, which can be ahead of what the side has been shown: a miner arriving in a
+        //sector picks a rock its own scanner found before the spotting pass reveals it.
+        //Revealing it here is what that pass would do a moment later anyway, and it marks the
+        //object seen, so the later pass then does nothing.
+        IsideIGC*   psideShip = pship->GetSide();
+        if (ptarget && psideShip && !ptarget->SeenBySide(psideShip))
+        {
+            ObjectType  otTarget = ptarget->GetObjectType();
+            if ((otTarget == OT_asteroid) || (otTarget == OT_station) || (otTarget == OT_warp))
+                ptarget->SetSideVisibility(psideShip, true);
+        }
+
         // If target is a buoy, export it to clients first
         if (ptarget && (ptarget->GetObjectType() == OT_buoy))
         {
@@ -13865,9 +13932,12 @@ void FedSrvSiteBase::CommandChangedEvent(Command i, IshipIGC * pship, ImodelIGC*
         }
 
         bool fCurrentTarget = (i == c_cmdCurrent);
-        g.fm.SendMessages(fCurrentTarget
-            ? GetGroupSectorFlying(pcluster)
-            : CFSSide::FromIGC(pship->GetSide())->GetGroup(),
+        CFSSide*    pfsSide = CFSSide::FromIGC(pship->GetSide());
+        CFMRecipient*   precipient = fCurrentTarget
+            ? (CFMRecipient*)GetGroupSectorFlying(pcluster)
+            : (CFMRecipient*)(pfsSide ? pfsSide->GetGroup() : NULL);
+
+        g.fm.SendMessages(precipient,
             fCurrentTarget ? FM_NOT_GUARANTEED : FM_GUARANTEED, FM_FLUSH);
     }
 }

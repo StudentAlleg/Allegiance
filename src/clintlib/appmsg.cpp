@@ -926,6 +926,13 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
    	                assert (pclusterRipcord); 
                 }
 
+                //Nothing new. We are told a rip has started once for our own side and again
+                //for everyone flying in the sector we are leaving, and we are in both groups,
+                //so the same activation arrives twice: without this the pilot reads
+                //"Ripcording to X" twice for one keypress.
+                if (pmodelRipcord == pshipSource->GetRipcordModel())
+                    break;
+
                 const char*     name = pclusterRipcord->GetName();
 
                 char    bfr[100];
@@ -937,24 +944,34 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
 
                 PostText(true, bfr);
 
-                if (pmodelRipcord != pshipSource->GetRipcordModel())
-                {
-                    pshipSource->SetRipcordModel(pmodelRipcord);
-                    pshipSource->ResetRipcordTimeLeft();
-                }
+                pshipSource->SetRipcordModel(pmodelRipcord);
+                pshipSource->ResetRipcordTimeLeft();
 
                 // set up the ripcord effect
                 pshipSource->GetThingSite ()->SetTimeUntilRipcord (pshipSource->GetRipcordTimeLeft ());
             }
             else
             {
-                //Someone else is ripcording ... just set the model cause we
-                //really don't care
+                //Someone else is ripcording.
                 IshipIGC*   pship = m_pCoreIGC->GetShip(pfmRipcordActivate->shipidRipcord);
 
-                //We need a valid model that will stick around at least as long as the
-                //ship. Hmmm ... lets see.
-                pship->SetRipcordModel(pship);
+                //Use the real target where we know it: the command view draws this ship's
+                //route from the teleport it is heading for, and cannot do that if all it has
+                //is the ship itself. A model we have never been told about (an enemy's
+                //teleport we have not scouted) leaves us with the old stand-in, which is
+                //enough to say "ripcording" and nothing more.
+                ImodelIGC*  pmodelRipcord = m_pCoreIGC->GetModel(pfmRipcordActivate->otRipcord,
+                                                                 pfmRipcordActivate->oidRipcord);
+                if (pmodelRipcord == NULL)
+                    pmodelRipcord = pship;
+
+                //The same activation reaches us once as a member of the ship's side and again
+                //as somebody flying in its sector. Restarting the countdown on the second copy
+                //would show the ship taking longer to arrive than it does.
+                if (pmodelRipcord == pship->GetRipcordModel())
+                    break;
+
+                pship->SetRipcordModel(pmodelRipcord);
 
                 // set up the ripcord effect
                 pship->ResetRipcordTimeLeft ();
@@ -978,9 +995,17 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
             CASTPFM(pfmRipcordAborted, S, RIPCORD_ABORTED, pfm);
             IshipIGC*   pship = m_pCoreIGC->GetShip(pfmRipcordAborted->shipidRipcord);
             assert (pship);
+
+            //Sent to the ship's side and to its sector both, and we can be in both. The
+            //second copy has nothing left to end, and acting on it would play the abort
+            //sound a second time.
+            if (pship->GetRipcordModel() == NULL)
+                break;
+
             pship->SetRipcordModel(NULL);
 
-            if (pship == m_ship->GetSourceShip())
+            //A rip that landed is not an abort - the pilot got where they were going.
+            if (!pfmRipcordAborted->bLanded && (pship == m_ship->GetSourceShip()))
                 PlayNotificationSound(salRipcordAbortedSound, pship);
 
             // clear the ripcord effect
@@ -1151,16 +1176,39 @@ HRESULT BaseClient::HandleMsg(FEDMESSAGE* pfm,
                         pfmSSU->shipupdate.time = ClientTimeFromServerTime(pfmSSU->shipupdate.time);
                         ship->ProcessShipUpdate(pfmSSU->shipupdate);
 
-                        ship->SetRipcordModel(pfmSSU->bIsRipcording ? ship : NULL); //Just has to be a valid pointer
+                        //The teleport itself where the server could name it: this is the only
+                        //word a client arriving after the rip started ever gets, and the
+                        //command view has to have the model to draw the route from. Failing
+                        //that, the ship stands in for it, which says "ripcording" and no more.
+                        if (!pfmSSU->bIsRipcording)
+                            ship->SetRipcordModel(NULL);
+                        else
+                        {
+                            ImodelIGC*  pmodelRipcord = m_pCoreIGC->GetModel(pfmSSU->otRipcord,
+                                                                             pfmSSU->oidRipcord);
+                            if (pmodelRipcord == NULL)
+                                pmodelRipcord = ship;
+
+                            //Do not trade a known teleport for the stand-in: an activation we
+                            //have already had is better than a snapshot that could not name it.
+                            if ((pmodelRipcord != ship) || (ship->GetRipcordModel() == NULL))
+                                ship->SetRipcordModel(pmodelRipcord);
+                        }
 
                         {
-                            //The standing order first: this is the slot the command view draws
-                            //a route for, and the one the server keeps in sync from here on via
-                            //ORDER_CHANGE. If it names a buoy, the consumer reference taken here
-                            //is released by the matching ORDER_CHANGE when the order is cleared,
-                            //which is what lets the waypoint disappear.
+                            //The standing order first: the server keeps this slot in sync from
+                            //here on via ORDER_CHANGE. If it names a buoy, the consumer
+                            //reference taken here is released by the matching ORDER_CHANGE when
+                            //the order is cleared, which is what lets the waypoint disappear.
                             ImodelIGC*  pmodelAccepted = m_pCoreIGC->GetModel(pfmSSU->otAccepted, pfmSSU->oidAccepted);
                             ship->SetCommand(c_cmdAccepted, pmodelAccepted, pfmSSU->cidAccepted);
+
+                            //The plan: what the ship is actually flying, which the command
+                            //view draws. Safe to hold a buoy named here - c_cmdPlan changes
+                            //are broadcast as ORDER_CHANGE just as c_cmdAccepted's are, so
+                            //the consumer reference taken here gets released again.
+                            ImodelIGC*  pmodelPlan = m_pCoreIGC->GetModel(pfmSSU->otPlan, pfmSSU->oidPlan);
+                            ship->SetCommand(c_cmdPlan, pmodelPlan, pfmSSU->cidPlan);
 
                             //c_cmdCurrent is a snapshot: the server does not broadcast changes to
                             //it for a drone, so nothing would ever tell us to let go of a buoy

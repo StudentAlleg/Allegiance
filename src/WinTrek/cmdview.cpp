@@ -383,8 +383,19 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
         if (bAllied)
         {
             bool        bCoward = (pship->GetPilotType() < c_ptCarrier);
-            // Get target and validate
-            ImodelIGC* ptarget = pship->GetCommandTarget(c_cmdAccepted);
+
+            // Get target and validate.
+            //
+            // What a ship flies is c_cmdPlan - CshipIGC::ResetWaypoint builds m_gotoplan
+            // from that slot - and it is not always the standing order. A miner that fills
+            // up keeps "mine that rock" as its accepted order while its plan diverts it to a
+            // base to unload, so drawing c_cmdAccepted drew a line to the rock while the ship
+            // flew to the base. Fall back to the standing order for a ship with no plan of
+            // its own, which is any player not on autopilot.
+            ImodelIGC* ptarget = pship->GetCommandTarget(c_cmdPlan);
+            if (!ptarget)
+                ptarget = pship->GetCommandTarget(c_cmdAccepted);
+
             if (!ptarget)
             {
                 pshipLink = pshipLink->next();
@@ -394,6 +405,17 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
             // Determine origin model based on ripcord state
             ImodelIGC* poriginModel = pship->fRipcordActive() ? pship->GetRipcordModel() : pship;
             assert(poriginModel);
+
+            // A ripcording ship whose model is the ship itself is the stand-in the client
+            // falls back to when it was not told what the ship is ripcording to (an enemy
+            // teleport we have never scouted). There is no arrival point to draw from then,
+            // only the fact that it is ripping - and drawing from where the ship is standing
+            // would show it flying a leg it is about to teleport out of.
+            if (pship->fRipcordActive() && (poriginModel == (ImodelIGC*)pship))
+            {
+                pshipLink = pshipLink->next();
+                continue;
+            }
 
             // Get cluster information
             IclusterIGC* poriginModelCluster = poriginModel->GetCluster();
@@ -439,18 +461,17 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
             else if (bOriginModelInOurCluster && !bTargetInOurCluster)
             {
                 // CASE 2: Origin model in our cluster, target not in our cluster.
-                // Draw from the origin out to the warp it would leave through.
-                // Ripcording has no route to draw - the ship is not flying one.
-                if (!pship->fRipcordActive())
+                // Draw from the origin out to the warp it would leave through. While
+                // ripcording that origin is the teleport it is about to arrive at, and the
+                // leg out of this sector is exactly what it will fly next. A rip whose
+                // teleport we do not know was dropped above, so there is always a route here.
+                PathList* ppath = BuildRoute(pship, poriginModelCluster, poriginModel, pside, ptarget, bCoward);
+                if (ppath && ppath->first())
                 {
-                    PathList* ppath = BuildRoute(pship, poriginModelCluster, poriginModel, pside, ptarget, bCoward);
-                    if (ppath && ppath->first())
-                    {
-                        pmodelOrigin = poriginModel;
-                        pmodelDest = ppath->first()->data().pwarp;
-                    }
-                    delete ppath;
+                    pmodelOrigin = poriginModel;
+                    pmodelDest = ppath->first()->data().pwarp;
                 }
+                delete ppath;
             }
             else if (!bOriginModelInOurCluster && bTargetInOurCluster)
             {

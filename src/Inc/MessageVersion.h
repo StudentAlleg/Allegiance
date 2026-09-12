@@ -18,7 +18,7 @@
    one server, and many clients, the server is always up to date by definition.
    ***Also gets incremented for changes to parts.h***
 */
-const int MSGVER = 218; // KGJV updated for R5 - 203 Imago R5Contrib 7/11/09 (missionparam.bAllowAllied*) - 204 Imago FAZR6 (wing behavior), + #2 6/10
+const int MSGVER = 219; // KGJV updated for R5 - 203 Imago R5Contrib 7/11/09 (missionparam.bAllowAllied*) - 204 Imago FAZR6 (wing behavior), + #2 6/10
 						// 206 Imago, #62 (remote version) 7/10
 						// 207 roid info (#100)  //208 #132 more He3 updates //#121 viz
 						// 210 Xynth #163 Optimize msg  //211 Xynth #156 miner ore
@@ -27,5 +27,8 @@ const int MSGVER = 218; // KGJV updated for R5 - 203 Imago R5Contrib 7/11/09 (mi
 						// 216 pkk - Keep out outdated clients
 						// 217 Student - SINGLE_SHIP_UPDATE carries both command slots + committed warp, new WARP_WAYPOINT
 						// 218 Student - HIGHLIGHT_CLUSTER carries a cycled highlight state instead of a flag
+						// 219 Student - RIPCORD_REQUEST carries a goal point, RIPCORD_ABORTED says
+						//               whether the rip landed, SINGLE_SHIP_UPDATE carries the plan
+						//               slot and the ripcord target
 
 #endif
