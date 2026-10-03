@@ -962,13 +962,8 @@ IwarpIGC* FindPath(ImodelIGC* pOrigin,
     return firstWarp;
 }
 
-/// <summary>
-/// Returns the first warp on the path from the ship to the target, if the ship can see the target, NULL otherwise 
-/// </summary>
-/// <param name="pShip"></param>
-/// <param name="pTarget"></param>
-/// <param name="bCowardly"></param>
-/// <returns></returns>
+//The first warp on the path from the ship to the target, or NULL if the ship's side
+//cannot place the target in a sector.
 IwarpIGC* FindPath(IshipIGC*  pShip,
                    ImodelIGC* pTarget,
                    bool       bCowardly,
@@ -984,13 +979,11 @@ IwarpIGC* FindPath(IshipIGC*  pShip,
     return FindPath((ImodelIGC*)pShip, pTarget, bCowardly, bAvoidDanger);
 }
 
-/// <summary>
-/// Finds the route of warps from the origin model's cluster to the target's cluster. Only warps visible to the origin's side are considered, and traversal can optionally be restricted to friendly clusters.
-/// </summary>
-/// <param name="pmodelOrigin">Pointer to the origin model; the search starts from this model's cluster and position. Must not be NULL. Returns NULL if the model has no cluster - use the explicit-origin overload in that case.</param>
-/// <param name="pmodelTarget">Pointer to the target model. Must not be NULL.</param>
-/// <param name="bCowardly">If true, limit traversal to friendly clusters (except the target cluster). If false, allow traversal through any visible cluster.</param>
-/// <returns>A PathList holding every hop from the origin cluster to the target cluster, in travel order, or NULL if no path is found. The caller owns the returned PathList and is responsible for deleting it.</returns>
+//The route of warps from the origin's sector to the target's, one entry per hop in travel
+//order, or NULL if there is none. Only warps the origin's side can see are used; bCowardly
+//keeps to friendly sectors (other than the target's), bAvoidDanger to sectors not marked
+//dangerous. The search starts from the origin's own position, so the origin must be in a
+//sector - use the explicit-origin overload otherwise. The caller deletes the list.
 PathList* FindPathList(
     ImodelIGC* pmodelOrigin,
     ImodelIGC* pmodelTarget,

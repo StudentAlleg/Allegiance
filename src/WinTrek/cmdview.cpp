@@ -443,8 +443,8 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
                 continue;
             }
 
-            ImodelIGC* pmodelOrigin = nullptr;
-            ImodelIGC* pmodelDest = nullptr;
+            ImodelIGC* pmodelOrigin = NULL;
+            ImodelIGC* pmodelDest = NULL;
 
             // ===== CASE ANALYSIS AND LOGIC =====
 
@@ -504,8 +504,8 @@ void CommandGeo::DrawSelectedPaths(Context* pcontext)
                 PathList* ppath = BuildRoute(pship, poriginModelCluster, poriginModel, pside, ptarget, bCoward);
                 if (ppath)
                 {
-                    IwarpIGC* pwarpEntryDest = nullptr;
-                    IwarpIGC* pwarpExit = nullptr;
+                    IwarpIGC* pwarpEntryDest = NULL;
+                    IwarpIGC* pwarpExit = NULL;
 
                     for (PathLink* plink = ppath->first(); plink != NULL; plink = plink->next())
                     {

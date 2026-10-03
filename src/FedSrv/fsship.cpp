@@ -859,9 +859,8 @@ void CFSPlayer::SetCluster(IclusterIGC* pcluster, bool bViewOnly)
             // Let's build up a list of station updates so we can batch 'em down
             IsideIGC* pside = GetIGCShip()->GetSide();
 
-            // CRITICAL FIX: Send all buoys in the sector to the player FIRST, BEFORE sending ship updates
-            // that might reference them as command targets. This must happen BEFORE we send any
-            // SINGLE_SHIP_UPDATE messages that might have buoy command references.
+            //Send the buoys first: the SINGLE_SHIP_UPDATEs below can name them as command
+            //targets, and a client that cannot look a target up drops the order.
             {
                 ImissionIGC* pMission = GetIGCShip()->GetMission();
                 if (pMission)
@@ -871,14 +870,13 @@ void CFSPlayer::SetCluster(IclusterIGC* pcluster, bool bViewOnly)
                     {
                         IbuoyIGC * pbuoy = pboylink->data();
                         
-                        // Only process buoys that have consumers (are being used as command
-                        // targets). A buoy in this cluster is one we are about to see; one
-                        // somewhere else still has to go if a ship here is flying to it,
-                        // because the SINGLE_SHIP_UPDATE below names it and a client that
-                        // cannot look it up drops that order on the floor. A waypoint in the
-                        // next sector over is the ordinary case of that.
-                        if (pbuoy->GetVisibleF() &&
-                            ((pbuoy->GetCluster() == pcluster) || IsCommandTargetIn(pbuoy, pcluster)))
+                        // A visible buoy in use in this cluster is one we are about to see.
+                        // Any buoy a ship here is flying to has to go as well, wherever it is
+                        // and whether or not it is visible, because the SINGLE_SHIP_UPDATE
+                        // below names it. A waypoint in the next sector over is the ordinary
+                        // case; a drone's invisible investigate or chase buoy is the other.
+                        if ((pbuoy->GetVisibleF() && (pbuoy->GetCluster() == pcluster)) ||
+                            IsCommandTargetIn(pbuoy, pcluster))
                         {
                             // Send this buoy to the client
                             int cbExport = pbuoy->Export(NULL);
